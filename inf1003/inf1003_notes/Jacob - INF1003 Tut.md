@@ -704,15 +704,148 @@ Since the Truth Table of $¬q ∧ (p → q) → ¬p$ is all True, $¬q ∧ (p �
 # Tutorial 5
 
 ## q1
-|Predicate|True/False/Nether|Explanation|
-|:-------:|:---------------:|:---------:|
-|a. ¬𝑃𝑟𝑖𝑚𝑒(10) ∨ 𝐼𝑛(10,5,20)|True|¬𝑃𝑟𝑖𝑚𝑒(10) = True, True ∨ anything = True|
-|b. ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and Prime(2) = True|
-|c. ∃𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and ¬Prime(4) = True|
-|d. ∀𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|False|Domain given but Prime(4) = False|
-|e. ∀𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛)|False|Domain given but ¬Prime(2) = False|
+When all variables in a predicate are given specific values, it becomes a proposition
+
+It is easier to prove an exitental quantifier to be true than false, only need 1 example.
+
+try to eliminnate negation infrom of predicate first
+
+negation outside a quantifier means it can e simplified and is currently not a proposition
+
+|Predicate|True/False/Nether|Explanation|Ans|
+|:-------:|:---------------:|:---------:|:-:|
+|a. ¬𝑃𝑟𝑖𝑚𝑒(10) ∨ 𝐼𝑛(10,5,20)|True|¬𝑃𝑟𝑖𝑚𝑒(10) = True, True ∨ anything = True|¬𝑃𝑟𝑖𝑚𝑒(10) = True, 𝐼𝑛(10,5,20) = True, ¬𝑃𝑟𝑖𝑚𝑒(10) ∨ 𝐼𝑛(10,5,20) = True ∨ True = True|
+|b. ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and Prime(2) = True|there exists an integer such that is it a prime number, give example n=2 which is prime, ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛) = True |
+|c. ∃𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and ¬Prime(4) = True|there exists an integer such that is is not a prime. example, n = 4 which is not prime,∃𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛) = true|
+|d. ∀𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|False|Domain given but Prime(4) = False|find counter example, n=4 false|
+|e. ∀𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛)|False|Domain given but ¬Prime(2) = False|find counter example, n=2 false|
 |f. ¬∀𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and $¬∀n\ Prime(n) \equiv ∃n(¬Prime(n))$, ∃𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛) proven true in part c.|
-|g. ∀𝑛(𝐼𝑛(𝑛, 1,3) → 𝑃𝑟𝑖𝑚𝑒(𝑛))|True|Domain Given, when n!=2, 𝐼𝑛(𝑛, 1,3) = false, 𝐼𝑛(𝑛, 1,3) → 𝑃𝑟𝑖𝑚𝑒(𝑛) = true. When n = 2, 𝐼𝑛(𝑛, 1,3) = true an 𝑃𝑟𝑖𝑚𝑒(𝑛) = true.|
-|h. ∀𝑛(𝐼𝑛(𝑛, 8,10) → 𝑃𝑟𝑖𝑚𝑒(𝑛))|False|Domain given but when n=9, 𝐼𝑛(𝑛, 8,10) =True but 𝑃𝑟𝑖𝑚𝑒(𝑛) = False, thus 𝐼𝑛(𝑛, 8,10) → 𝑃𝑟𝑖𝑚𝑒(𝑛) = False|
-|i. ∀𝑛(𝐼𝑛(𝑛, 𝑎, 𝑏) → ¬𝑃𝑟𝑖𝑚𝑒(𝑛)), Where 𝑎 and 𝑏 are integer smaller than 10|||
-||||
+|g. ∀𝑛(𝐼𝑛(𝑛, 1,3) → 𝑃𝑟𝑖𝑚𝑒(𝑛))|True|Domain Given, when n!=2, 𝐼𝑛(𝑛, 1,3) = false, 𝐼𝑛(𝑛, 1,3) → 𝑃𝑟𝑖𝑚𝑒(𝑛) = true. When n = 2, 𝐼𝑛(𝑛, 1,3) = true an 𝑃𝑟𝑖𝑚𝑒(𝑛) = true.| when n!=2, 𝐼𝑛(𝑛, 1,3) = false, means n = 1 is counter example, ans is false| 
+|h. ∀𝑛(𝐼𝑛(𝑛, 8,10) → 𝑃𝑟𝑖𝑚𝑒(𝑛))|False|Domain given but when n=9, 𝐼𝑛(𝑛, 8,10) =True but 𝑃𝑟𝑖𝑚𝑒(𝑛) = False, thus 𝐼𝑛(𝑛, 8,10) → 𝑃𝑟𝑖𝑚𝑒(𝑛) = False|when n=8, 𝐼𝑛(𝑛, 8,10) = False, counterexample so proposition is false|
+|i. ∀𝑛(𝐼𝑛(𝑛, 𝑎, 𝑏) → ¬𝑃𝑟𝑖𝑚𝑒(𝑛)), Where 𝑎 and 𝑏 are integer smaller than 10|||for every integerr, if it is larger than or equal to a and smaller than or equalt to b, then it is not a prime number. neither true or false as no values give.|
+|j. ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛) → 𝐼𝑛(𝑛, 30,40)|||if there exists an integer that is prime number, then n is larger or equal to 30 and smaller than or equal to 40. The IN() is not a proposition as has a variable. ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛) is a proposition as has quantifier and we can suggest an example. since cannot get truth value of 𝐼𝑛(𝑛, 30,40), overall statement is neither true or false|
+
+## q2
+Let 𝐵𝐵(𝑥) be the statement “𝑥 plays basketball every week”, where the domain of 𝑥 is all students of ICT. Express each of the following in English:  
+. ∃𝑥𝐵𝐵(𝑥)  
+- There is a student of ICT who plays basketball every week; correct  
+
+b. ∀𝑥𝐵𝐵(𝑥)  
+- All students of ICT play basketball every week; correct  
+
+c. ¬∀𝑥𝐵𝐵(𝑥)  
+- Not every students of ICT play basketball every week; correct  
+
+d. ∃𝑥¬𝐵𝐵(𝑥)  
+- There is a student of ICT who does not play basketball every week; correct  
+- alt representation: ∃𝑥¬𝐵𝐵(𝑥) = ¬∀𝑥𝐵𝐵(𝑥)  
+
+## q3
+
+all correct
+
+a. i. Cal(x): x knows calculus, domain: all rabbits, statement: ¬∃𝑥 Cal(x) = ∀𝑥 ¬Cal(x)  
+   ii. ¬¬∃𝑥 Cal(x) = ∃𝑥 Cal(x)  
+   iii. There exists a rabbit that knows calculus  
+
+b. i. Talk(x): x can talk, domain: all birds, statement: ∃𝑥 Talk(x)  
+   ii. ¬∃𝑥 Talk(x) = ∀𝑥 ¬Talk(x)  
+   iii. All birds cannot talk  
+
+c. i.F(x): x knows French  R(x): x knows russian, domain: all students in this class, statement: ∀𝑥 ¬(F(x)∧R(x)) / ¬∃𝑥 (F(x)∧R(x))  
+   ii. ¬∀𝑥 ¬(F(x)∧R(x)) = ∃𝑥 (F(x)∧R(x))  
+   iii. There is someone in this class who knnows French and Russian  
+
+d. i. M(x): x is a Marvel FFan, domain: all students in this class, statement: ∀𝑥 M(x)  
+   ii. ¬∀𝑥 M(x) = ∃𝑥 ¬M(x)  
+   iii. There is a student in this class who is not a Marvel Fan  
+
+## q4
+
+a.  
+Credits (x,y): x has taken y credits thus semester  
+A(x,y): student x recieved an 'A' grade in module y  
+∃𝑥(Credits(x,21)∧∀y(x,y)), domain: all students; correct  
+
+b.  
+M(x,y): passenger x flies more than y miles in a year  
+F(x,y): passenger x takes more than y flights in a year  
+Q(x): passenger x qualifies as an 'Elite Flyer'  
+Q(x) → M(x,25000) ∨ F(x,25), domain: all airline passengers; wrong
+∀x(M(x,25000)∨ F(x,25) → Q(x)); corrction
+
+c.  
+M(x,y): Man x previous best time < y hours  
+W(x,y): Woman x previous best time < y hours  
+Q(x): person x qualifies for the marathon  
+Q(x) → M(x,3) ∨ W(x,3.5), domain: all applicants; wrong
+
+Man(x): x is a man
+Woman(x): x is a woman
+Best(x,y): best previous time of x is less than y hours
+Q(x): x qualifies for the marathon
+∀x((Man(x) ∧ Best(x,3)) ∨ (Woman(x) ∧ Best(x,3.5))); correction
+
+
+## q5
+a. 
+some students: ∃𝑥  
+and: ∧  
+|domain: all students|domain: all people|
+|-|-|
+|∃𝑥(L(x) ∧ D(x))|S(x): x is a student in this class|
+||∃𝑥(S(x) ∧ L(x) ∧ D(x))|
+
+b. 
+all students: ∀𝑥  
+all macOS users have a laptop: →  
+|domain: all students|domain: all people|
+|-|-|
+|∀x(M(x) → L(x))|S(x): x is a student in this class|
+||∀𝑥((S(x) ∧ M(x)) → L(x))|
+
+c.  
+all students: ∀𝑥  
+either or both: ∨  
+|domain: all students|domain: all people|
+|-|-|
+|∀x(M(x) ∨ W(x))|S(x): x is a student in this class|
+||∀𝑥(S(x) → (M(x) ∨ W(x)))|
+
+## Q6
+
+quantifiers have no intrinsic precedence, do left to right  
+expect readable English sentance instead of plain translation of quantified predicate  
+
+a.  
+∀x∃y(x < y), domain of x and y: all real numbers  
+for every real number x, there is another real number y, such that y is larger then x.  
+there is no largest number  
+
+b.  
+∀x∀y((($x \geq 0$) ∧ ($y \geq 0$) → ($xy>=0$)))  
+for every combination of real numbers x and y, if x is no-negative and y is non-negative, xy is non-negative  
+product of two non negative numbers is also non negative  
+
+c.  
+∀x∀y∃z($x + y = z$)  
+For every combination of real numbers x and y, there is a real number z,  is the sum of x and y  
+the sum of two real numbers is a real number  
+
+
+## q7
+
+F(x,y): x and y are friends  
+domain: all students in SIT
+
+a.  
+∀x∃y(F(x,y)∧∀z((y != z) → ¬F(x,z)))  
+for every SIT student x, there is one SIT student y, such that x and y are friends. and for every student z, if z is different from y, then x and z are not friends  
+for every SIT student x, there is one SIT student y, such that x and y are friends, and there is no other SIT student who is considered a friend of x  
+Every sit student has exactly one friend
+
+b.  
+∃∀y∀z(F(x,y)∧F(x,y)∧(y != z)→ ¬F(x,z))  
+There is a student x, for every combinatino of student y and z, if x and y are friends, and x and z are friends, and y and z are different students, then y and z are not friends  
+There is a student x, whose every combination of two friends are not friends with each other.  
+There is a student whose SIT friends are not friends with each other

@@ -1056,6 +1056,17 @@ The predicate now represents the whole student set
 
 once $x$ has a value, then can get a truth value
 
+quantifiers have no intrinsic precedence, do left to right  
+expect readable English sentance instead of plain translation of quantified predicate  
+
+When all variables in a predicate are given specific values, it becomes a proposition
+
+It is easier to prove an exitental quantifier to be true than false, only need 1 example.
+
+try to eliminnate negation infrom of predicate first
+
+negation outside a quantifier means it can e simplified and is currently not a proposition
+
 ## Predicate / Propositional Fucntion
 
 $$S(x): x\ is\ a\ student$$
@@ -1192,6 +1203,7 @@ $$¬∃x(x^2=2) \equiv ∀x(x^2 \neq 2)$$
 
 ![table-of-nested-quatifiers](jacob-images/table-of-nested-quatifiers.png)
 
+$∀x∀yP(x,y) \equiv ∀y∀xP(x,y)$
 
 q1. domain is real numbers
 $$∀x∃y(x + y = 0)$$
