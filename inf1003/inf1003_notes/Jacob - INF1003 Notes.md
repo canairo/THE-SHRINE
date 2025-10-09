@@ -1237,3 +1237,7 @@ Can be true as tor a given real number $x$, we can choose a real number $y$ such
 
 -----------------------------------------------------------------
 
+# Topic 6 Inference
+
+assume fisrt premis is true unless otherwise stated
+if ask for prove, must assume
