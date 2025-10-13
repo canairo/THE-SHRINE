@@ -65,8 +65,7 @@
     <comp lib="0" loc="(50,330)" name="Clock">
       <a name="appearance" val="NewPins"/>
     </comp>
-    <comp lib="1" loc="(210,240)" name="AND Gate"/>
-    <comp lib="1" loc="(210,350)" name="XOR Gate"/>
+    <comp lib="1" loc="(230,240)" name="XOR Gate"/>
     <comp lib="4" loc="(250,230)" name="D Flip-Flop">
       <a name="appearance" val="logisim_evolution"/>
     </comp>
@@ -74,28 +73,22 @@
       <a name="appearance" val="logisim_evolution"/>
     </comp>
     <comp lib="5" loc="(420,300)" name="Hex Digit Display"/>
+    <wire from="(130,190)" to="(130,220)"/>
+    <wire from="(130,190)" to="(320,190)"/>
+    <wire from="(130,220)" to="(170,220)"/>
     <wire from="(130,260)" to="(130,460)"/>
-    <wire from="(130,260)" to="(160,260)"/>
+    <wire from="(130,260)" to="(170,260)"/>
     <wire from="(130,460)" to="(340,460)"/>
-    <wire from="(140,190)" to="(140,220)"/>
-    <wire from="(140,190)" to="(310,190)"/>
-    <wire from="(140,220)" to="(160,220)"/>
-    <wire from="(140,310)" to="(140,330)"/>
-    <wire from="(140,310)" to="(320,310)"/>
-    <wire from="(140,330)" to="(150,330)"/>
-    <wire from="(140,370)" to="(140,420)"/>
-    <wire from="(140,370)" to="(150,370)"/>
+    <wire from="(140,350)" to="(140,420)"/>
+    <wire from="(140,350)" to="(240,350)"/>
     <wire from="(140,420)" to="(310,420)"/>
-    <wire from="(210,240)" to="(240,240)"/>
-    <wire from="(210,350)" to="(240,350)"/>
+    <wire from="(230,240)" to="(240,240)"/>
     <wire from="(300,240)" to="(320,240)"/>
-    <wire from="(300,280)" to="(310,280)"/>
     <wire from="(300,350)" to="(340,350)"/>
     <wire from="(300,390)" to="(310,390)"/>
-    <wire from="(310,190)" to="(310,280)"/>
     <wire from="(310,390)" to="(310,420)"/>
-    <wire from="(320,240)" to="(320,310)"/>
-    <wire from="(320,310)" to="(320,360)"/>
+    <wire from="(320,190)" to="(320,240)"/>
+    <wire from="(320,240)" to="(320,360)"/>
     <wire from="(320,360)" to="(390,360)"/>
     <wire from="(340,350)" to="(340,460)"/>
     <wire from="(340,350)" to="(390,350)"/>
