@@ -1125,7 +1125,7 @@ When assembler sees:
 
 |Mnemonic and Syntax|Desc|
 |-|-|
-|.byte val$_1$[,..., val$_n$]|Init one or more successive bytes in current pos in section mem map|
+|.byte val$_1$[,..., val$_n$]|Init one or more successive bytes in current pos in section mem map. Note val$_1$ can be in dec or hex or bin, be careful|
 |.double *floating point val*|Init 48-bit MSP430 floating point constant in current pos in section mem map|
 |.float *floating point val*|Init 32-bit MSP430 floating point constant in current pos in section mem map|
 |*label* .space *Size in bytes*|Reserve *size* bytes in current set; note - a label points to beginning of reserved space|
@@ -1183,6 +1183,20 @@ Pass 1: Find all label and addr for each label, store in symbol table
 Pass 2: convert inst to machin lang, using symbol table
 
 Asm inst have 1-to-1 correspondance from .asm to .obj
+
+### Executable Asm Instructions
+
+||MSP430||
+|-|-|-|
+|Core instructions|Emulated instructions|Total|
+|27|24|51|
+
+Emulated instructions are executed by core instructions. Make coding easier.
+
+|inst| s/d | direction | Status bits VNZC ||
+|-|-|-|-|-|
+|mov.x (.b / .w) src dst|src,dst|src -> dst|- - - -|Src not affected|
+|sxt src| src | src -> src | N = 1 if result < 0 else N = 0; Z = 1 if result = 0 else Z = 0; C = 1 if result not 0 else C = 0; V = 0
 
 # Computer Organisation
 

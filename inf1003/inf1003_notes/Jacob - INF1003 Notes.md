@@ -1241,3 +1241,17 @@ Can be true as tor a given real number $x$, we can choose a real number $y$ such
 
 assume fisrt premis is true unless otherwise stated
 if ask for prove, must assume
+
+logical equivalences still apply anywhere before, in between or after rules of inferences
+
+rules of inference only work downwards?
+
+if rule is basically imply, can i use logical equivalences to adapt it?  
+e.g. simplification: (𝑝 ∧ 𝑞), ∴p = (𝑝 ∧ 𝑞) → p ?
+
+resolution does not need to have unique variables in premise.  
+e.g. resolution (𝑝 ∨ q) and (¬𝑝 ∨ 𝑟) is (∴ 𝑞 ∨ r) BUT SO IS (𝑝 ∨ q) and (¬𝑝 ∨ q) is (∴ 𝑞 ∨ q)
+
+cannot use existential instantiation as input to universal generalisation
+
+for addition rule, p therefore p or q, does q have to be a give premise? or can i just pull it out of my ass?
