@@ -1131,7 +1131,7 @@ When assembler sees:
 |*label* .space *Size in bytes*|Reserve *size* bytes in current set; note - a label points to beginning of reserved space|
 |.string *"string$_1$"*[,...,*"string$_n$"*]|Init one or more text strings in current pos in section mem map, each char convert to ASCII and stored 1st char lowest addr|
 |.word val$_1$[,..., val$_n$]|Init one or more 16-bit integers|
-|.bss *"label"* *size in bytes*|Init new secction called *"label"* with Size *size in bytes*, set *"label"* loc counter to next unreservved addr, and return back to previous section|
+|.bss *size in bytes*|Reserves Size *size in bytes* in the .bss section, and return back to previous section|
 |.usect *"label"* *size in bytes*|Init new section called *"label"* with Size *size in bytes*, set *"label"* loc counter to next unreservved addr, and return back to previous section|
 
 
@@ -1142,10 +1142,10 @@ When assembler sees:
 |*symbol* .set *val*|def variable val|
 |*symbol* .equ *val*|def absolute constannt|
 
-FP .set R11 ; Ok
-_ mov.w @FP,R10 ; Ok
-FP .set R15 ; Ok
-count .equ 100/2 ; ok
+FP .set R11 ; Ok  
+_ mov.w @FP,R10 ; Ok  
+FP .set R15 ; Ok  
+count .equ 100/2 ; ok  
 
 #### Defining lib references and definitions
 

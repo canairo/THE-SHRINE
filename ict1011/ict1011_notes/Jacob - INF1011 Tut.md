@@ -335,6 +335,94 @@ MSP430 reduces the size of the instruction from 2 word to 1 word with the consta
 Without the constant generator, the instruction will need to store the value of #0 in the next mem addr after the inst.
 It reduces the exec cycles as reading from the constant generator uses 0 cycles but reading the value from memory uses 1 cycle
 
+
+## Tut 4
+
+Q1  
+a.  
+
+|No.|Mnemonics|Instruction length (in bytes)|No. of cycles|
+|-|-|-|-|
+|Q1.1|mov.w R5 R1|2|1|
+|Q1.2|mov.w #10,R10|4|2|
+|Q1.3|add.w #10,R10|4|2|
+|Q1.4|add.b &2000H,R12|4|3|
+|Q1.5|call #44h|4|2|
+
+b.  
+May change the location of return for subroutine calls or interrupts
+
+c.  
+i. uses same inst, 1.1 uses fewer cycles as is reading both src and dst from registers. 1.2 needs to read next mem add for value to move into dst, needing 1 additional cycle.
+ii. both need 4 byte mem space and use 2 cycle as both need to read next mem addr after inst for value. only inst is different.
+iii. 1.3 is word op while 1.4 is byte op. 1.4 needs 2 additional cycles as needs to fetch value fromm mem addr in RAM while 1.3 only needs 1 additional cycle as is reading next mem addr for value.
+
+Q2  
+a.  
+Array .space 120
+
+space and not sect or usecct as qn never say to to create in different section. means creating in current mem section.
+
+b.  
+Num1 .equ 60000
+
+does not put this into memory after assembling. only replacces evey instance of Num1 in asm code with 60000
+
+c.
+
+Fig 2 code:
+CodeSeg .equ    0x4400
+DataSeg .set    0x3400
+
+        .data
+Vdata   .byte   3
+Wdata   .word   10,-1
+Xdata   .space  2
+Ydata   .string "BA","BY"
+Zdata   .word   99h
+
+        .text
+RESET   mov.w   #10,R4
+Copy    mov.w   #Vdata,R10
+        mov.w   #DataSeg,R11
+Loop    dec.b   R4
+        jne     Loop
+
+        .end
+
+
+i.  
+.data
+0000        3 (Vdata)
+0001        
+0002-0003   10 (Wdata)
+0004-0005   -1 (Wdata)
+0006-0007   (Xdata)
+0008-0009   "BA" (Ydata)
+0010-0011   "BY" (Ydata)
+0012-0014   99h (Zdata)
+
+.text
+0000-0001   mov.w #10,R4
+0002-0003   #10
+0004-0005   mov.w #3,R10
+0006-0007   #3
+0008-0009   mov.w 0x3400h,R11
+0010-0011   0x3400h
+0012-0013   dec.b R4
+0014-0015   jne 0012
+
+ii. 
+Vdata: 0x2400
+Wdata: 0x2402
+Xdata: 0x2406
+Ydata: 0x2408
+Zdata: 0x240A
+
+RESET: 0x4400
+Copy: 0x4404
+Loop: 0x440A
+
 ## Quiz 1:
 
 - 16bit RISC
