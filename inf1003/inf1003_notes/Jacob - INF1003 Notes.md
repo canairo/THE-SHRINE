@@ -1255,3 +1255,21 @@ e.g. resolution (𝑝 ∨ q) and (¬𝑝 ∨ 𝑟) is (∴ 𝑞 ∨ r) BUT SO IS
 cannot use existential instantiation as input to universal generalisation
 
 for addition rule, p therefore p or q, does q have to be a give premise? or can i just pull it out of my ass?
+
+ q → r $\equiv$ ¬q ∨ r (in formula sheet)  
+ this formula can be cconsidered a bridge between implication rules of inference (Modus ponens, modus tollens, hypothetical syllogism) and disjunction rules of inference (Disjunctve syllogism, addition, resolution)
+
+arguement:
+series of proposition
+a number of premise followed by single conclusion
+argument is valid if all premise imply conclusion is a tautology
+validty does not require premises or conclsion to be true in real world
+
+rules exist for propositional logic and predicate logic
+
+instatiation ules: from pool of valid values to specific val
+generalisation rules: specific val to pool of valid ones
+
+
+
+

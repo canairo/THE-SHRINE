@@ -845,7 +845,234 @@ for every SIT student x, there is one SIT student y, such that x and y are frien
 Every sit student has exactly one friend
 
 b.  
-∃∀y∀z(F(x,y)∧F(x,y)∧(y != z)→ ¬F(x,z))  
+∃∀y∀z(F(x,y) ∧ F(x,y) ∧ (y != z) → ¬F(x,z))  
 There is a student x, for every combinatino of student y and z, if x and y are friends, and x and z are friends, and y and z are different students, then y and z are not friends  
 There is a student x, whose every combination of two friends are not friends with each other.  
 There is a student whose SIT friends are not friends with each other
+
+
+# Tutorial 6
+
+## q1
+
+a:  
+p: work all night  
+q: ans all q  
+r: understand  
+
+premise 1 : p → q  
+premise 2 : q → r  
+conclusion: p → r  
+
+rule used: hypothetical syllogism  
+
+b:  
+p: n is real, n>3  
+q: n is real, 2n>6  
+r: n>=2  
+
+premise 1: p → q  
+premise 2: r  
+conclusion: r → q  
+cannot conclude (q could be either true or false)  
+
+rule used: None
+
+c:  
+p: snows  
+q: uni is closed  
+
+premise 1: p → q  
+premise 2: ¬q  
+conclusion: ¬p  
+
+rule used: modus tollens
+
+
+d:
+p: stay in sun too long
+q: go swimming
+
+premise 1: q ∨ p $\equiv$ p ∨ q  (commutative law)  
+premise 2: ¬p  
+conclusion: q
+
+rule used: disjunctive syllogism
+
+e:
+p: n is real, n>2  
+q: n is real, $n^2$>4  
+
+premise 1: p → q  
+premise 2: ¬q  
+conclusion: ¬p  
+
+rule used: modus tollens
+
+## q2
+
+p: rains  
+q: foggy  
+r: sailing race held  
+s: lifesaving demo  
+t: trophy
+
+1) premise a: ¬p ∨ q → r ∧ s  
+2) premise b: r → t  
+3) premise c: ¬t  
+conclusion: p
+
+steps:  
+
+4) from 1) : ¬p ∨ q → r  
+rules used: hypothetical Syllogism and Simplifiction
+
+5) from 2) : ¬r
+rule used: moodus tollens
+
+6) from 4) and 5): ¬(¬p ∨ q) $\equiv$ p ∧ ¬q
+rule used: De Morgan's law
+
+7) from 6): p
+rule used: simplification
+
+## q3
+
+p: is raining  
+q: has umbrella  
+r: does snot get wet  
+
+Premise a: ¬p ∨ q  
+Premise b: q → r  
+Premise c: p ∨ r  
+conclusion: r
+
+steps:  
+1) Premise a: ¬p ∨ q  
+2) Premise b: q → r  
+3) Premise c: p ∨ r 
+4) from 1) and 3): q ∨ r 
+rule used: resolution 
+5) from 2): q → r $\equiv$ ¬q ∨ r (in formula sheet)  
+6) from 4) and 5): r ∨ r $\equiv$ r (Idempotent Law)  
+rule used: Resolution
+
+## q4
+
+Premise a: (p ∨ q) ∧ (¬p → ¬q)
+Premise b: p → r
+
+steps:  
+1) Premise a: (p ∨ q) ∧ (¬p → ¬q)
+2) Premise b: p → r
+3) from 1): p ∨ q
+rule used: simplification
+4) from 1): ¬p → ¬q
+5) from 4): ¬p → ¬q $\equiv$ ¬(¬p) ∨ ¬q $\equiv$ p ∨ ¬q (De morgan)
+6) from 3) and 5): p ∨ p $\equiv$ p (resolution)
+7) from 2) and 6): r (modus ponens)
+8) from 7): r ∨ t (addition)
+
+
+## q5
+
+premise a: (p → q) ∧ (r → s)
+premise b: p
+premise c: ¬s
+
+steps:
+1) premise a: (p → q) ∧ (r → s)  
+2) premise b: p  
+3) premise c: ¬s  
+4) from 1) (p → q)  
+5) from 1) (r → s)  
+6) from 2) and 4)q (modus ponens)  
+7) from 3) and 5) ¬r (modus tollens)  
+8) from 6) and 7) q ∧ ¬r  (conjunction)
+
+## q6
+
+S(x): x is student in class
+P(x): x passed first calss test
+
+premise 1: ∀x(S(x) → P(x))  
+premise 2: S(Alice)  
+Conclusion: P(Alice)  
+
+steps:  
+1) premise 1: ∀x(S(x) → P(x))
+2) premise 2: S(Alice)
+3) from 1): S(Alice) → P(Alice) (Universl Instantiation)
+4) from 2) and 3): P(Alice), (Modus Ponens)
+
+
+J(x): x is junior
+I(x): x is ICT stuent
+C(x): x on campus on weekend
+
+Premise 1: ∀x(J(x) → ¬C(x))  
+Premise 2: ∃x(I(x) → ¬J(x))  
+Conlusion: ∃x(I(x) ∧ C(x))  
+
+Steps:  
+1) Premise 1: ∀x(J(x) → ¬C(x))  
+2) Premise 2: ∃x(I(x) → ¬J(x))  
+3) from 2): I(a) ∧ ¬J(a) (existential instantiation)  
+4) from 3): I(a) (simplification)  
+5) from 3): ¬J(a) (simplification)  
+6) from 1): J(a) → ¬C(a) $\equiv$ C(a) → ¬J(a) (Contrapositive)
+7) from 5) and 6): cannot conclude C(a) (C(a) can be either true or false based on truth table)
+8) from 4) and 7): cannot conclude I(a) ∧ C(a)
+9) from 8): cannot conclude ∃x(I(x) ∧ C(x)) (existential generalisation)
+
+
+P(x): x likes fruit
+Q(x): x is a parrot
+
+Premise 1: ∀x(Q(x) → P(x))
+Premise 2: ¬Q(my pet bird)
+conlusion: ¬P(my pet bird)
+
+steps:  
+1) Premise 1: ∀x(Q(x) → P(x))  
+2) Premise 2: ¬Q(my pet bird)  
+3) from 1): Q(my pet bird) → P(my pet bird) (Universal Instantiation)
+4) from 2) and 3) cannot conclude ¬P(my pet bird) (based on truth table)
+
+
+P(x): x eats granola every day
+Q(x): x is healthy
+
+Premise 1: ∀x(P(x) → Q(x))  
+Premise 2: ¬Q(Linda)
+Conclustion: ¬P(Linda)  
+
+1) Premise 1: ∀x(P(x) → Q(x))  
+2) Premise 2: ¬Q(Linda)
+3) from 1): P(Linda) → Q(Linda) (Universal Instantiation)  
+4) from 3):
+????????????//
+
+## q7
+
+step 2 incorrect. Changes from Existential into Universal. Can use normal rules of inference as each quantified expression can be treated as a proposition (x(P(x)))
+
+step 3 incorrect, should be existential not universal
+
+step 4 incorrect: should be existential ot universal
+
+step 5 incorrect: should be existential instantiation not generalisation from 4
+
+step 6 incorrect should be conjunction but of different specific values
+
+step 7 is invalid
+
+|step|proposition|reason|
+|-|-|-|
+|1|∃xP(x) ∧ ∃xP(x)|Premise|
+|2|~~∀xP(x)~~ ∃xP(x)|Simplification from (1)|
+|3|P(c)|~~Universal~~ Existential Instantiation from (2)|
+|4|~~∀xQ(x)~~ ∃xQ(x)|Simplification from (1)|
+|5|Q(C)|Existential ~~generalisation~~ instantiation from (4)|
+|6|~~P(c) ∧ Q(c)~~ P(c1) ∧ Q(c2)|~~Simplification from (3) and (5)~~ Conjunction|
+|7|∃x(P(x) ∧ Q(x))|~~Existential generalisation from(6)~~ Invalid|
