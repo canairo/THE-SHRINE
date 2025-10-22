@@ -544,7 +544,7 @@ conventional letters used for propositional variables are $p, q, r, s, ...$
 
 → or ⇒: Imply, Material Conditional
 
-⇔: Material Biconditional, NOT XOR gates
+⇔ or ↔: Material Biconditional, NOT XOR gates
 
 Let $p$ and $q$ be propositions.  
 The proposition $q → p$ is the **converse** of $p → q$.  
@@ -1271,6 +1271,132 @@ rules exist for propositional logic and predicate logic
 instatiation ules: from pool of valid values to specific val
 generalisation rules: specific val to pool of valid ones
 
+validity of arguemnt != truth table.
+
+argument is valid if all premise and conclusion is true. Therefore the argument is a tautology.
+
+if premise is true but caqnnot conclude, argument invalid
+
+you can invalidate an argument by proving a premise false
+
+There is no problem uaing the imply version of proposition or the conjunctive (AND) version since both are equivalent. Use whichever is more helpful to you for that qn
+
+if q = ($a \leq \sqrt{n}$), ¬q = ($a > \sqrt{n}$)
+
+Rules of inference are treated as true and so no need to use the truth tables for each to prove conclusion true. Just use the rule.
+
+Rules of inference only work because each rule is a tautology
+
+Modus Ponens
+(p ∧ (p → q)) → q
+
+Modus Tollens  
+(¬q ∧ (p → q)) → ¬p
+
+Resolution  
+((p ∨ q) ∧ (¬p ∨ r)) → (q → r)
+
+Constructive Dillemma
+((p → q) ∧ (r → s) ∧ (p ∨ r)) → (q ∨ s)
 
 
 
+# Topic 7 Proofs
+
+Theorem: statment that can be shown to be true.  
+AKA facts or results.  
+less important theorems somtimes called propositions.  
+Theorem may be universal quantification of conditional statement with one or more premises and a conclusion
+
+If qn says: prove p1,p2...pn are equivalent, p1 → p2, p2 → p3, ...
+
+![proofs_for_propositions](jacob-images/proofs_for_propositions.png)
+
+direct proof:  
+step 1 assume p is true  
+use rules of inference  
+last step show q is true  
+
+Proof By Contraposition  
+(p → q) $\equiv$ (¬q → ¬p)  
+so if can prove (¬q → ¬p), (p → q) is proven  
+example used this when qn asked abt odd num
+
+Vacuous Proof  
+(p → q) is always true when ¬p.  
+so if can show ¬p, (p → q) is proven  
+(often used to establish special case in theorems that state a conditional statement for all positive integers)  
+
+Trivial Proof  
+(p → q) is always true when q.  
+so if can show q, (p → q) is proven  
+(important when special cases of theorems are proved)  
+
+Proof By Contradiction  
+p is true when (¬p → (r∧¬r)), for some proposition r  
+
+Proof By Contadiction example:  (proving statement is true)  
+Let p be proposition "$\sqrt{2}$ is irrational"  
+Suppose ¬p is true. (i.e. "$\sqrt{2}$ is rational")  
+Thus, $\sqrt{2} = \frac{a}{b}$, whereby b!= 0 and a and b have no common factors  
+Thus, $2 = \frac{a^2}{b^2}$, meaning $a^2 = 2*b^2$.  
+Since $a^2 = 2*b^2$, $a^2$ is even.  
+Since $a^2$ is even, $a$ is even  
+Since $a$ is even, $a = 2c$ for some integer $c$  
+Sub in $a = 2c$ into $a^2 = 2*b^2$, $4*c^2 = 2*b^2$  
+Thus $b^2 = 2*c^2$, meaning $b^2$ is even and, thus, $b$ is even  
+Since both $a$ and $b$ are even, both have 2 as common factor.  
+But is contradiction, since assum have no common factor.  
+Thus, ¬p is false, meaning p is true i.e. $\sqrt{2}$ is irrational  
+
+Proof By Contadiction example:  (proving by implication)  
+Give proof by contradiction of theorem "If $3n + 2$ is odd, then $n$ is odd"  
+p = $3n + 2$ is odd  
+q = $n$ is odd  
+Statement is $p → q$
+To construct Contradiction, $¬(p → q)$  
+Which is $¬(p → q) \equiv p ∧ ¬q \equiv ¬(¬p ∧ q)$  
+Thus let us assume: $(p ∧ ¬q)$, i.e. p is true, ¬q is true  
+Thus assume $3n + 2$ is odd, $n$ is not odd  
+Since $n$ not odd, $n = 2k$ for some int k  
+Means $3n + 2 = 3(2k) + 2 = 2(3k+1)$, meaning 3n+2 is even. I.e. ¬p  
+Since p and ¬p are both true, we have contradiction.
+
+Proof of Biconditional statement ↔
+To prove $p ↔ q$, show $p → q$ and $q → p$ are true  
+EXAMPLE  
+Prove: "If $n$ is an integer, then $n$ is odd if and only if $n^2$ is odd"  
+Theorem is in form of "p if and only if q", where p is "$n$ is odd" and q ia "$n^2$ is odd".  
+To prove, need show $p → q$ and $q → p$ are true  
+Start with Direct Proof,  
+Assume $n$ is odd, thus $n = 2k + 1$ where k is some int  
+Thus, $n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 +2k) + 1$  
+Since $2k^2 +2k$ is an integer, let us represent it with $m$, $n^2 = 2m + 1$ for some int m  
+Thus $n^2$ is odd, $p → q$  
+Next use contrapositive
+To prove $q → p$, use proof by contraposition, prove $¬p → ¬q$  
+Assume $¬p$, $n$ is even, $n = 2k$, k is int  
+Then, $n^2 = 4k^2 = 2(2k^2)$, thus $n^2$ is even, thus ¬q.  
+Thus, $¬p → ¬q$, proves $q → p$  
+Proof Complete
+
+Proof By CounterExample (Universal Quant):  
+To prove $∀x P(x)$ is false, only need find counterexample  
+find one example for x for which P(x) is false.  
+E.g. "Every positive int is the sum of the squares of two integers"  
+Consider int "3", perfect squares of 0,1,2 = $0^2= 0$, $1^2 = 1$, $2^2 = 4$  
+Cannot use $2^2$, exceeds 3.  
+Consequently, we have, $0^2 + 0^2 = 0$, $0^2 + 1^2 = 1$, $1^2 + 1^2 = 2$  
+Since 3 cannot be written as sum of squares of two integers, statement is false
+
+Proof by cases:
+Sometimes cannot prove statment with single argument that holds for all possible cases.  
+So method to prove theorem by considering different cases separatly.  
+Thus, ($p_1 ∨ p_2 ∨ ... ∨ p_n$) → q, which is equivalent to [($p_1 → q$)∧($p_2 → q$)∧...∧($p_n → q$)]  
+Means can prove each ($p_n → q$) individually.
+
+Exhaustive proof:  
+Some theorem can be proven with small numer fo samples.  
+if prove by examining all possible cases, called exhaustive proof as exhaust all possiblities.  
+
+Resolution
