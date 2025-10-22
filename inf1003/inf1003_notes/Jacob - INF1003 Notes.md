@@ -1255,3 +1255,4 @@ e.g. resolution (𝑝 ∨ q) and (¬𝑝 ∨ 𝑟) is (∴ 𝑞 ∨ r) BUT SO IS
 cannot use existential instantiation as input to universal generalisation
 
 for addition rule, p therefore p or q, does q have to be a give premise? or can i just pull it out of my ass?
+YES YOU CAN PULL IT OUT OF YOUR ASS, 6.1a inference on xsite says so.

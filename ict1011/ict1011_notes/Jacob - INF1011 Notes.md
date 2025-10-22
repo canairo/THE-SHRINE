@@ -894,7 +894,9 @@ SRC Modes (all registers):
    - value of x is stored in next mem address after inst addr
    - Content of Rs not affected
    - PC increment to next inst to exec
-   - Useful to access data in tables
+   - Useful to access data in tables  
+   - if you have arithmetic calculation as before (Rs), will calculate value first  
+   - e.g. 0x2400-1(R12) = (0x2400-1)(R12)
 3. @Rs - Register Indirect (R1, R4-15)
    - +1 cycle (fetch,read offset) +1 cycle(exec,read value) for each use
    - only for src
@@ -1184,19 +1186,165 @@ Pass 2: convert inst to machin lang, using symbol table
 
 Asm inst have 1-to-1 correspondance from .asm to .obj
 
-### Executable Asm Instructions
+## Chap 5: Executable Asm Instructions
+
+types:  
+- Data Movement  
+- Arithmetic  
+- Logical / Bit manipulation  
+- Rotation  
+- Program Control  
 
 ||MSP430||
 |-|-|-|
 |Core instructions|Emulated instructions|Total|
 |27|24|51|
 
-Emulated instructions are executed by core instructions. Make coding easier.
+Emulated instructions are executed by core instructions. Make coding easier.  
 
-|inst| s/d | direction | Status bits VNZC ||
-|-|-|-|-|-|
-|mov.x (.b / .w) src dst|src,dst|src -> dst|- - - -|Src not affected|
-|sxt src| src | src -> src | N = 1 if result < 0 else N = 0; Z = 1 if result = 0 else Z = 0; C = 1 if result not 0 else C = 0; V = 0
+Only core inst are convereted to machine code.  
+Emulated inst must be converted to core inst to exec  
+e.g.  
+inc.w dst will be converted to sub.w #1 dst
+
+behaviour of microprocessor instructions are detailed in the particular instruction set summary of that processor.
+
+### Executable Asm Instructions
+
+#### Data Movement
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|mov.x (.b / .w) src,dst|src,dst|src -> dst|-|-|-|-|Src not affected|
+
+#### Arithmetic
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|sxt src| src | src -> src | N = 1 if result < 0 else N = 0| Z = 1 if result = 0 else Z = 0| C = 1 if result not 0 else C = 0| V = 0|copy src bit 7 value to src bits 8-15, Usage case: usig |
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|add.x (.b / .w) src,dst|src,dst|src + dst -> dst|N = 1 if result < 0 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if have carry else C = 0|V = 1 if overflow, else V = 0||
+|addc.x (.b / .w) src,dst|src,dst|src + dst + Carry_flag -> dst|N = 1 if result < 0 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if have carry else C = 0|V = 1 if overflow, else V = 0|Usage: adding numbers that are bigger than 16 bit|
+|dadd.x (.b / .w) src,dst|src,dst|src(BCD) + dst(BCD) -> dst|N = 1 if MSB 1 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if result > 0x9999h (.w) or > 0x99h (.b) else C = 0| Undefined |treat each 4bit of hex as decimal|
+|sub.x (.b / .w) src,dst|src,dst|dst + (- (src)) -> dst|N = 1 if result < 0 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if have carry else C = 0|V = 1 if overflow, else V = 0|2's comp applied to src, is not (dst - src) as this implies has hardware subtractor|
+|subc.x (.b / .w) src,dst|src,dst|dst + (- (src)) - Carry_flag -> dst|N = 1 if result < 0 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if have carry else C = 0|V = 1 if overflow, else V = 0|2's comp applied to src, Usage: subtracting numbers that are bigger than 16 bit|
+
+Emulated Inst  
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|ADC.x (.b / .w) dst|dst|addc(.b / .w) #0,dst|addc status|addc status|addc status|addc status|Add carry to dst|
+|DADC.x (.b / .w) dst|dst|dadd(.b / .w) #0,dst|dadd status|dadd status|dadd status|dadd status|BDC Add carry to dst|
+|dec.x (.b / .w) dst|dst|sub(.b / .w) #1,dst|sub status|sub status|sub status|sub status|decrement dst|
+|decd.x (.b / .w) dst|dst|sub(.b / .w) #2,dst|sub status|sub status|sub status|sub status|decrement dst twice|
+|inc.x (.b / .w) dst|dst|add(.b / .w) #1,dst|add status|add status|add status|add status|increment dst|
+|incd.x (.b / .w) dst|dst|add(.b / .w) #2,dst|add status|add status|add status|add status|increment dst twice|
+|sbc.x (.b / .w) dst|dst|dst + 0xFFFFh + borrow_flag OR dst + 0xFFh|subc status|subc status|subc status|subc status|subtract src and borrow OR subtract not(carry_flag) from dst ???????|
+
+#### Logical / Bit Manipulation
+
+core inst:
+- and; claer specific bits in dst register
+- bis (or operation); set specific bits in dst register
+- xor; 2's comp specific bits in dst register
+
+status bits affects each logic op differently
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|and.x (.b / .w) src,dst|src,dst|src .AND. dst -> dst|N=1 if MSB = 1, else 0|Z = 1 if result 0, else 0|C = 1 if result not 0, else 0 (.NOT. Z)|V = 0 always|at each pos in src, if val is 0, set corresponding pos in dst to 0, else dst pos remain unchanged|
+|bis.x (.b / .w) src,dst|src,dst|src .OR. dst -> dst| - | - | - | - |at each pos in src, if val is 1, set corresponding pos in dst to 1, else dst pos remain unchanged|
+|xor.x (.b / .w) src,dst|src,dst|src .XOR. dst -> dst|N=1 if MSB = 1, else 0|Z = 1 if result 0, else 0|C = 1 if result not 0, else 0 (.NOT. Z)|V = 1 if src and dst both negative, else V = 0|at each pos in src, if val is 1, set corresponding pos in dst to complement of previous dst val, else dst pos remain unchanged|
+|bic.x (.b / .w) src,dst|src,dst|(.NOT. src) .AND. dst -> dst| - | - | - | - |at each pos in src, if val is 1, set corresponding pos in dst to 0, else dst pos remain unchanged|
+
+Emulated inst  
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|clr.x (.b / .w) dst|dst|0 -> dst; mov(.b / .w)#0,dst|||||clear dst|
+|clrc|-|0 -> Carry_flag; bic.w #1,SR|||||clear carry flag|
+|clrn|-|0 -> Neg_flag; bic.w #4,SR|||||clear negative flag|
+|clrz|-|0 -> Zero_flag; bic.w #2,SR|||||clear zero flag|
+|inv.x (.b / .w) dst|dst|(.NOT. dst) -> dst; xor.x (.b / .w) #0(FF)FFh,dst|||||invert all bits in dst|
+|setc|-|1 -> Carry_flag; bis.w #1,SR|||||set carry flag|
+|setn|-|1 -> Neg_flag; bis.w #4,SR|||||set negative flag|
+|setz|-|1 -> Zero_flag; bis.w #2,SR|||||set zero flag|
+
+#### Rotation Inst
+
+type: arithmetic; "through carry"
+
+arithmetic rotate multiply(RLA) or floor divide(RRA) by $2^N$ where N is num bits shifted
+
+swpb (swap bytes) exchange high and low bytes of dst. Word size only.; e.g. 0xAABBh becomes 0xBBAAh
+
+|Arithmetic|||
+|-|-|-|
+|Name|Desc|Img|
+|RLA / Rotate Left Arithmetic|MSB to carry flag, pad LSB with 0|![RLA](jacob-images/RLA.png)|
+|RRA / Rotate Right Arithmetic|LSB to carry flag, pad MSB with MSB|![RRA](jacob-images/RRA.png)|
+
+|Through Carry|||
+|-|-|-|
+|Name|Desc|Img|
+|RLC / Rotate Left Carry|MSB to carry flag, pad LSB with 0|![RLC](jacob-images/RLC.png)|
+|RRC / Rotate Right Carry|LSB to carry flag, pad MSB with MSB|![RRC](jacob-images/RRC.png)|
+
+Core inst
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|rrc.x (.b / .w) dst|dst|dst -> dst|N=1 if MSB=1, else N = 0|Z = 1 if result zero, else Z = 0|Loaded from LSB|V = 0 always|dst shift right by one pos, carry shift to msb, then lsb shift into carry|
+|rra.x (.b / .w) dst|dst|dst -> dst|N=1 if MSB=1, else N = 0|Z = 1 if result zero, else Z = 0|Loaded from LSB|V = 0 always|dst shift right by one pos,, msb = msb, msb shift into msb-1, then lsb shift into carry, lsb-1 shift into lsb|
+|swpb.w dst|dst|dst -> dst|-|-|-|-|R11 = 0xAABBh, swpb.w R11 = 0xBBAAh|
+
+Emulated inst
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|rlc.x (.b / .w) dst|dst|dst -> dst|N=1 if MSB=1, else N = 0|Z = 1 if result zero, else Z = 0|Loaded from MSB|V = 1 if overflow (aka change of sign) else V = 0|dst shift left by one pos, lsb taken from carry, then msb shift into carry; emulated with ADDC inst|
+|rla.x (.b / .w) dst|dst|dst -> dst|N=1 if MSB=1, else N = 0|Z = 1 if result zero, else Z = 0|Loaded from MSB|V = 1 if overflow (aka change of sign) else V = 0|msb shift to carry, dst shift left by one pos, lsb pad with 0; emulated with ADD inst|
+
+rotate left over flow is when you multiply by 2 but get a negative result.
+
+#### Program Control Inst
+
+facilitate disruption of normal sequential flow.  
+aka jumps  
+jump can be obtained by modifying content of Program Counter(**PC**)  
+used for if-else, loops
+types: conditional; unconditional
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|jeq/jz *label*|||||||jump to label if Z = 1|
+|jne/jnz *label*|||||||jump to label if Z = 0|
+|jc/JHS *label*|||||||jump to label if C = 1|
+|jnc/JLO *label*|||||||jump to label if C = 0|
+|jn *label*|||||||jump to label if n = 1|
+|jge *label*||(N .XOR. V) = 0 / N = V|||||jump to label if greater than or equal|
+|jl *label*||(N .XOR. V) = 1 / N != V|||||jump to label if less than|
+|jmp *label*|||||||jump to label unconditionally|
+
+jge and jl use cmp inst to change flag before jump call.  
+e.g.:  
+cmp.w R12,R11  
+jge test      ;jump to test if R12 is greater
+
+for signed values, use JGE, JL, JN
+
+for unsigned values, use JLO, JHS
+
+#### Program Control: Bit testing
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|bit .x (.b / .w) src,dst|src,dst| src .AND. dst, not stored |N = 1 if MSB = 1, else N = 0|Z = 1 if result = 0, else Z = 0|C = 1 if result != 0, else C = 0|V = 0 always|Result is ignored, src dst no changed, only update flags|
+|cmp.x (.b / .w) src,dst|src,dst|dst + (-(src)), not stored|N = 1 if MSB = 1, else N = 0 (src >= dst)|Z = 1 if result = 0, else Z = 0 (src = dst)|C = 1 if have carry, else C = 0|V = 1 if arithmetic overflow, else V = 0|Result is ignored, src dst no changed, only update flags|
+
+emulated inst
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|tst.x (.b / .w) dst| dst | cmp.x (.b /.w) #0,dst|N =1 if dst < 0 else N = 0|Z = 1 if dst = 0 else Z = 0|C = 1 always|V = 0 always|check if is <= 0, Result is ignored, src dst no changed, only update flags|
+|br dst| - | mov.w dst,R0 |||||jump direct to dst without condition, similar to "jmp dst"|
 
 # Computer Organisation
 
