@@ -1348,11 +1348,75 @@ emulated inst
 
 # Computer Organisation
 
+## Modular Programming
+
+complex software decompose into less complex modules  
+modules designed and tested independantly  
+modules can be reused in other projs  
+reduce overall program size (modules may be required in different places)  
+
+Chars of good module:  
+loose coupling: data within module is entierly independant (or as independant as possible)  
+strong modularity: perform single logically coherent task
+
+modules in asm are subroutines  
+like functions  
+same subroutine can be called from various parts of prog  
+on completion, return control to the place where subroutine called  
+call and ret instructions is how it is implemented
+
+return location?  
+return address is saved to stack before jumping to subroutine
+push inst: decrement -> write data  
+pop inst: write to dst -> increment (does not erase data al last loc)  
+stack aslo used for exception handling, temp storage for local variables / subroutine parameters.  
+stack grows towards lower memory addr, start at high RAM area with even addr  
+return addr is PC of next inst after subroutine called
+
+stack should exist in RAM. Ensure SP/R1 is initialised to valid RAM location or risk unexpected behaviour
+
+call inst:  
+- size: 2 byte for inst, 2 byte for dst addr
+- return addr size: 2 byte  
+- Stack grows with each call towards lower addr
+- Many nested subroutine calls risk stack overflow
+
+ret inst:  
+- size: 2 byte  
+- pops value at R1 addr into dst, then increment without erasing  
+- NOTE any push to stack in subroutine must be managed and popped before ret inst called in order to return correctly.  
+    
+
+passing in params:  
+- setup before call and cleand up after ret
+- 3 ways: registers, memory block, stack 
+  - register:
+    - pros: since is register, fast effecient
+    - cons: less registers available to use for logic, small num of registers
+  - memory block / passing by reference
+    - treat portion of memory variable, useful for many params
+    - write value to block of mem at predefined mem addr
+    - pass mem addr of start of block to subroutine via register
+  - stack
+    - push param to stack before call then retrieve inside routine
+    - no registers, supports recusrsive programming
+    - can have many params as long as no stack overflow
+    - params in stack MUST be removed immediatly after ret, if not may have unexpected behaviour/stack overflow
+
+local vars/params
+- create on entry, released on exit  
+- stack is ideal for these  
+- temp mem space called stack frame
+- stack frame created by adding frame size N to SP
+- positive displacements from SP used to access variables, SP is the reference
+
 ## Input / Output Techniques (Chpt 7)
 
 ## Primary Memory Subsystems (Chpt 8)
 
 ## Secondary Memory Subsystems (Chpt 9)
+
+## Memory Management
 
 
 
