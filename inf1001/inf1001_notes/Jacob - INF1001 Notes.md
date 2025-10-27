@@ -722,3 +722,207 @@ Similar idea to libraries in coding, build reuseable blocks to call on
 
 HDL langs: Verilog or VHDL  
 
+# Topic 6: Database -Entity Relationship (ER)
+
+Why learn database: repository for data generated. 
+
+What is db: organised collection of data  
+- multiple formats / structures  
+- stored in some form of storage medium (hdd, flash mem, ssd, dram)  
+- can be stored anywhere in the world using cloud tech  
+
+How to store?  
+txt? but is 1 record per line  
+disadvantage:  
+- file corruption(if fail during write op)  
+- custom scripts to manage files  
+- multiple people cannot update data at the same time (concurrency)  
+- no security  
+- difficult to search/catagorise  
+- hard to track access (data logging of file access)  
+
+spreadsheet? xlsx?  
+- slightly more organised  
+- file corruption  
+- no security  
+- hard to track access (data logging of file access)  
+
+correct way: Database Management system (DBMS)  
+complete software system to define, create, manage, update and query DB  
+e.g.: myswql, oracle, ingres, postgresql, couchdb
+
+DBMS has application layer and database management layer  
+users use application layer to create db requests, for ease of use  
+application reuests sent to dbms which manages access and logging to actual db  
+
+data models
+- high level description, hides low-level storage details (dbms manage)
+- usrs define how data is organised in dbms
+- examples of models
+  - hierarchical
+  - network
+  - object-oriented
+  - object-relational
+  - relational (most common)
+
+
+
+## definitions  
+
+Relation:
+- central data description construct in the model
+- tables or set of records  
+
+relation instance
+- snapshot of table at timepoint
+
+relation schema
+- logical structure of db
+- name and type of each field
+
+tuple
+- row in relation (records)
+
+attributes
+- column in relation
+
+![relation-model-example.png](jacob-images/relation-model-example.png)
+
+
+
+## Relation Data Model
+
+- a db is a collection of one or more relations
+- each relation is a table with rows and columns
+- simple data representation
+- enable users to express queries easily
+
+Stages of db design
+1. Requierment analysis
+2. Conceptual db design
+3. logical db design
+4. refining schema
+5. physical db design
+6. application and security design
+
+Requierment analysis
+- understand what data needs to be stored
+- what kind of applications uses the data
+- what operation need to be performed
+
+conceptual db design
+- high-level description of the dara
+- constraints to be modeled
+- use ER model first
+- turns into schema
+
+logical db design
+- choose DBMS to use
+- convert ER into relational db schema
+
+refining schema
+- analyze schema, ID potential problems, refine
+- use db theory for normalisation
+
+physical db design
+- consider typical workload
+- refine design to meed performance req
+- build indexes on table
+- cluster some tables
+
+application and security design
+- identify parts of the db, what accessible, what not accessible
+- ensure access rules
+
+
+
+## ER model
+
+- conceptual db design
+- abstract
+- high-level model
+  - allow stakeholders to visualise/discuss
+  - provide foundation to design database schema
+
+design choices for er:
+  - modeling concept as entity, attribute or relationship?
+  - what type of relation? constraints?
+
+ER is subjective
+  - often many way to model when given req
+  - analyzing alternative can be tricky
+  - ask qns, clarify with client
+  - ER is important pre-step before developing schema
+
+ER terminology/definitions
+- entity
+  - abstract object of some sort
+- Entity set
+  - collection of similar entities
+- attributes
+    - Properties of entities in an entity set
+- keys to relations
+  - Minimal set of attributes whose values uniquely identify an entity in the set
+- relationship
+    - connection among 2 or more entity sets
+- relationship set
+  - collection of similar relationships
+- ER diagram:
+  - Graph representing entity sets, attributes and relationships
+- instances
+  - snapshot of set of relationships
+
+
+ER diagram notation:  
+Entity set: rectangle
+Attribute: Oval, w/ line to rectangle representing entity set
+Key attribute: underline attribute name
+Relationship: Diamond, w/ lines to each entity set involved, connects 2 or more entity set
+
+
+Same entity set could participate in differet relationship sets
+Multi-way / ternary relationships connect to more than 2 entity sets  
+
+Relationship with key constraints, arrow shows constraint (like dependant)  
+e.g. arrow from Departments entity point to Manages relation. Employees has line to Manages. Means there is an employee who manages the department
+
+
+
+## Relations and constraint examples  
+
+![one-to-one](jacob-images/one-to-one-relation.png)
+
+![one-to-many](jacob-images/one-to-many-relation.png)
+
+![many-to-one](jacob-images/many-to-one-relation.png)
+
+![many-to-many](jacob-images/many-to-many-relation.png)
+
+
+## Converting ER diagram into Relational db
+
+Entity set becomes schema  
+- each tuple/row represent 1 entity  
+- each tuple/row composed of attributes and has the smae primary key as other tuples/rows
+  - ![entity-set-to-table](jacob-images/entity-set-to-table.png)
+
+Relations also become table
+- must contain primary key from each participating entity set
+- must contain all attributes of relationship
+- primary key of relation is combination of primary keys of all participating entities
+  - ![relation-to-table](jacob-images/relation-to-table.png)
+- for relationship back to same entity set, define difference in primary key by the name, e.g. supervisor IC vs subordinate IC
+  - ![self-reference-relation-to-table-1](jacob-images/self-reference-relation-to-table-1.png)
+  - ![self-reference-relation-to-table-2](jacob-images/self-reference-relation-to-table-2.png)
+- for relation with constraint, use constaint entity primary key as primary key for relation
+  - ![relation-constraint-to-table](jacob-images/relation-constraint-to-table.png)
+- for relation with constraint merged with constrained entity to form one table. e.g. each department has unique manager, combine Manages into Department
+  - ![relation-entity-merging](jacob-images/relation-entity-merging.png)
+
+
+
+
+
+quiz: mcq, fill in the blank (single word)
+
+CA2: clsoed book mcq
