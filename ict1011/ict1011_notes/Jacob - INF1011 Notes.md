@@ -1388,7 +1388,7 @@ ret inst:
     
 
 passing in params:  
-- setup before call and cleand up after ret
+- setup before call and cleaned up after ret
 - 3 ways: registers, memory block, stack 
   - register:
     - pros: since is register, fast effecient

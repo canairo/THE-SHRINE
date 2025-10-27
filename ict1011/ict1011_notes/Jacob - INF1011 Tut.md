@@ -423,6 +423,80 @@ RESET: 0x4400
 Copy: 0x4404
 Loop: 0x440A
 
+
+## Tut 5
+
+Q1: 
+mov.w #4567h,R11
+mov.w #0123h,R12
+add.w #CDEF,R11
+addc.w #89AB,R12
+
+Q2:  
+a: xor.w #8001,R10  
+b: mov.w #0,R10
+bic.w #FFFFh,R10
+and.w #0000h,R10
+sub.w R10,R10
+
+Q3:  
+a:  
+sxt R10  
+mov.w R10,R11  
+add.w R11,R11  
+addc.w R11,R11  
+addc.w R10,R11  
+
+sxt R10  
+mov.w R10,R11  
+rla R11  
+rla R11  
+add.w R10,R11  
+
+
+b:  
+rlc.w R9
+rlc.w R9
+and.w #0001,R9  
+
+and.w #0x8000,R9
+rlc.w R9
+
+
+
+## Tut 6
+
+Q1  
+a: R1 = 0x30E4  
+b: push.w R10       OR      push R10 (since is always word)
+c: add.w #8,R1      OR      add.w #8,SP
+d: mov.w 6(R1),R10   WRONG should be 4(R1) since R1 is 1st item, 2(R1) is 2nd item, 4(R1) is 3rd item 
+
+Q2  
+a, i: immediate
+ii: #0x4434  
+b: value, using registers   WRONG, passed by reference as have to go to register to get value. Register and stack can be either pass by value or pass by reference, see usage
+c:  
+b1: PC[0x4410], SP[0x30FE]  
+b2: PC[0x4416], SP[0x30FC]  
+b3: PC[0x4434], SP[0x30FA]  
+d: after jump back from subroutine, SP = 0x30FC, then -2, 0x30FA, CORRECTION: contents of R10 are 0x441a since return addr at position -2(SP) are not erased on pop.
+e: add.w #4,SP  
+f:  
+push R10
+push R11
+push R12
+mow.w 8(SP),R10       THIS ONLY GETS ADDRESS NOT VALUE  
+mov.w 10(SP),R11      THIS ONLY GETS ADDRESS NOT VALUE  
+mov.w 8(SP),R12       Correction     mov.w @R10,E12
+add.w R10,R12         Correction     add.w R12,R12
+mov.w R12,10(SP)      Correction     mov.w R12,0(R11)
+pop R12
+pop R11
+pop R10
+ret
+
+
 ## Quiz 1:
 
 - 16bit RISC
