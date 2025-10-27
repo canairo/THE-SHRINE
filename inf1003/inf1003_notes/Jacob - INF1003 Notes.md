@@ -1400,3 +1400,269 @@ Some theorem can be proven with small numer fo samples.
 if prove by examining all possible cases, called exhaustive proof as exhaust all possiblities.  
 
 Resolution
+
+
+
+
+
+# Topic 8 Sets
+
+## Properties of sets
+
+Sets:  
+A set is an unordered collection of unique objects, called elements or members of the
+set.  
+- unordered  
+- unique objects (called elements / members)  
+- set contains its elements  
+
+∈: is element of, in  
+∉: is not element of, is not in  
+{}: denote set, e.g. V = {a,e,i,o,u}  
+⊆: is a subset of
+⊈ / ¬(⊆): is not a subset of
+⊂: is a proper subset of 
+⊄ / ¬(⊂): is not a proper subset of
+=: equal sets
+≠: not equal sets
+𝒫(): power set
+×: Cartesian Product (NOT matrix multiplication)
+
+characterise all elements in set by stating the property / properties they must have to be members
+
+General form example:  
+*O* = {x|x is an odd positive integer lesss than 100}  
+$\equiv$  
+*O* = {x ∈ ℤ+ | x is add and x < 100}  
+
+another example  
+ℚ+ = {x ∈ ℝ | x = $\frac{p}{q}$ for some positive integers p and q}
+
+Venn diagram useful for visualising sets 
+
+
+Subset:  
+A ⊆ B ↔ ∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵)  
+
+not a subset:  
+A ⊆ B ↔ ∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵)  
+
+Proper subset:
+A ⊂ B ↔ (∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵))∧(∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵))
+
+Equal sets / Identical Sets:  
+A = B ↔ ∀𝑥(𝑥 ∈ 𝐴 ↔ 𝑥 ∈ 𝐵)
+
+### Common sets
+   - ![common-sets](jacob-images/common-sets.png)
+  
+### Intervals
+
+$$[a,b] = {x|a \leq x \leq b}$$
+$$[a,b) = {x|a \leq x < b}$$
+$$(a,b] = {x|a < x \leq b}$$
+$$(a,b) = {x|a < x < b}$$
+
+[a,b]: closed interval from a to b (include a and b)  
+
+(a,b): open interval from a to b (exclude a and b)  
+
+### Subset
+
+Empty set: set with no elements  
+empty set is a subset of all sets as in equation ∀𝑥(𝑥 ∈ ∅ → 𝑥 ∈ S), there is no x, which means (𝑥 ∈ ∅) is always false and (𝑥 ∈ ∅ → 𝑥 ∈ S) is always true  
+it cannot, however, be a PROPER subset of all sets, only most sets.  
+It cannot be a proper subset of itself as there is no element that is in the right hand side but not in left hand side of ∅ ⊂ ∅
+
+Definition of subset:  
+Set A is a subset of set B if and only if every element of A is also and element of B
+
+Notation:  
+⊆: is a subset of
+⊈ / ¬(⊆): is not a subset of
+
+Remarks:  
+Show A is subset of B, show every x ∈ A is also in B:  
+A ⊆ B ↔ ∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵) 
+
+Show A is not a subset of B, find an x ∈ A such that x is not in B
+A ⊆ B ↔ ∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵) 
+
+### Proper Subset
+
+Definition of Proper Subset:  
+Set A is a subset of set B if and only if every element of A is also and element of B, but A ≠ B because there is at least 1 element in B that is not in A
+
+Notation:  
+⊂: is a proper subset of 
+⊄: is not a proper subset of
+
+Remarks:  
+A ⊂ B ↔ (∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵))∧(∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵))
+
+A set cannot be a proper subset of itself as (𝑥 ∉ 𝐵) in ∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵) is always false
+
+### Set equality
+
+Definition:  
+2 sets are equal if an only if they have the same elements
+
+Notation:  
+=: equal sets
+≠: not equal sets
+
+Remarks:  
+A = B ↔ ∀𝑥(𝑥 ∈ 𝐴 ↔ 𝑥 ∈ 𝐵)
+
+### Cardinality
+
+Definition  
+Cardinality indicates size of set  
+len(S) basically
+
+Let S be a set.  
+If there are exactly n elements in S, where n is a non-negative integer,  
+S is a finite set  
+n is the cardinality of S
+
+Notation:  
+Cardinality of set S is denoted by |S|
+
+e.g.  
+Let S be set of all letters in english alphabet (if case doesn't matter). |S| = 26  
+|∅| = 0
+
+Tricky things:  
+A = {∅}  
+B = ∅  
+C = {{∅}}
+|A| = 1, |B| = 0, |C| = 1
+
+A is a set containing emptyset  
+B is an emptyset  
+C is a set containing a set containing an emptyset
+
+
+### Power sets
+
+Definition  
+Given set S, power set of S is set of all subsets of set S  
+
+Notation  
+Power set of S is denoted by 𝒫(S)
+
+e.g.
+B = {-1,1}  
+𝒫(B) = {∅,{-1},{1},{-1,1}}
+
+Cardinality of power set of set with n elements is $2^n$
+
+### Ordered 𝑛-tuples 
+
+Definition:  
+An ordered n-tuple ($a_1,a_2,...,a_n$) is an ordered collection that has $a_1$ as it 1st element, $a_2$ as 2nd and so on until $a_n$ as the *n*th element
+
+Two ordered n-tuples are equal if and only if each corressponding pair of their elements are equal.  
+I.e. ($a_1,a_2,...,a_n$) = ($b_1,b_2,...,b_n$) if and only if $a_i=b_i$ for i = 1,2,...,n  
+(a,b) = (c,d) if and only if a=c and b=d
+
+### Cartesian product
+
+Definition:
+Cartesian product of sets A and B is the set of all ordered pairs (a,b), where a ∈ A and b ∈ B  
+THIS IS NOT MATRIX MULTIPLICATION  
+Its just all variations of making ordered *n*-tuple by choosing one from each of *n* sets
+
+Notation:
+A × B
+
+Remark:  
+A × B = {(a,b) | a ∈ A ∧ b ∈ B}
+
+A × B ≠ B × A because of ordered tuple
+
+## Set operations
+
+Funny things you can do to sets to join or seperate of define areas on venn diagram to focus on.  
+
+### Union
+
+Definition:  
+The union of sets A and B is the set containing those elements that are either in A or B  
+
+Notation:  
+∪: Union of sets  
+A ∪ B  
+
+Remarks:  
+A ∪ B = {x | x ∈ A ∨ x ∈ B}
+
+### Intersection
+
+Definition:  
+The intersection of sets A and B is the set containing those elements that are in both A and B  
+
+Notation:  
+∩: Intersection of sets  
+A ∩ B  
+
+Remarks:  
+A ∩ B = {x | x ∈ A ∧ x ∈ B}
+
+### Disjoint sets
+
+Definition:  
+Two sets are called disjoint if their intersection is the empty set  
+A ∩ B = ∅, A and B are disjoint
+
+### Inclusion-exclusion principle
+
+To count number of elements in A ∪ B, |A| + |B| - |A ∩ B|
+Related to Subtraction Rule in combinatronics
+
+$$A ∪ B = |A| + |B| - |A ∩ B|$$
+
+### Complement
+
+Definition:  
+Let 𝒰 be the universal set.  
+Let A be a set such that A ⊆ 𝒰.  
+Absolute complement of A is the set contaning all elements that are in 𝒰 but not in A
+
+Notation:  
+$A^∁$  
+A`  
+$\overline{A}$  
+
+Remarks:  
+Set A exists within a universal set 𝒰
+$A^∁ = 𝒰 \ A = 𝒰 ∩ A^∁$  
+English:  
+complement of A with respect to 𝒰  
+absolute complement of A  
+complement of A  
+diffrenece of sets 𝒰 and A  
+
+### Difference
+
+Definition:  
+Difference of sets A and B is the set that contains elements that are in A but not in B.  
+A.K.A relative complement of B with respect to A
+
+Notation:  
+A \ B  
+A - B
+
+Remarks:  
+A \ B = {x | x ∈ A ∧ x ∉ B}
+
+For sets B and C,  
+B \ C = $B ∩ C^∁$  
+English:  
+difference of sets B and C  
+relative complement of C with respect to B
+
+## Set identities
+
+![set-identities-1](jacob-images/set-identities-1.png)  
+![set-identities-2](jacob-images/set-identities-2.png)
