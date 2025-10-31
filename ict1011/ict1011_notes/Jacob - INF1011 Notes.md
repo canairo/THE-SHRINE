@@ -1412,6 +1412,266 @@ local vars/params
 
 ## Input / Output Techniques (Chpt 7)
 
+CPU / microprocessor by itself not useful yet, need peripherals (interfaces)
+
+Definitions:
+
+    Peripheral:  
+    able to be attached to and used with computer, though ont an integral part of it  
+    unit or deivce providing peripheral funcions that is connected to the CPU either on the same chip or different chips
+
+    Interface:  
+    a device or program enabliung a user to communicate with a computre or for connecting two items of hardware or software  
+
+### Peripherals
+
+Peripherals connect to processor in 2 ways:  
+- Loosely coupled
+  - via external bus (USB, SCSI, $I^2$C, Firewire)
+  - via a network (Ethernet, ATM, wireless)
+  - via a port (serial(RS232), parallel, PS2)
+- Tightly coupled
+  - via fast internal bus (graphics & hard-disck controllers)
+
+Peripherals generally communicate with CPU through I/O interfaces
+
+### Interfaces
+
+Interfacing: process of connecting two device together so they can exchange information  
+
+parts of interface:  
+physical connection
+hardware  
+set of rules/procedures (software, protocols)
+follow some Standards (e.g. IEEE)
+
+Type of signals:  
+Digital: High or Low  
+Analogue: choose from continuous range of voltage values
+
+Analogue-to-Digital Converter (ADC): Analogue measurement of sensor converted into digital form  
+
+Digital-to-Analogue Converter (DAC): Digital output from processor converted to analogue output  
+
+Most coms have different type of I/O subsystems (peripheral modules)  
+Therefore have different type of interfaccing requierment  
+E.g. printer can use parallel port, keyboard need serial
+
+### Digital Communications
+
+#### Parallel Data Transfer
+
+more than 1 bit transfered simultaneously  
+Fast data transfer  
+usualy done when processor and device nearby
+
+disadvantages:  
+expensive over long dist.  
+no garuantee all data arrive simultaneously
+
+#### Serial Data Transfer  
+
+transfer one bit at a time through two/three wires  
+Data converted from parallel to serial form before sending  
+used for: digital video (VGA), keyboard mouse, LAN  
+used on internal communication between processor and peripheral chips.
+
+Advantage:  
+Less Expensive  
+More robust (no crosstalk, no limitation at high freq/long range)
+
+Disadvantage:  
+Slower than parallel (but in current times is generally fast enough at 40Gbps)
+
+Modes:  
+Simplex: One way only, A to B  
+Half Duplex: Two way, one at a time, A to B XOR B to A.  
+Full Duplex / asynchronous transmission: Two way, simultaneous, A to B OR B to A
+Synchronous: common clock between Tx and Rx to synchronise bit transfers  
+Asynchronous: no common clock required, info made of: 1 start bit, 7/8 bit of info, 1 optional parity bit, 1/1.5/2 stop bits  
+
+Can use tables like ASCII to transit text data
+
+Parameters to be specified before starting communication (Tx and Rx same settings):  
+- baud rate of transmission (number of changes to signal per second)
+- number of data bits
+- optional parity bit
+- type of parity
+- number of stop bits
+
+1 = Mark  
+0 = Space  
+
+Whens serial interface idle, remain in 1 state
+
+Start bit: generally 0 since idle is 1
+data: send LSB first
+parity: send even/odd parity
+stop bit: send 1/1.5/2 stop bits (1's), (1/1.5/2 of baud rate)
+
+e.g. send ASCII 'C', bits: [100 0011], even parity, baud rate = 2400
+
+Tx:  
+start: 0  
+data: 1100 001  
+parity: 1  
+stop bit: 11  
+
+total time: 11/2400 sec
+
+how fast signal sent? depend on baud rate.  
+if baud rate 2400, 1/2400 sec to send 1 bit  
+
+Rx:  
+monitor line for start bit  
+start recording after start bit, timing based on agreed baud rate  
+samples next N data bits  
+Sample parity bit  
+check parity (possible parity error here)  
+sample for stop bit (possible framing error here if stop bit = 0)
+
+Disadvantage of this type of transmission: 7 bit ascii need 10/11 bits to send
+
+#### Baud Rate
+
+baud rate = 1/T, where T is how many bit per sec  
+Common rates: 300, 600, 1200, 2400, 4800, 9600, 19200
+
+#### RS-232 Standard
+
+Serial  
+Defines signals connecting between Data Terminal Equipment (DTE) (e.g. computer) and Data Communication Equipment (DCE) (e.g. Modem)  
+Specifies:  
+- Electrical interface
+    - voltage used, max bit rate
+- mechanical interface
+    - Max distance
+
+![RS-232](jacob-images/RS-232.png)
+
+#### Memory Mapped IO  
+
+Parallel Port and Serial port are IO ports w/ Peripheral modules  
+IO ports have peripheral registers (seperate from CPU register). Reason:  
+- configure peripheral (e.g. config format)  
+- use peripheral (store values from peripharal)
+
+Peripheral registers on same addr bus as memory  
+each register has mem addr (for MSP430, peripheral registers addr are from 0x0000 to 0x0200)  
+accessed same way as RAM  
+MSP430 example:  
+P1DIR addr: 0x0204  
+- set pin as input(0) or output(1)  
+P1OUT addr: 0x0202  
+- store output data  
+P1IN addr: 0x200  
+- show port 1 pin states  
+
+Other devices have isolated IO (e.g. Intel 8086)  
+Memory and peripherals have different addr space  
+two separate control line, one for each  
+Different inst also:  IN/OUT for IO, MOV for mem
+
+#### Polled IO
+
+Polled I/O:  
+CPU initiate, control, terminate data transfer by executing instruction  
+
+Inherently inefficient:
+- CPU send poll, must wait for reply
+- waste time
+- ![polled-io](jacob-images/polled-io.png)
+
+Polling: continuously test port to see if data available.  
+CPU polls the port if have data available to read / is capable of accepting data
+useful when data transfer MUST be completed before program can continue  
+e.g.  
+- writing into control register of peripheral chip during initialization  
+- wait for switch to be pressed before program continue
+
+E.g. CPU polls printer port, checks if prenter ready for msg  
+if ready, send, else wait
+
+Advantage:  
+- **minimum hardware** interface circuitry between I/O device and processor  
+- programmer has **complete control** over entire process  
+- easiest method to test and debug
+
+Disadvantage:  
+CPU wait in loop, cannot perform anything else **until** data transfer complete  
+- **inefficient use** of CPU  
+- program execution of CPU held up while waiting for device to ready
+
+#### Interupt-driven IO
+
+Interrupt-driven I/O:  
+Device initiates but CPU controls and terminates data transfer  
+
+interrupt is external hardware event  
+causes CPU to temporarily suspend current instruction sequence and executer special routine written by programmer (called interrupt service routine A.K.A ISR)
+ISR is fast, main program very briefly suspended
+
+useful when timing of data transfer cannot be known beforehand / data transfer occurs infrequently
+e.g. sending data to printer, get data from sensor
+
+![interrupt-io](jacob-images/interrupt-io.png)
+
+Advantage:
+- efficient use of CPU
+  - promptly provides service at request of device  
+- CPU can continue with other tasks between interrupts
+
+Disadvantage:
+- **more hardware** interface circuitry required between I/O device and processor  
+- program **more complex** and **difficult to debug**
+
+Sequence:  
+device ready for Data transfer  
+send interrupt request to CPU  
+CPU execute interrupt service routine for specific device  
+ISR transfers data to/from device  
+
+### Bluetooth
+
+Definition:  
+- Short-range radio connection technology  
+- low power  
+- low cost  
+- not limited to line of sight  
+
+History:  
+- 1994, Ericson's (Sweden) Bluetooth project for radio comms between cellphones over short dist
+- Named after Danish king **H**arald **B**laatand, who liked blueberries and had a blue tooth
+- Symbol from runic H and B
+- 1998, Bluetooth Special interest Group (made of Intel, IBM, Nokia, Toshiba, Ericsson)
+- 1999, Version 1.0A specification published
+- 2002 and 2005, IEEE standardized Bluetooth as 802.15.1
+- Subsequent versions handeled by Bluetooth SIG directly
+
+Version timeline:  
+- 1999: 1.0, 1.0A, 1.0B: too many problems  
+- 2002: 1.1, IEEE 802.15.1, Wireless personal area network (WPAN) protocol  
+- 2005: 1.2, IEEE 802.15.1, improved speed of upto 720 kbps  
+- 2007: 2.0 + Enhanced Data Rate (EDR)
+- 2007: 2.1 + EDR, Secure Simple Pairing to speed up pairing sequence  
+- 2009: 3.0+ , High Speed
+- ????: 4.0, (Bluetooth Smart, Bluetooth Low Energy BLE), low energy, smaller devices, longer battery life  
+- 2013: 4.1 (4.0 + Core Specification Amendments (CSA) 1,2,3,4)
+- 2014: 4.2 (4.1 + flexible internet connectivity)  
+- 2016: 5.0 and later
+- 2023: 5.4
+- 2024: 6.0 announced
+
+Specifications:  
+Operating frequency: 2402-2480 MHz
+Channels: 79x 1-MHz channels
+Data Rate: 1Mbpsusing 1MHz (720kbps/user)
+Radio Freq hopping rate: 1600 hops/sec - 0.625 ms/hop
+Tx power:  
+- Class 1: 20dBm (0.1W) - 100m range
+- Class 2: 4dBm (2.5mW) - 10m range  
+- Class 3: 0dBm (1mW) - 1m range
+
 ## Primary Memory Subsystems (Chpt 8)
 
 ## Secondary Memory Subsystems (Chpt 9)
