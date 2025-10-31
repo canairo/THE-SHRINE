@@ -1312,27 +1312,27 @@ If qn says: prove p1,p2...pn are equivalent, p1 → p2, p2 → p3, ...
 
 ![proofs_for_propositions](jacob-images/proofs_for_propositions.png)
 
-direct proof:  
+## direct proof:  
 step 1 assume p is true  
 use rules of inference  
 last step show q is true  
 
-Proof By Contraposition  
+## Proof By Contraposition  
 (p → q) $\equiv$ (¬q → ¬p)  
 so if can prove (¬q → ¬p), (p → q) is proven  
 example used this when qn asked abt odd num
 
-Vacuous Proof  
+## Vacuous Proof  
 (p → q) is always true when ¬p.  
 so if can show ¬p, (p → q) is proven  
 (often used to establish special case in theorems that state a conditional statement for all positive integers)  
 
-Trivial Proof  
+## Trivial Proof  
 (p → q) is always true when q.  
 so if can show q, (p → q) is proven  
 (important when special cases of theorems are proved)  
 
-Proof By Contradiction  
+## Proof By Contradiction  
 p is true when (¬p → (r∧¬r)), for some proposition r  
 
 Proof By Contadiction example:  (proving statement is true)  
@@ -1362,7 +1362,7 @@ Since $n$ not odd, $n = 2k$ for some int k
 Means $3n + 2 = 3(2k) + 2 = 2(3k+1)$, meaning 3n+2 is even. I.e. ¬p  
 Since p and ¬p are both true, we have contradiction.
 
-Proof of Biconditional statement ↔
+## Proof of Biconditional statement ↔
 To prove $p ↔ q$, show $p → q$ and $q → p$ are true  
 EXAMPLE  
 Prove: "If $n$ is an integer, then $n$ is odd if and only if $n^2$ is odd"  
@@ -1380,7 +1380,7 @@ Then, $n^2 = 4k^2 = 2(2k^2)$, thus $n^2$ is even, thus ¬q.
 Thus, $¬p → ¬q$, proves $q → p$  
 Proof Complete
 
-Proof By CounterExample (Universal Quant):  
+## Proof By CounterExample (Universal Quant):  
 To prove $∀x P(x)$ is false, only need find counterexample  
 find one example for x for which P(x) is false.  
 E.g. "Every positive int is the sum of the squares of two integers"  
@@ -1389,21 +1389,51 @@ Cannot use $2^2$, exceeds 3.
 Consequently, we have, $0^2 + 0^2 = 0$, $0^2 + 1^2 = 1$, $1^2 + 1^2 = 2$  
 Since 3 cannot be written as sum of squares of two integers, statement is false
 
-Proof by cases:
+## Proof by cases:
 Sometimes cannot prove statment with single argument that holds for all possible cases.  
 So method to prove theorem by considering different cases separatly.  
 Thus, ($p_1 ∨ p_2 ∨ ... ∨ p_n$) → q, which is equivalent to [($p_1 → q$)∧($p_2 → q$)∧...∧($p_n → q$)]  
-Means can prove each ($p_n → q$) individually.
+Means can prove each ($p_n → q$) individually.  
+not same as Exhaustive proof
 
-Exhaustive proof:  
-Some theorem can be proven with small numer fo samples.  
+example:  
+prove if a and b are real numbers and $b \neq 0$, then $\frac{|a|}{|b|} = |\frac{a}{b}|$  
+cases:  
+$a \geq 0$ and  $b > 0$  
+$a \leq 0$ and  $b > 0$  
+$a \geq 0$ and  $b < 0$  
+$a \leq 0$ and  $b < 0$  
+cannot exhaustive as need to put ever real number into a and b
+
+## Exhaustive proof:  
+Some theorem can be proven with small number fo samples.  
 if prove by examining all possible cases, called exhaustive proof as exhaust all possiblities.  
 
-Resolution
+## Resolution
 
 
+## Existance proof
 
+$$∃x\ P(x)$$
+2 ways:  
+Constructive: find example that proves predicate  
+- Find explicit value $c$, for which $P(c)$ is true.  
 
+Non-constructive: show logically that such an example must exist  
+- Derive proof thet $c$ exists without explicitly providing c  
+- Can use contradiction, e.g. assume no $c$ exists which makes $P(c)$ true, derive contradiction  
+- Can use proof by case also in a way.
+
+e.g. show there exists irrational numbers $x$ and $y$ such that $x^y$ is rational  
+lets assume $\sqrt{2}^{\sqrt{2}}$ is rational: thus for $x = \sqrt{2}$ and $y = \sqrt{2}$, $x^y$ is rational  
+lets then assume $\sqrt{2}^{\sqrt{2}}$ is not rational: thus for $x = \sqrt{2}^{\sqrt{2}}$ and $y = \sqrt{2}$, $x^y$ is rational
+
+## Uniqueness proof
+
+Theorem assert existence of element with desired property and no other elements have that property  
+
+An x with desired property exists.  
+If there is another element y with the same property, then y = x (y was not actually another elemnt)
 
 # Topic 8 Sets
 
@@ -1655,6 +1685,7 @@ A - B
 
 Remarks:  
 A \ B = {x | x ∈ A ∧ x ∉ B}
+A \ B ≠ B \ A
 
 For sets B and C,  
 B \ C = $B ∩ C^∁$  
