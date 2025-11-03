@@ -496,6 +496,22 @@ pop R11
 pop R10
 ret
 
+## Tut 7
+
+1a: Raw transmit 1011001, actual data 1001101, letter: M
+
+1b: even  
+
+1c: parity is only able to check if 1 bit was changed, Rx would not be able to know the data is wrong, parity only able to detect odd number of errors
+
+1d: 0.104ms (to 3dp), 960 chars per sec
+
+1e: 9600 / 9bits = 1066.667 chars per sec (to 3dp), sacrifice error detection capability
+
+2.1: 100 micro second = 0.1ms, max char rate = 10 000 chars per sec, 10 bit per char, baud rate is 100 000  
+
+2.2 a: 100ms = 0.1 sec, 10 scan per sec, num sec in 8 hour = 8 *60 *60 = 28800. total scan = 288000
+2.2 b: $\frac{288000-90}{288000} = \frac{99.96875}{100}$
 
 ## Quiz 1:
 
