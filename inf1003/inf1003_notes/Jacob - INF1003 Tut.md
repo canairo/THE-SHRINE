@@ -1076,3 +1076,79 @@ step 7 is invalid
 |5|Q(C)|Existential ~~generalisation~~ instantiation from (4)|
 |6|~~P(c) ∧ Q(c)~~ P(c1) ∧ Q(c2)|~~Simplification from (3) and (5)~~ Conjunction|
 |7|∃x(P(x) ∧ Q(x))|~~Existential generalisation from(6)~~ Invalid|
+
+
+
+# Tutorial 7
+
+for ∃x (p(x) → q(x)), if q(x) is always false, find a p(c) for some value c such that p(c) → q(c) is true
+
+for ∀x (p(x) → q(x)), if q(x) is always false, go for disprove because universal is easier, so fins a p(c) for some value c such that p(c) → q(c) is false
+
+for ∀x (p(x) → q(x)), if q(x) is always true, cannot find a p(c) for some value c such that p(c) → q(c) is false, so go for direct proof
+
+if asked to prove or disprove, do which ever is easier first, i.e. existentia do prove, universal do disprove
+
+irrational numbers do not have enough properties to prove things.  
+meanwhile, rational numbers have properties like all rational numbers can be represented by x/y where x and y are rational numbers  
+so for prove irrational number questions, consider proof by contraposition
+
+contrapositive of ∃x (p(x) → q(x)) is ∃x (-q(x) → -p(x)) 
+negation of ∃x (p(x) → q(x)) is ∀x (p(x) $\land$ -q(x))
+
+## Q1
+
+p: a + b are two odd integerrs  
+q: a+b is even  
+prove p → q  
+
+1) a and b are two odd integers | assuming p  
+2) ∃x ∈ Z, ∃y ∈ Z, a = 2x +1, b = 2y+1 | by definition  
+3) a+b = (2x+1) + (2y+1) = 2*(x+y+1) | By 2)  
+4) a + b is an even integer | by definition (proving q)  
+5) Sum of two odd integers is even | p → q  
+
+## Q2
+
+p: n is an odd integerrs  
+q: 5n+6 is odd  
+prove p ↔ q by first proving p → q then proving q → p (p → q) 
+
+1) a and b are two odd integers | assuming p
+2) ∃x ∈ Z, ∃y ∈ Z, a = 2x +1, b = 2y+1 | by definition
+3) a+b = (2x+1) + (2y+1) = 2*(x+y+1) | By 2)
+4) a + b is an even integer | by definition (proving q)
+5) Sum of two odd integers is even | p → q
+
+## Q3
+
+p: $n^3+5$ is odd
+q: n is evven
+prove p → q  
+
+b.  
+by contradiction  
+¬(p → q) $\equiv$ ¬(¬p∨q) $\equiv$ p∧¬q
+
+1) $n^3+5$
+
+
+## Q4
+
+p: m+n and n+p are even integer
+q: mm+p is even
+prove p → q  
+
+1) m+n and n+p are even integers | assuming p
+2) ∃x ∈ Z, ∃y ∈ Z, m+n = 2x +1, n+p = 2y+1 | by definition
+3) m = 2x-n, p = 
+
+## Q5
+
+## Q6
+
+## Q7
+
+## Q8
+
+## Q9
