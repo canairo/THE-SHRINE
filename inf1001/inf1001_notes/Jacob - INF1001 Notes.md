@@ -919,10 +919,155 @@ Relations also become table
 - for relation with constraint merged with constrained entity to form one table. e.g. each department has unique manager, combine Manages into Department
   - ![relation-entity-merging](jacob-images/relation-entity-merging.png)
 
+## Relational Queries
+
+relational modle supports simple, querying of data
+
+dbms responsible for effecient evaluation/execution
+
+Query:  
+input and output are both relations  
+evaluated using instances of each input relation  
+produces instance of output relation  
+
+## Structured Query Language (SQL)
+
+most widely used commercial relation database modek  
+developed by IBM  
+High level lang: says what to do, not how to do it, avoids data-manipulation details  
+DBMS to find out most effecient way to exec, called query optimisation
+
+SQL statements:  
+CREATE  
+INSERT  
+SELECT  
+Nested queries
 
 
+### CREATE  
+CREATE TABLE table-name (  
+    attribute-name1, attribute-type1,  
+    attribute-name2, attribute-type2,  
+    ...  
+    attribute-name-n, attribute-type-n,  
+    PRIMARY KEY (attribute-name [,attribute-name2,...])  
+    [FOREIGN KEY (some-attribute-name) REFERENCES other-table-name(some-attribute-name), ]  
+    [FOREIGN KEY (some-attribute-name) REFERENCES other-table-name(some-attribute-name) ]
+    );
+- [] is optional statements
+
+Creates relation (aka table)  
+type of each field defined in instruction, enforced by DBMS  
+PRIMARY KEY uniquely identifies each record in a table  
+PRIMARY KEY must contain unique values, cannot be NULL  
+Table can have only 1 primary key, which may consist of a single or multiple fields  
+
+FOREIGN KEY used to link 2 tables together.  
+FOEREIGN KEY is a field or collection of fields in one table that refers to the primary key of another table  
+Table w/ FOREIGN KEY = child table / referencing table  
+Table w/ PRIMARY KEY = parent table / referenced table  
+
+FOREIGN KEY constraint:
+- prevents actions that would destroy link between tables  
+    - deleting attributes / tuple  
+- prevent invalid data from being inserted into foreign key column  
+    - Cannot insert as value has to exist in parent table
+    - Would return FAIL/ERROR if attempted  
+
+enforced FOREIGN KEY constraints = referential integrity
 
 
-quiz: mcq, fill in the blank (single word)
+if attempt to insert non-existent parent id into child table: reject  
+if attempt to delete row / update row in parent table, got 3 option:  
+- deny deletion  
+- Delete/update all child rows that refer to this row  
+- set FOREIGN KEY of child rows to refer to something else (like a default row)  
 
-CA2: clsoed book mcq
+### INSERT  
+
+Add (tuples / rows) to (relation / table)  
+
+INSERT INTO table-name  
+    (attribute-name1, attribute-name2,...,attribute-name-n)  
+VALUES  
+    (attribute-value1, attribute-value2,...,attribute-value-n)[,]  
+    [(attribute-value1, attribute-value2,...,attribute-value-n)]
+
+### SELECT  
+
+SELECT column1[, column2, ... , column-n]  
+FROM table-name  
+[WHERE some-condition];  
+
+SELECT DISTINCT column1[, column2, ... , column-n]  
+FROM table-name;  
+
+SELECT *  
+FROM table-name;  
+
+used to retrieve data from tables  
+data returned stored in a result table, called the result-set  
+column1, column2 are column names of table you want to select from  
+
+to ommit duplicate data (e.g. find unique test scores), use DISTINCT  
+to select all, use *  
+to add condition, use WHERE
+
+available operations for WHERE:  
+- Boolean
+  - AND
+  - OR
+  - NOT
+- Comparisons
+  - =
+  - <> / !=
+  - <
+  - >
+  - <=
+  - >=
+  - BETWEEN (between certain range)
+  - LIKE (search for pattern)
+  - IN
+    - specify multiple possible values for a column
+    - tests whether a value is in a given set/table
+
+e.g. usage  
+S is shortcut for Sailors table, R is shortcut for Reserves table  
+Shortcut must be defined when calling table names
+
+SELECT  S.sname  
+FROM    Sailors S, Reserves R
+WHERE   S.sid = R.sid;  
+
+### Nested queries
+
+WHERE clause can contain SQL query  
+executed inner query first as need to have data to check WHERE clause
+
+e.g.  
+query 1a and 1b produce same result
+query 2a and 2b produce same result
+
+query 1a
+SELECT  S.sname  
+FROM    Sailors S
+WHERE   S.sid IN (SELECT  R.sid
+                  FROM    Reserves R
+                  WHERE   R.bid = 103);  
+
+query 1b
+SELECT  S.sname  
+FROM    Sailors S, Reserves R
+WHERE   S.sid = R.sid and R.bid = 103;
+
+query 2a  
+SELECT  R.sid  
+FROM    Reserves R, Boats B
+WHERE   R.bid = B.bid AND B.color = 'red';
+
+query 2b  
+SELECT  R.sid  
+FROM    Reserves R, Boats B
+WHERE   R.bid IN (SELECT  B.bid
+                  FROM    Boats B
+                  WHERE B.color = 'red');
