@@ -1697,3 +1697,295 @@ relative complement of C with respect to B
 
 ![set-identities-1](jacob-images/set-identities-1.png)  
 ![set-identities-2](jacob-images/set-identities-2.png)
+
+
+# Topic 9 Functions
+
+## Definition
+
+Let A and B be empty-sets,
+Function f from A to B = assignment of EACH element of A to exactly 1 element of B  
+if have element in A that is not assigned, is not function  
+if have element in A that is assinged to 2 element in B, is not function  
+
+f(a) = b;  
+b is the unique element of B assigned by the function f to the element a of A  
+
+If f is a function from A to B:  
+f : A -> B
+
+Remarks:  
+functions sometimes called mappings  
+dont draw for test to prove, you is computa engineer, u no is artist
+
+## Example usage
+
+A = set of students  
+B = set of grades  
+f: A -> B  
+This means:  
+- Every student is mapped to exactly 1 grade
+  - if there is a student who is mapped to more than one grade, then there is no function and f is wrong
+- No students do not have a grade
+- No student has 2 grades
+- It is possible that a grade does not have a student mapped to it
+
+## Domain, Codoamin
+
+f: A -> B  
+A is Domain of f  
+B is Codomain of f
+
+Domain is the whole set A  
+Codoamin is the whole set B
+
+f(a) = b; a is some element in A, b is some element in B  
+b is the **image** of (element) a under (function) f  
+a is called the **preimage** of b  
+
+the "result" of the function f for some element a is called the **image**  
+the elements that result in element b in the function f are called **preimages**
+
+preimage is an element in Domain  
+image is an element in Codomain
+
+f: A -> B; this is defines domain and codomain
+f(x) = something; this defines the properties of function f
+
+A = {a,b,c,d,e}  
+B = {1,2,3,4}  
+f(a) = 2  
+f(b) = 1  
+f(c) = 4  
+f(d) = 1  
+f(e) = 1  
+
+Thus for set S = {b,c,d},  
+f(S) = {1,4}; returns only unique values
+
+f(S) is the set of images of the elements in S
+
+## Image  
+
+### Definition
+
+f: A -> B  
+Let S be a subset of A  
+The image of S under function f is the subset of B that consists of the images of the elements of S  
+
+basically f(S) = {f(S1),f(S2)...} and is a subset of B
+
+f(S) = {t | ∃s ∈ S (t = f(s))}
+f(S) = {f(x) | x ∈ S}
+
+## Range
+
+f: A -> B
+Range of a function: set of all images/results of f for all elements in domain (set A)
+
+btw, two functions are equal if:  
+- same domain
+- same codomain
+- map each element in domain to same element in codomain as the other function
+- f1(a1) = f2(a1) = b1
+- f1(a2) = f2(a2) = b2
+
+e.g.  
+f: Z -> Z, assign the square of an integer to this integer.  
+f(x) = $x^2$  
+domain of f is all integers, codomain of f is all integers  
+Range of f is set of all integers that are perfect squares
+
+## Function Sum
+
+$f_1$: A -> R  
+$f_2$: A -> R  
+
+then  
+($f_1$ + $f_2$): A -> R  
+
+($f_1$ + $f_2$)(x) = $f_1$(x) + $f_2$(x)  
+
+## Function Product  
+
+$f_1$: A -> R  
+$f_2$: A -> R
+
+then:
+($f_1f_2$): A -> R  
+
+($f_1f_2$)(x) = ($f_1(x)f_2(x)$)
+
+
+## One-to-One / Injective
+
+is one-to-one / injective if and only if **f(a) = f(b) implies a = b** for all a and b in the domain of f.  
+no 2 elements in the domain have the same image
+every element in B has at most 1 mapping from A
+
+∀a∀b{(f(a)=f(b)) → (a = b)}; a,b ∈ domain
+
+to prove NOT one-to-one, find two elements in domain that result in same image in codomain  
+e.g. f(x) = $x^2$  
+f(1) = f(-1) = 1  
+but 1 $\neq$ -1
+
+to prove is one-to-one, for arbitrary element a from domain and arbitrary element b from domain, assume f(a) = f(b), show a = b and no other answers
+
+can also prove by checking that no two elements in domain produce the same image.
+
+e.g.  
+f(x) = x + 1; f: Z -> Z  
+let f(a) = f(b)  
+f(a) = a + 1,  
+f(b) = b + 1,  
+a + 1 = b + 1  
+subract one from both sides, a = b
+
+## Onto function / surjective  
+
+function is surjective or called onto if and only if for every element b ∈ B, there is an element a ∈ A with f(a) = b
+
+∀b∃a{b = f(a)}  
+b ∈ codomain  
+a ∈ domain
+
+Some funcs, **range and codomain are equal**  
+Every element in codomain is the image of some element(s) of the domain
+
+to prove NOT surjective / NOT onto, find element in codomain that is not an image  
+to prove is surjective / is onto, show that for every element b in codomain, there is an element a such that f(a) = b
+
+e.g.  
+f(x) = x+1, f: Z -> Z  
+Let y ∈ Z,  
+show there is an element a such that f(a) = y  
+from f(x) = x + 1, f(a) = y = a + 1  
+a = y - 1,  
+a ∈ Z  
+f(a) = a + 1 = (y-1)+1 = y
+thus f(a) = y, f is an onto fuction
+
+## Bijective function  
+
+function is both one-to-one and onto  
+each element b in codomain is mapped from exactly 1 element from domain  
+each element a in domain is mapped to exactly 1 element in codomain  
+
+e.g.  
+f: A -> B  
+A = {a,b,c,d}  
+B = {1,2,3,4}  
+f(a) = 4  
+f(b) = 2  
+f(c) = 1  
+f(d) = 3  
+f is bijection
+
+f: A -> B  
+A = {a,b,c}  
+B = {1,2,3,4}  
+f(a) = 4  
+f(b) = 2  
+f(c) = 1   
+f is one-to-one but not onto
+
+f: A -> B  
+A = {a,b,c,d}  
+B = {1,2,3}  
+f(a) = 4  
+f(b) = 2  
+f(c) = 1  
+f(d) = 2 
+f is onto but not one-to-one
+
+## Inverse Function  
+
+map each elements from codomain to thier preimages in domain
+
+Remark:  
+bijective function is called invertible because can define inverse of this function.  
+if function not bijective, not invertible since inverse does not exist
+YOU CAN WRITE OUT INVERSE FOR EACH ELEMENT but if cannot have general formula, function is not invertible (my own theory, not proven)  
+
+let f be bijection  
+f: A -> B
+f(a) = b
+
+inverse: $f^{-1}$
+$f^{-1}$(b) = a if f(a) = b
+
+
+A: {1,2,3}  
+B: {a,b,c}
+f(a) = 2  
+f(b) = 3  
+f(c) = 1
+$f^{-1}$(1) = c  
+$f^{-1}$(2) = a  
+$f^{-1}$(3) = b  
+
+
+f(x) = x+1; f: Z -> Z  
+let y = f(x)  
+y = x + 1
+y - 1 = x
+$f^{-1}$(x) = x - 1
+
+## Function composition
+
+let g: A -> B  
+let f: B -> C  
+
+composition of f and g, denoted as f $\circ$ g:  
+(f $\circ$ g)(a) = f(g(a)); for all a ∈ A
+
+a ∈ A -->$_g$ g(a) ∈ B -->$_f$ f(g(a)) ∈ C
+
+some functions are able to do (f $\circ$ g) and (g $\circ$ f) depends on domain and codomains  
+
+
+e.g.
+set A = {a,b,c}  
+set B = {1,2,3}
+g: A -> A  
+g(a) = b  
+g(b) = c  
+g(c) = a  
+f: A -> B
+f(a) = 3  
+f(b) = 2  
+f(c) = 1  
+
+(f $\circ$ g)(a) = f(g(a)) = f(b) = 2
+(f $\circ$ g)(b) = f(g(b)) = f(c) = 1
+(f $\circ$ g)(c) = f(g(c)) = f(a) = 3
+
+(g $\circ$ f)(a) = g(f(a)) = g(3) !!! INVALID  
+range of function f is not a subset of domain of g
+
+## Important Fucntions:  
+
+### Floor
+
+Floor, assign to every real number x the largest integer that is less than or equal to x
+
+notation: $\lfloor x \rfloor$
+
+$\lfloor x \rfloor$ = n if and only if $n \leq x < n + 1$
+
+### Ceiling
+
+Ceiling, assign to every real number x the smallest integer that is greater than or equal to x  
+
+notation: $\lceil x \rceil$
+
+$\lceil x \rceil$ = n if and only if $n-1 < x \leq n$
+
+### Factorial
+
+f: Natural numbers -> Z  
+f(n) = n!  
+product of first n positive integers
+f(n) = $1 \times 2 \times ... \times n-1 \times n$  
+f(0) = 0! = 1
