@@ -722,6 +722,35 @@ Similar idea to libraries in coding, build reuseable blocks to call on
 
 HDL langs: Verilog or VHDL  
 
+# Unified Model lang
+
+actor: user role, exists outside system, may interact
+
+boundary: divide whats in system and out of system (environment), shows scope, actor outside, use case inside
+
+use case: a function that actor can do in system (oval shape)
+
+use case diagram useful for:  
+- identify all actors in problem domain
+- show all actions that need to be ccompleted
+- simple not technical
+
+
+## Connection
+
+is an assosication between actor and use case, shows which actor can use what function  
+does not include data flow  
+
+![uml-relationship-arrow](jacob-images/uml-relationship-arrow.png)
+
+Connecting line: arrow or line showing behaviour relation
+
+include: func a is shared by other funcs and is a pre-requisite for other funcs to exist
+
+extend: func A is an additional OPTIONAL feature to base function
+
+generalise: points from subset of users to super set of users (e.g. part time students -> students)
+
 # Topic 6: Database -Entity Relationship (ER)
 
 Why learn database: repository for data generated. 
