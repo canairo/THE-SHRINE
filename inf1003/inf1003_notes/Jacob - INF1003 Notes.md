@@ -1456,7 +1456,10 @@ set.
 =: equal sets
 ≠: not equal sets
 𝒫(): power set
-×: Cartesian Product (NOT matrix multiplication)
+$\times$: Cartesian Product (NOT matrix multiplication)
+∪: Union of sets  
+∩: Intersection of sets  
+$A^∁$: complement
 
 characterise all elements in set by stating the property / properties they must have to be members
 
@@ -1528,7 +1531,7 @@ Notation:
 ⊄: is not a proper subset of
 
 Remarks:  
-A ⊂ B ↔ (∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵))∧(∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵))
+A ⊂ B ↔ (∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵)) ∧ (∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵))
 
 A set cannot be a proper subset of itself as (𝑥 ∉ 𝐵) in ∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵) is always false
 
@@ -1590,7 +1593,8 @@ Cardinality of power set of set with n elements is $2^n$
 ### Ordered 𝑛-tuples 
 
 Definition:  
-An ordered n-tuple ($a_1,a_2,...,a_n$) is an ordered collection that has $a_1$ as it 1st element, $a_2$ as 2nd and so on until $a_n$ as the *n*th element
+An ordered n-tuple ($a_1,a_2,...,a_n$) is an ordered collection that has $a_1$ as it 1st element, $a_2$ as 2nd and so on until $a_n$ as the *n*th element  
+Does not need to be unique elements
 
 Two ordered n-tuples are equal if and only if each corressponding pair of their elements are equal.  
 I.e. ($a_1,a_2,...,a_n$) = ($b_1,b_2,...,b_n$) if and only if $a_i=b_i$ for i = 1,2,...,n  
@@ -1604,12 +1608,12 @@ THIS IS NOT MATRIX MULTIPLICATION
 Its just all variations of making ordered *n*-tuple by choosing one from each of *n* sets
 
 Notation:
-A × B
+A $\times$ B
 
 Remark:  
-A × B = {(a,b) | a ∈ A ∧ b ∈ B}
+A $\times$ B = {(a,b) | a ∈ A ∧ b ∈ B}
 
-A × B ≠ B × A because of ordered tuple
+A $\times$ B ≠ B $\times$ A because of ordered tuple
 
 ## Set operations
 

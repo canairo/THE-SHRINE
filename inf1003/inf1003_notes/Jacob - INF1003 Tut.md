@@ -1152,3 +1152,185 @@ prove p → q
 ## Q8
 
 ## Q9
+
+# Tutorial 8
+
+## Q1
+
+a: {x | x is a real number such that $x^2$ = 1} = {-1,1}  
+b: {x | x is the cube of a positive integer such that x $\leq$ 1728} = {1,8,27,64,125,216,343,5122,729, 1000, 1331, 1728}  
+c: {x | x is a prime number such that x < 15} = {2,3,5,7,11,13}  
+d: {x | x is an integer such that $x^2$ = 5} = {} = $\emptyset$  
+
+## Q2
+
+B and C are proper subsets of A  
+B and C are proper subsets of D  
+C are proper subsets of E  
+
+a: {4,6}  
+b: {2,4,6,8}  
+c: {6}  
+
+## Q3
+
+a: |{a}| = 1  
+b: |{{a}}| = 1  
+c: |{a,{a}}| = 2  
+d: |{a,{a},{a,{a}}}| = 3  
+e: |$\emptyset$| = 0  
+f: |{$\emptyset$}| = 1   
+g: |{$\emptyset$,{$\emptyset$}}| 
+
+## Q4
+
+a: P({a,b}) = {  
+    $\emptyset$,  
+    {a},  
+    {b},  
+    {a,b}  
+    }
+
+b: P({a,$\emptyset$}) = {  
+    $\emptyset$,  
+    {a},  
+    {$\emptyset$},  
+    {a,$\emptyset$}  
+    }  
+
+c: P({a,{$\emptyset$}}) = {  
+    $\emptyset$,  
+    {a},  
+    {{$\emptyset$}},  
+    {a,{$\emptyset$}}  
+    }  
+
+d: P({a,b,{a,b}}) = {  
+    $\emptyset$,  
+    {a},  
+    {b},  
+    {{a,b}},  
+    {a,b},  
+    {a,{a,b}},  
+    {b,{a,b}},  
+    {a,b,{a,b}}  
+    }  
+
+e: P(P($\emptyset$))  
+    step 1: P($\emptyset$) = {$\emptyset$}  
+    step 2: P(P($\emptyset$)) , = P({$\emptyset$})  
+    = {$\emptyset$, {$\emptyset$}}
+
+## Q5
+
+a: A $\times$ B = {  
+    (a,y),  
+    (a,z),  
+    (b,y),  
+    (b,z),  
+    (c,y),  
+    (c,z),  
+    (d,y),  
+    (d,z)  
+    }  
+
+b: B $\times$ A = {  
+    (y,a),  
+    (y,b),  
+    (y,c),  
+    (y,d),  
+    (z,a),  
+    (z,b),  
+    (z,c),  
+    (z,d)  
+    }   
+
+$A \times B \neq B \times A$
+
+## Q6
+
+
+
+
+
+## Q7
+
+A ⊆ B, B ⊆ C, show A ⊆ C
+
+Since A ⊆ B, ∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵) (by definition of subset)  
+Since B ⊆ C, ∀𝑥(𝑥 ∈ B → 𝑥 ∈ C) (by definition of subset)  
+
+<u>∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵)</u>  
+k ∈ 𝐴 → k ∈ 𝐵, for some element k (universal instantiation)
+
+<u>∀𝑥(𝑥 ∈ B → 𝑥 ∈ C)</u>  
+k ∈ B → k ∈ C, for some element k (universal instantiation)
+
+k ∈ 𝐴 → k ∈ 𝐵  
+<u>k ∈ B → k ∈ C</u>  
+k ∈ 𝐴 → k ∈ C (Hypothetical syllogism)
+
+∀𝑥(𝑥 ∈ A → 𝑥 ∈ C) (Universal insantiation)
+
+thus, A ⊆ C
+
+## Q8
+
+A = (A∩$B^∁$) ∪ (A∩B) = {1,3,5,6,7,8,9}
+B = (B∩$A^∁$) ∪ (A∩B) = {2,3,6,9,10}
+
+## Q9
+
+Assume for some element c, c ∈ A\B
+
+c ∈ A\B ↔ (c ∈ A) ∧ (c ∉ B) (by definition of difference)  
+c ∈ A\B ↔ (c ∈ A) ∧ (c ∈ $B^∁$) (by definition of complement)  
+c ∈ A\B ↔ (c ∈ A ∩ $B^∁$) (by definition of intersection)  
+∀𝑥(x ∈ A\B ↔ x ∈ (A ∩ $B^∁$))  
+A\B = A ∩ $B^∁$  
+
+## Q10
+
+a: B is subset A,  
+cannot truly prove is PROPER subset of A  
+as what if A = B, then is not proper subset
+
+b: A is subset B  
+
+c: (A\B = A) ↔ (A∩B = $\emptyset$)  
+A and B are disjoint
+
+d: A∩B = B∩A is theCommutative Law  
+Cannot conclude anything, A and B can be any pair of sets
+
+e: A\B = B\A  
+A \ B = {x | x ∈ A ∧ x ∉ B}  
+B \ A = {x | x ∈ B ∧ x ∉ A}  
+A\B = B\A ↔ ∀𝑥(x ∈ A ∧ x ∉ B ↔ x ∈ B ∧ x ∉ A) ↔ ∀𝑥(x ∈ A ↔ x ∈ B) ↔ A = B
+
+|x ∈ A|x ∈ B|x ∉ A|x ∉ B|x ∈ A ∧ x ∉ B (A\B)|x ∈ B ∧ x ∉ A (B\A)|x ∈ A ∧ x ∉ B ↔ x ∈ B ∧ x ∉ A (A\B = B\A)|x ∈ A ↔ x ∈ B|
+|-|-|-|-|-|-|-|-|
+|F|F|T|T|F|F|T|T|
+|F|T|T|F|F|T|F|F|
+|T|F|F|T|T|F|F|F|
+|T|T|F|F|F|F|T|T|
+
+x ∉ A and x ∉ B are not exactly "dropped", its just if x is not in A or B, its in some universal set that we do ot care about  
+This also means we do not really care about the first row where x not in A or B  
+Therefore can only conclude that A = B
+
+## Q11
+
+|M| = 120,  
+|E| = 135,  
+|S| = 80,  
+|M ∩ E| = 50,  
+|M ∩ S| = 30,  
+|E ∩ S| = 25,
+|M ∩ E ∩ S| = 15
+
+|$(M ∪ E ∪ S)^∁$|  
+= |U| - (|M| + |E| + |S| - |M ∩ E| - |M ∩ S| - |E ∩ S| + |M ∩ E ∩ S|)  
+= 343 - (120 + 135 + 80 - 50 -30 - 25 + 15)  
+= 343 - 245  
+= 98
