@@ -1827,7 +1827,8 @@ is one-to-one / injective if and only if **f(a) = f(b) implies a = b** for all a
 no 2 elements in the domain have the same image
 every element in B has at most 1 mapping from A
 
-∀a∀b{(f(a)=f(b)) → (a = b)}; a,b ∈ domain
+**∀a∀b{(f(a)=f(b)) → (a = b)}**  
+a,b ∈ domain  
 
 to prove NOT one-to-one, find two elements in domain that result in same image in codomain  
 e.g. f(x) = $x^2$  
@@ -1850,7 +1851,7 @@ subract one from both sides, a = b
 
 function is surjective or called onto if and only if for every element b ∈ B, there is an element a ∈ A with f(a) = b
 
-∀b∃a{b = f(a)}  
+**∀b∃a{b = f(a)}**  
 b ∈ codomain  
 a ∈ domain
 

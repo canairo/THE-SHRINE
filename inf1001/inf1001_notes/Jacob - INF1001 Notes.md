@@ -751,6 +751,64 @@ extend: func A is an additional OPTIONAL feature to base function
 
 generalise: points from subset of users to super set of users (e.g. part time students -> students)
 
+
+## Data Flow Diagram (DFD)
+
+![dfd-symbols](jacob-images/dfd-symbols.png)
+
+external entity is something that send or recieve data, are source or destination of data
+
+process transform data, take in data, change it, output
+
+data store: repository/files that hold info for later use, can be database, table, etc.
+
+data flow, shows route data takes as move between external entity, processes, data store.
+
+data flow diagram (dfd):  
+- focus on:
+  - data flowing in and out of sys
+  - how data is processed
+- symbols used:
+  - external entities
+  - use case
+  - processes
+  - data store
+  - connections / relationships
+
+context diagram (type of dfd):
+- is 1 process,
+
+### Lvl 0 diagram
+
+Basic rules:  
+- only 1 process  
+- no freestanding objects  
+- a process must have input and ouput data flow
+- A data store must be connected to at least one process
+- external entities cannot connect to each other
+
+Lvl 0:  
+- shows highest level of interactions between sys and other actors  
+- one process only, process ID is 0  
+- all external entities + major data flows shown  
+
+Gane and Sarson symbols usage:  
+![dfd-airline-system](jacob-images/dfd-airline-system.png)
+
+Yourdon and Coad symbols usage:  
+![dfd-course-reg-system](jacob-images/dfd-course-reg-system.png)
+
+Lvl 1:  
+- decompose lvl 0 process into some subprocess
+- each process ID takes next number sequentially after 0
+- highlight interactions between system and external entities, show data flow
+- also shows internal storage of data , e.g. offered courses, student database
+
+Lvl 2:
+- decompose lvl 1 subprocess into even more subprocesses
+- data flow from external actors may be split into multiple flows depending on data
+- data stores must be maintained from previous lvl
+
 # Topic 6: Database -Entity Relationship (ER)
 
 Why learn database: repository for data generated. 
