@@ -1095,7 +1095,7 @@ Quantifiers in Predicate logic
 1. Universal Quantifier, $∀$
    - Truth Value using domain
    - Truth value using counter example
-2. Existential Quantifier
+2. Existential Quantifier, $∃$
    - Truth value using domain
 
 Quantifier with restricted domain
@@ -1447,14 +1447,14 @@ set.
 - set contains its elements  
 
 ∈: is element of, in  
-∉: is not element of, is not in  
+∉ / $\cancel{∈}$: is not element of, is not in  
 {}: denote set, e.g. V = {a,e,i,o,u}  
 ⊆: is a subset of
-⊈ / ¬(⊆): is not a subset of
+⊈ / ¬(⊆) / $\cancel{⊆}$: is not a subset of
 ⊂: is a proper subset of 
-⊄ / ¬(⊂): is not a proper subset of
+⊄ / ¬(⊂) / $\cancel{⊂}$: is not a proper subset of
 =: equal sets
-≠: not equal sets
+≠ / $\cancel{=}$ / $\neq$: not equal sets
 𝒫(): power set
 ×: Cartesian Product (NOT matrix multiplication)
 
@@ -1990,3 +1990,161 @@ f(n) = n!
 product of first n positive integers
 f(n) = $1 \times 2 \times ... \times n-1 \times n$  
 f(0) = 0! = 1
+
+
+
+# Topic 10: Relations
+
+Relation describes relationship between elements
+- elements maybe from same set or different set
+- tells how elements connected / associated
+- e.g.
+  - x is friend of y
+  - x divieds y
+  - x > y
+  - student is enrolled in module
+  - ![relation-example](jacob-images/relation-example.png)
+
+Cartesian product cannot be a function as has multiple preimages
+
+## Realtion types
+
+### Binary Relations
+
+relation (R) between 2 sets is defined as subset of the cartesian/cross product between both sets  
+Called binary relation to highlight is between 2 sets  
+
+$𝐑 ⊆ 𝐀 \times 𝐁$  
+$a𝐑b$ denotes (a,b) ∈ 𝐑  
+$a\cancel{𝐑}b$ denotes (a,b) ∉ 𝐑  
+
+a relation between sets MAY OR MAY NOT contain all elements of cartesian product. 
+
+#### Binary Relation of set A  
+
+binary relation (R) on set A is subset of A $\times$ A  
+or a relation R:A -> A
+
+e.g.  
+A = {1,2}  
+A $\times$ A = {(1,1), (1,2), (2,1), (2,2)}  
+R = {(1,1), (2,1), (2,2)}
+
+Why no (1,2), just because chose not to be
+
+
+### Equivalence Relation
+
+Equivalence relation R on non-empty set S is  
+subset of S $\times$ S
+
+Must also be:
+Reflexive  
+Symmetric  
+Transitive
+
+#### Equivalence example
+
+Relation: the same age  
+set: set of people  
+
+Reflexive:
+- (Alice, Alice) ∈ 𝐑
+Symmetric
+- (Alice, Bob) ∈ 𝐑 → (Bob, Alice) ∈ 𝐑
+Transitive
+- (Alice, Bob) ∈ 𝐑 ∧ (Bob, Charlie) ∈ 𝐑 → (Alive, Charlie) ∈ 𝐑
+
+Equivalence Class is the subset of elements that are equivalently related to each other  
+denoted as [x]  
+[Alice] = [Bob] = [Charlie] = {Alice, Bob, Charlie}  
+the set {Alice, Bob, Charlie} is the actual Equivalence Class
+Equivalence classes of related elements are the same set.  
+Unrelated elements will not be in each others Equivalence class  
+
+Equivalence classes are distinct, non-overlapping subsets  
+All equivalence classes in a set will encompass the entire set.
+
+## Functions and Cartesian Product
+
+Function: mapping between element in set A to element in set B  
+Means function is subset of cartesian product
+
+f: A -> B  
+implies  
+f ⊆ A $\times$ B
+
+function is a relation where exactly one element of B is related to **EACH** element of A
+
+Function is a special relation  
+If is function, it is also always a relation  
+in a way can consider function as subset of relation but generally dont refer to it this way
+
+## Proterties of relations  
+
+### Reflexive
+
+𝐑 is reflexive **if and only if**:  
+   (x,x) ∈ 𝐑;  
+   for every element x ∈ A  
+
+**𝐑 is reflexive ↔ (∀x[x ∈ A → (x,x) ∈ 𝐑])**
+
+is reflexive if every element in graph has arrow looping to self.
+
+A = {1,2,3}
+$𝐑_1 = {(1,1),...,(2,2),...,(3,3)}$ - this is reflexive
+$𝐑_2 = {(1,1),(1,2),(2,1),(2,3),(3,2),(3,3)}$ - not reflexive
+
+### Symmetric
+
+𝐑 is Symmetric **if and only if**:  
+   (x,y) ∈ 𝐑 and (y,x) ∈ 𝐑   
+   for all x,y ∈ A  
+
+**𝐑 is Symmetric ↔ ∀x∀y[(x,y) ∈ 𝐑 → (y,x) ∈ 𝐑]**
+
+is symmetric if every outgoing arrow from elements has returning arrow.
+
+A = {1,2,3}
+$𝐑_1 = {(1,1),(1,2),(2,1),(2,2),(2,3),(3,2),(3,3)}$ - this is symmetric  
+(1,2) has (2,1);  
+(2,3) has (3,2);  
+$𝐑_2 = {(1,1),(1,2),(2,2),(2,3),(3,2),(3,3)}$ - not symmetric  
+(1,2) missing (2,1);  
+
+### Antisymmetric
+
+𝐑 is Antisymmetric **if**:  
+(x,y) ∈ 𝐑 and (y,x) ∈ 𝐑,  
+then x = y   
+for all x,y ∈ A  
+
+**𝐑 is Antisymmetric ↔ ∀x∀y[( (x,y) ∈ 𝐑 ∧ (y,x) ∈ 𝐑 ) → x = y ]**
+
+is antisymmetric if there is no returning arrow for all outgoing arrows
+
+A = {1,2,3}
+$𝐑_1 = {(1,1),(2,2),(3,3)}$ - this is antisymmetric  
+$𝐑_2 = {(1,1),(1,2),(2,1)(3,3)}$ - not antisymmetric  
+(1,2) and (2,1) in relation;  
+
+### Transitive
+
+𝐑 is Transitive if:
+   whenever (x,y) ∈ 𝐑  
+   and (y,z) ∈ 𝐑  
+   then (x,z) ∈ 𝐑  
+   for all x,y,z ∈ A  
+
+**𝐑 is Transitive ↔ ∀x∀y∀z[( (x,y) ∈ 𝐑 ∧ (y,z) ∈ 𝐑 ) → (x,z) ∈ 𝐑 ]**
+
+is transitive if, for all elemnets is relation, all journey of 2 steps have arrow that completes in 1 step
+
+e.g.  
+relation: is taller than  
+set: set of people  
+(Alice, Bob) = Alice is taller than Bob
+(Bob, Carol) = Bob is taller than Carol  
+
+therefore, (Alice, Carol) can be concluded

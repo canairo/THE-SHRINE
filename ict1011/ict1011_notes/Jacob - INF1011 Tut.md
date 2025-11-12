@@ -513,6 +513,65 @@ ret
 2.2 a: 100ms = 0.1 sec, 10 scan per sec, num sec in 8 hour = 8 *60 *60 = 28800. total scan = 288000
 2.2 b: $\frac{288000-90}{288000} = \frac{99.96875}{100}$
 
+## Tut 8
+
+when stripe by cylinder,
+cylinder to cylinder, start point not same so need multiplly rotation delay for each cylinder read  
+within cylinder, start location of all tracks accross surfaces is synced.
+
+time / RPM = time taken per rotation
+RPM / time = rotation per time
+
+Q1 a: 512 *200 * 6000 * 8 = 4.577 Gb  
+
+b: (7200/60)RPS * 200 sector per track * 512 byte per sector = 12 288 000 byte per second
+
+correction:  
+$\frac{N}{D_T \times D_S} \times \frac{1}{RPS}$  
+N = num bytes per track = 512 bytes per sector x 200 sector per track
+
+c: (64 * 1024)/512 = num sectors 128  
+seek time = 2.5ms track to track. Num tracks = 6000
+rotation delay = 0.5/(7200/60) = 4.17ms
+Transfer time per block = (128/200) how much of circle to turn * (60/7200) time taken to turn one rotation
+
+d:  
+total tracks = 6cylinder * 8 tracks per cylinder = 48
+
+time to read 6 tracks: 4ms seek time + 6 cylinder(8 track(60/7200)) + 0.5(6(7200/60)) + (6-1)(2.5ms)  
+
+time to read across platter: 4ms seek time + (60/7200)48 tracks + 0.5(48(7200/60)) + (48-1)(2.5ms)
+
+data striping by cylinder reduces need to move read arm, decreasing read time
+
+q2:  
+a:  
+Raid0 cap: 100*6
+Raid1 cap: every disk copies disk 1 so cap is 100gb
+Raid10 cap: (100*6)/2
+
+b:  
+disk1: BLK1,BLK2
+disk2: BLK1,BLK2
+disk3: BLK3,BLK4
+disk4: BLK3,BLK4
+disk5: BLK5,BLK6
+disk6: BLK5,BLK6
+
+disk1: BLK1,BLK4
+disk2: BLK1,BLK4
+disk3: BLK2,BLK5
+disk4: BLK2,BLK5
+disk5: BLK3,BLK6
+disk6: BLK3,BLK6
+
+disk1: BLK1,BLK3,BLK5
+disk2: BLK1,BLK3,BLK5
+disk3: BLK1,BLK3,BLK5
+disk4: BLK2,BLK4,BLK6
+disk5: BLK2,BLK4,BLK6
+disk6: BLK2,BLK4,BLK6
+
 ## Quiz 1:
 
 - 16bit RISC

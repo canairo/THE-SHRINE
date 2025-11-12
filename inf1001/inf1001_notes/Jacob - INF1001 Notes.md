@@ -1158,3 +1158,220 @@ FROM    Reserves R, Boats B
 WHERE   R.bid IN (SELECT  B.bid
                   FROM    Boats B
                   WHERE B.color = 'red');
+
+
+# Topic 8: Algorithms
+
+## Definition
+
+Finite sequence of rules / instructions for carrying out calculations or procedure  
+
+Properties:  
+- Correct
+- Terminate
+- Effecient
+  - Time, execution speed
+  - Space, storage size for code
+- Ease of understanding
+  - not most important
+  - sometimes dont want others to understand for security reasons
+- Elegance
+
+Is central concept underlying all computation  
+programming: processof designing and implementing algorithms for computer to carry out  
+
+programmer job:  
+- create algo to acomplish given task
+- translate individual steps of algo into programming language for computer to understand  
+
+## Terminology  
+
+Algorithm: set of steps that define how task is performed  
+Program: representation of algorithm  
+Programming: Process of developing program  
+software: Programs and algorithms  
+Hardware: Equipment  
+
+## Why learn algo
+
+Basic foundations of computer science  
+Impact broader/far-reaching than you think  
+- internet
+- biology
+- computer
+- graphics
+- security
+- multimedia
+- social networks
+- physics
+
+algos not limited to domain of computing  
+how to build house: is algo  
+how to bake cake: is algo  
+
+## Algorithm Representation
+
+### Natural Language  
+
+Language spoken / written in every day life.  
+
+Problems with using natural lang for algos:  
+- Can be extremely verbose
+  - rambling, unstructured, hard to follow
+- Too "**rich**" in interpretation and meaning
+
+e.g.  
+![algo-natural-lang-example](jacob-images/algo-natural-lang-example.png)
+
+### High Level programming Language  
+
+Actual programming lang used in computers  
+C++, java, etc.  
+
+Problems with using high level programming lang for algos:  
+- Can be difficult
+  - chances are will make mistakes with trying to understand logic/ making sure no syntax or semantic error
+- during inital phase of design, forced to deal with detailed language issues  
+- too specific
+  - what if want to use another programming lang?
+
+e.g.  
+![algo-high-level-programming-lang-example](jacob-images/algo-high-level-programming-lang-example.png)
+
+### Flowchart  
+
+easier to show logic without issues with sysntax or semantics of specific language  
+more concise  
+more people can understand flowchart than programming language  
+
+e.g.  
+![algo-flowchart-example](jacob-images/algo-flowchart-example.png)
+
+### Pseudocode  
+
+is English modeled to look liek statements available in most programming languages  
+steps represent structured manner (numbersed / indented / others)  
+No fixed syntax for most operations  
+Emphasis on process, not notation  
+well-understood forms allow logical reasoning
+
+e.g.
+![algo-pseudocode-example](jacob-images/algo-pseudocode-example.png)
+
+## Algorithm Operation Types  
+
+1. Sequential
+   - executes instructions in straight line, from top to bottom, then stops
+   - Cumputation, input and output ops (GET,SET)
+2. Conditions
+   - If-else
+3. Iterative
+   - For/while loops
+
+### Sequential Ops
+
+Perform single task  
+- Input: get data from outside algo
+- output: send data out from algo
+- computation: single numeric calculation
+
+Variable is named location to hold value  
+**sequential algo/straight-line algo** only made up of sequential ops
+
+most real-world problems not straight line  
+require non-sequential ops like **branching** / **repitition**
+
+conditional mimics branching  
+iterative mimic repetition
+
+### Conditional Ops  
+
+ask question, select next op based on ans  
+usually follow format:  
+- if "true/false condition" is true, then
+  - first set of ops is performed
+- else (or otherwise)
+  - second alternative set of ops is performed instead
+
+### Iterative Ops  
+
+Loop refer to repitition of block of instructions
+
+one format is while statement:  
+while "true/false condition" do step **i** to **j**  
+step i:  
+step i+1:  
+...  
+step j:  
+
+if condition never becomes false, infinite loop.
+
+## Algorithm Analysis
+
+study of efficiency of algos  
+determine amount of time/storage necessary to exec  
+
+Why do AA?  
+1. Classify problems by difficulty  
+2. Predict performance
+3. Compare algos
+4. tune parameters  
+5. Better understand implementations
+6. improve implementations
+7. intellectual challenge
+   - Algo analysis may be more interesting than programming  
+
+### Designing and Analysing algos
+
+George Polya, 4 steps to solve problem  
+
+1. Understand problem
+2. Devise plan
+3. execute
+4. examine outcome
+
+![algo-4-steps-george-polya](jacob-images/algo-4-steps-george-polya.png)
+
+### How to Analyse  
+
+1. Empirical study  
+   - Results based on **direct observation / experiements**
+   - Accurate measurement of actual run time
+   - Problems:
+     - System dependant (hardware/software)
+     - Difficult to get precise measurement
+2. Theoretical analysis  
+   - Mathematical model, independant of system
+   - total run time = Sum of cose $\times$ freq of execution of all statements
+
+When analysing, what is criteria?  
+Readability?  
+Effeciency? of space or time?
+
+Some examples:  
+![algo-analysis-example1](jacob-images/algo-analysis-example1.png)  
+![algo-analysis-example2](jacob-images/algo-analysis-example2.png)
+
+### Big-O notation
+
+e.g.  
+take T(n) = 1+2n, where n is size of problem  
+exact num of ops not as important as determining most dominant part of function  
+As n increases, 1st term (1) become not as important as 2nd term (2n)  
+
+order of magnitude function describes the part of function that increases the fastest as value n increases  
+- provide useful approx  
+
+Considers worst case complexity
+
+#### Common Big O Notations  
+
+![algo-big-o](jacob-images/algo-big-o.png)  
+
+![go-big-o-chart](jacob-images/algo-big-o-chart.png)
+
+O(n) VS O(log n)  
+![algo-n-vs-log-n-search](jacob-images/algo-n-vs-log-n-search.png)
+
+
+O(1):
