@@ -1672,9 +1672,152 @@ Tx power:
 - Class 2: 4dBm (2.5mW) - 10m range  
 - Class 3: 0dBm (1mW) - 1m range
 
-## Primary Memory Subsystems (Chpt 8)
+## Secondary Memory Subsystems (Chpt 8)
 
-## Secondary Memory Subsystems (Chpt 9)
+### Memory Hierachy
+
+balance between speed, size and cost
+
+in order of increasing capaccity & access delay:  
+- registers
+- cache
+- main
+- secondary
+
+in order of increasing cost:  
+- secondary
+- main
+- cache
+- registers
+
+secondary mem on external to microproccessor, largest storage space for data/program
+
+external mem: peripheral storage devices, accessible via i/o controllers
+
+types:  
+- Magnetic  
+  - Mechanical hard disk
+  - floppy disk
+- Optical  
+  - CD-ROM  
+  - CD-RW  
+  - DVD  
+  - BLUU-RAY
+- Semiconductor  
+  - Memory Cards  
+  - Solid State Drives
+
+### Magnetic Disks
+
+- One or more platters on common spindle
+- Use thin mmagnetic film
+- Rotate at Constant Rate
+- Data arranged in concentric rings called tracks
+- read-write heads close proximity to surface
+
+Read Write Head made of conductive coil
+may be seperated or single head for both ops
+
+Inductive Writing:  
+Current through coil head produces magnetic field  
+Pulse sent through head  
+Magnetic pattern recorded on surface  
+
+Magneto resistive read:  
+is partially shielded magneto resistive (MR) sensor  
+electrical resistance depends on direction of magnetic field  
+the rising or falling edge itself represents 1 bit
+
+### Data organization and formatting  
+
+data stored in concentric rings, called tracks  
+set of all tracks in same relative position on platter, called cylinder  
+
+each trck same width as head  
+have gap between tracks to minimise interferences from adjacent tracks
+
+each track divided into sector  
+sector may be seperated by gap to reduce precision requierment  
+minimum Data block size is one sector  
+
+### Characteristics of Commmon mmodern hard disk  
+
+Movable head  
+- one read/write head per side  
+- mounted on movable arm  
+
+Double sided Platters
+
+Multiple Platter Disks  
+- Most modernn HDDs have mutiple platters per disk  
+- each surface has r/w head, all joined ad aligned so all heads in same position for each platter
+- Data is striped by cylinder
+  - 4Mb block striped into 8 x 512Kb track, can split over mmultiple platter
+
+### Transfer Rate of hard-disk  
+
+Seek Time ($T_s$):  
+- Time for head to move to correct track  
+Rotational Delay ($T_R$):  
+- Time for disk to rotate until read/write head reaches starting positon of target sector  
+- dependant on rotational speed (Common denomination RPM)
+- RPS = RPM / 60
+- Avg $R_T$ = 0.5/RPS
+Access Time  ($T_A = T_S + T_R$):  
+- Time from request to time head in position  
+Transferr Time ($T_T$):  
+- Time required to tranfer the required dataafter the head is positioned
+- dependant on rotational speed of disk
+- dependant on Track Density ($D_T$), number of sectors per track
+- dependant on Sector Density ($D_S$), number of bytes per sector
+- dependant on number of bytes for the transfer N
+- Formula:  $T_T = \frac{N}{(RPS \times D_T \times D_S)} = \frac{N}{D_T \times D_S} \times \frac{1}{RPS}$
+- $D_T \times D_S$ = number of bytes on track
+
+$T_{Total} = T_A + T_T$  
+$= T_S + T_R + T_T$
+
+### Redundancy @ Surety (Use of RAID)  
+
+Single HDD flaws:  
+- access times for moving head to correct pos significantly lowers  transfer rate
+- magnetic disk more easily suffer from crashes
+
+Redudndant Array of Independant Disks (RAID)
+- num of configs: 7 (0-6)
+- some configs distribute data across physical drives (striping) improves access times e.g. Raid 0
+- some configs Mirror drive e.g. Raid 1
+
+RAID 0  
+- No redundancy
+- min 2 disks
+- data stripedacross ALL disks
+- Round robin striping  
+- Advantage: increased speed
+  - multiple data request probaly not on same disk
+  - disk seeks in parallel
+  - set of data lkely to be striped across multiple disks
+
+RAID 1
+- Mirrored disks
+- min 2 disks
+- 2 copies of each stripe on seperate disks
+- Advantage: faster read op
+  - read from either disk
+  - write same as single disk but done on both corresponding strips
+- Advantage: simple recovery
+  - swap faulty disk &-re mirror
+  - no downtime
+- Disadvantage: higher cost
+
+RAID 10
+- Nested RAID of 1 and 0
+- Mirror and stripe
+- min 4 disk
+- half capacty is for data storage
+- fast read/write
+
+## Primary Memory Subsystems (Chpt 9)
 
 ## Memory Management
 
