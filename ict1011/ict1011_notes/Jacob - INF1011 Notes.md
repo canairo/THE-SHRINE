@@ -1819,6 +1819,232 @@ RAID 10
 
 ## Primary Memory Subsystems (Chpt 9)
 
+### Register vs Cache
+
+Register: flip-flop storage elements within CPU, very fast
+
+Cache:  
+- small
+- optional
+- faster than main mem
+- between main mem and CPU
+- single-level / multi-level
+- ![multi-level-cache](jacob-images/multi-level-cache.png)
+
+Cache controller handles cache ops  
+Steps:  
+1. CPU requests contents of main mem location  
+2. Check if data available in cache first
+3. If present, read from cache (faster than main mem)
+4. if not present, cache controller fetch data from main mem, store in cache
+5. CPU then read from cache
+
+### CPU-Mem interfacing
+
+Busses again  
+3 kinds: Data, Address, Control
+
+Data bus:  
+made of data lines,  
+moves data  
+data line send 1 bit at a time,  
+number of data lines called width of data bus
+
+Address bus:
+made of address lines   
+used to designate source (reading) or destination (writing) of data  
+number of address lines = address bus width  
+width related to MAX possible mem capacity
+
+Control bus:  
+made of control line  
+control access + use of data / address bus  
+Control signal on this bus can support one or both Synchronus / Asynchronus data transfer timing  
+
+Sync:  
+- occurrence dependant on clock
+- Simpler to implement + test
+- Less flexible, all devices on bus tied to fixed clock
+
+Async:  
+- occurrence of event dependant on occurrence of previous event  
+- Very flexible, mixture of fast/slow devices using old/new tech can share bus  
+- ops more complex, different device operate at own speed  
+- slow device may holp up entire bus
+
+Types of control lines:  
+- Mem Read/Write (Mem Ops)  
+- I/O Read/Write (I/O Ops)
+- Interrupt Request/ACK (Interrupts)
+- Clock (for Synchronus data transfer)
+- Reset (initialise)
+
+Bus diagram e.g.  
+![bus-diagaram-eg](jacob-images/bus-diagaram-eg.png)
+
+Sync Read Op  
+![read-op-sync](jacob-images/read-op-sync.png)  
+
+Sync Write Op  
+![write-op-sync](jacob-images/write-op-sync.png)  
+
+Async Read Op  
+![read-op-async](jacob-images/read-op-async.png)  
+
+Async Write Op  
+![write-op-async](jacob-images/write-op-async.png)  
+
+#### Mem Performance Attributes
+
+Access Time (Latency)  
+- Time from middle of control signal falling edge to time when data line ready to provide valid data (full signal)  
+- For mechanical storage, is time for read/write mechanism to reach desired position  
+
+Mem Cycle Time  
+- is Access Time + any additional time required before another mem access can commence  
+- Mainly for RAM
+
+Transfer Rate  
+- Rate at which data can be transferred into / out of mem unit  
+- usually for RAM is (1/Mem Cycle Time)  
+- for non-RAM (e.g. magnetic drive) Tansfer Time = Access Time + (num_bits/Transfer Rate in bits per sec)
+
+### Main Mem
+
+Main Mem usually semi conductor  
+used in Fetch and Execute of Fetch-Decode-Execute  
+Types:  
+- RAM Random Access Mem
+  - SRAM Static RAM
+  - DRAM Dynamic RAM
+- ROM Read Only Mem
+  - PROM Programable ROM
+    - One-time programable at factory
+  - EPROM Eraseable Programable ROM
+    - use UV to erase
+  - EEPROM Electrically Eraseable Programable ROM
+    - BIOS
+  - FLASH
+    - USB, SSD, SD card
+
+RAM:
+- Can be read / write to at any time
+- Content normally volatile (Data retained only when powered)
+- Store temp data, working variables, maintain stack
+
+ROM:
+- Contents Non-volatine
+- Contents not easily changed
+- Contents can be easily read, normally not written to
+- Needed for system programs like BIOS, config
+
+#### Mem Cell
+
+3 terminals:  
+- Select
+  - Activate / select cell
+- Control
+  - Indicate if op is read/write
+- Data
+  - give data (write op) or read data (read op)
+
+write op, order depends on type:  
+- Control signal for write op sent  
+- Data to store send on Data
+- Cell selected for writing
+- ![mem-cell-write](jacob-images/mem-cell-write.png)
+
+read op, order depends on type:  
+- Control signal for read op sent  
+- Cell selected for reading
+- Data to read sent on Data
+- ![mem-cell-read](jacob-images/mem-cell-read.png)
+
+### RAM technology
+
+Tranistors  
+3 pins: Source (S), Gate (G), Drain (D)
+
+Only when Gate closed (G=1), current allowed to flow from Source to Drain
+
+![transistor-ram-tech](jacob-images/transistor-ram-tech.png)  
+
+SRAM:  
+- Volatile
+- short access time
+- 6 transisters per cell, fewer cells per area
+- Arranged in array of word and bit lines
+- is 2 cross connected inverter, become latch
+- Uses CMOS
+- 2 transistors, controlled by Word Line, act as switch between cell and Bit Line
+- To Read, Bit val is read from Bit Line
+- to write, bit val is sent to Bit Line
+- ![SRAM-logic](jacob-images/SRAM-logic.png)
+- ![SRAM-actual](jacob-images/SRAM-actual.png)
+
+SRAM cells arranged into 16 cells per word line, 16 bits per word mah
+
+DRAM:  
+- Volatile
+- 1 transistor 1 capacitor per cell
+- more cells per area than SRAM
+- longer access time
+- Capacitor charge leaks away, must be refreshed
+
+DRAM write:
+- Activate word line (close transistor)
+- Set bit line to signal to store (high = 1, low = 0)
+- Charge / Discharge capacitor to match bit line
+- Deactivate word line (open transistor)
+- Cell is isolated, holds charge
+- Need to refresh periodically
+
+DRAM Read:  
+- Pre-charge bit line to midpoint voltage  
+- Activate word line (close transistor)
+- Stored Charge will slightly raise / lower bit line voltage
+- Amplify bit line voltage change (increase = 1, decrease = 0)
+- Write bit back to DRAM (Destructive Read)
+
+DRAM refresh is just read op but not send the bit that was read out
+
+DRAM Attributes:
+- Simpler than SRAM (Less components)
+- Denser than SRAM
+- Cheaper than SRAM
+- Needs Refresh
+- Higher Capacity
+- Larger Mem units
+- Suitable for main mem
+
+SRAM Attributes:
+- Faster access
+- Suitable for Cache
+
+### ROM & Flash Technology
+
+basic ROM cell:  
+- 1 transistor switch for bitline, 1 fuse to ground
+- connected to ground = 0, not connected = 1
+
+PROM:
+- program at factory, burn fuse with high current pulse
+
+EPROM:
+- use special transistor instead of fuse to ground  
+- inject charge, allow transistor to turn on and connect to ground (logic 0)
+- use UV light to erase charge
+
+EEPROM:  
+- individual cells can erase electrically
+- more expensive than EPROM
+
+FLASH is based off EEPROM  
+- High density
+- Designed to erase in large blocks not individually
+- writing to individual cells = read whole block, erase everthing, rewrite the block with changes
+- greater density + lower cost > inconvenience of block write
+
 ## Memory Management
 
 
