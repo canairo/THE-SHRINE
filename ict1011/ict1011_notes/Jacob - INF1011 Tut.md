@@ -335,6 +335,243 @@ MSP430 reduces the size of the instruction from 2 word to 1 word with the consta
 Without the constant generator, the instruction will need to store the value of #0 in the next mem addr after the inst.
 It reduces the exec cycles as reading from the constant generator uses 0 cycles but reading the value from memory uses 1 cycle
 
+
+## Tut 4
+
+Q1  
+a.  
+
+|No.|Mnemonics|Instruction length (in bytes)|No. of cycles|
+|-|-|-|-|
+|Q1.1|mov.w R5 R1|2|1|
+|Q1.2|mov.w #10,R10|4|2|
+|Q1.3|add.w #10,R10|4|2|
+|Q1.4|add.b &2000H,R12|4|3|
+|Q1.5|call #44h|4|2|
+
+b.  
+May change the location of return for subroutine calls or interrupts
+
+c.  
+i. uses same inst, 1.1 uses fewer cycles as is reading both src and dst from registers. 1.2 needs to read next mem add for value to move into dst, needing 1 additional cycle.
+ii. both need 4 byte mem space and use 2 cycle as both need to read next mem addr after inst for value. only inst is different.
+iii. 1.3 is word op while 1.4 is byte op. 1.4 needs 2 additional cycles as needs to fetch value fromm mem addr in RAM while 1.3 only needs 1 additional cycle as is reading next mem addr for value.
+
+Q2  
+a.  
+Array .space 120
+
+space and not sect or usecct as qn never say to to create in different section. means creating in current mem section.
+
+b.  
+Num1 .equ 60000
+
+does not put this into memory after assembling. only replacces evey instance of Num1 in asm code with 60000
+
+c.
+
+Fig 2 code:
+CodeSeg .equ    0x4400
+DataSeg .set    0x3400
+
+        .data
+Vdata   .byte   3
+Wdata   .word   10,-1
+Xdata   .space  2
+Ydata   .string "BA","BY"
+Zdata   .word   99h
+
+        .text
+RESET   mov.w   #10,R4
+Copy    mov.w   #Vdata,R10
+        mov.w   #DataSeg,R11
+Loop    dec.b   R4
+        jne     Loop
+
+        .end
+
+
+i.  
+.data
+0000        3 (Vdata)
+0001        
+0002-0003   10 (Wdata)
+0004-0005   -1 (Wdata)
+0006-0007   (Xdata)
+0008-0009   "BA" (Ydata)
+0010-0011   "BY" (Ydata)
+0012-0014   99h (Zdata)
+
+.text
+0000-0001   mov.w #10,R4
+0002-0003   #10
+0004-0005   mov.w #3,R10
+0006-0007   #3
+0008-0009   mov.w 0x3400h,R11
+0010-0011   0x3400h
+0012-0013   dec.b R4
+0014-0015   jne 0012
+
+ii. 
+Vdata: 0x2400
+Wdata: 0x2402
+Xdata: 0x2406
+Ydata: 0x2408
+Zdata: 0x240A
+
+RESET: 0x4400
+Copy: 0x4404
+Loop: 0x440A
+
+
+## Tut 5
+
+Q1: 
+mov.w #4567h,R11
+mov.w #0123h,R12
+add.w #CDEF,R11
+addc.w #89AB,R12
+
+Q2:  
+a: xor.w #8001,R10  
+b: mov.w #0,R10
+bic.w #FFFFh,R10
+and.w #0000h,R10
+sub.w R10,R10
+
+Q3:  
+a:  
+sxt R10  
+mov.w R10,R11  
+add.w R11,R11  
+addc.w R11,R11  
+addc.w R10,R11  
+
+sxt R10  
+mov.w R10,R11  
+rla R11  
+rla R11  
+add.w R10,R11  
+
+
+b:  
+rlc.w R9
+rlc.w R9
+and.w #0001,R9  
+
+and.w #0x8000,R9
+rlc.w R9
+
+
+
+## Tut 6
+
+Q1  
+a: R1 = 0x30E4  
+b: push.w R10       OR      push R10 (since is always word)
+c: add.w #8,R1      OR      add.w #8,SP
+d: mov.w 6(R1),R10   WRONG should be 4(R1) since R1 is 1st item, 2(R1) is 2nd item, 4(R1) is 3rd item 
+
+Q2  
+a, i: immediate
+ii: #0x4434  
+b: value, using registers   WRONG, passed by reference as have to go to register to get value. Register and stack can be either pass by value or pass by reference, see usage
+c:  
+b1: PC[0x4410], SP[0x30FE]  
+b2: PC[0x4416], SP[0x30FC]  
+b3: PC[0x4434], SP[0x30FA]  
+d: after jump back from subroutine, SP = 0x30FC, then -2, 0x30FA, CORRECTION: contents of R10 are 0x441a since return addr at position -2(SP) are not erased on pop.
+e: add.w #4,SP  
+f:  
+push R10
+push R11
+push R12
+mow.w 8(SP),R10       THIS ONLY GETS ADDRESS NOT VALUE  
+mov.w 10(SP),R11      THIS ONLY GETS ADDRESS NOT VALUE  
+mov.w 8(SP),R12       Correction     mov.w @R10,E12
+add.w R10,R12         Correction     add.w R12,R12
+mov.w R12,10(SP)      Correction     mov.w R12,0(R11)
+pop R12
+pop R11
+pop R10
+ret
+
+## Tut 7
+
+1a: Raw transmit 1011001, actual data 1001101, letter: M
+
+1b: even  
+
+1c: parity is only able to check if 1 bit was changed, Rx would not be able to know the data is wrong, parity only able to detect odd number of errors
+
+1d: 0.104ms (to 3dp), 960 chars per sec
+
+1e: 9600 / 9bits = 1066.667 chars per sec (to 3dp), sacrifice error detection capability
+
+2.1: 100 micro second = 0.1ms, max char rate = 10 000 chars per sec, 10 bit per char, baud rate is 100 000  
+
+2.2 a: 100ms = 0.1 sec, 10 scan per sec, num sec in 8 hour = 8 *60 *60 = 28800. total scan = 288000
+2.2 b: $\frac{288000-90}{288000} = \frac{99.96875}{100}$
+
+## Tut 8
+
+when stripe by cylinder,
+cylinder to cylinder, start point not same so need multiplly rotation delay for each cylinder read  
+within cylinder, start location of all tracks accross surfaces is synced.
+
+time / RPM = time taken per rotation
+RPM / time = rotation per time
+
+Q1 a: 512 *200 * 6000 * 8 = 4.577 Gb  
+
+b: (7200/60)RPS * 200 sector per track * 512 byte per sector = 12 288 000 byte per second
+
+correction:  
+$\frac{N}{D_T \times D_S} \times \frac{1}{RPS}$  
+N = num bytes per track = 512 bytes per sector x 200 sector per track
+
+c: (64 * 1024)/512 = num sectors 128  
+seek time = 2.5ms track to track. Num tracks = 6000
+rotation delay = 0.5/(7200/60) = 4.17ms
+Transfer time per block = (128/200) how much of circle to turn * (60/7200) time taken to turn one rotation
+
+d:  
+total tracks = 6cylinder * 8 tracks per cylinder = 48
+
+time to read 6 tracks: 4ms seek time + 6 cylinder(8 track(60/7200)) + 0.5(6(7200/60)) + (6-1)(2.5ms)  
+
+time to read across platter: 4ms seek time + (60/7200)48 tracks + 0.5(48(7200/60)) + (48-1)(2.5ms)
+
+data striping by cylinder reduces need to move read arm, decreasing read time
+
+q2:  
+a:  
+Raid0 cap: 100*6
+Raid1 cap: every disk copies disk 1 so cap is 100gb
+Raid10 cap: (100*6)/2
+
+b:  
+disk1: BLK1,BLK2
+disk2: BLK1,BLK2
+disk3: BLK3,BLK4
+disk4: BLK3,BLK4
+disk5: BLK5,BLK6
+disk6: BLK5,BLK6
+
+disk1: BLK1,BLK4
+disk2: BLK1,BLK4
+disk3: BLK2,BLK5
+disk4: BLK2,BLK5
+disk5: BLK3,BLK6
+disk6: BLK3,BLK6
+
+disk1: BLK1,BLK3,BLK5
+disk2: BLK1,BLK3,BLK5
+disk3: BLK1,BLK3,BLK5
+disk4: BLK2,BLK4,BLK6
+disk5: BLK2,BLK4,BLK6
+disk6: BLK2,BLK4,BLK6
+
 ## Quiz 1:
 
 - 16bit RISC

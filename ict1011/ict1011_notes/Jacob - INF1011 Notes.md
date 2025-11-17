@@ -894,7 +894,9 @@ SRC Modes (all registers):
    - value of x is stored in next mem address after inst addr
    - Content of Rs not affected
    - PC increment to next inst to exec
-   - Useful to access data in tables
+   - Useful to access data in tables  
+   - if you have arithmetic calculation as before (Rs), will calculate value first  
+   - e.g. 0x2400-1(R12) = (0x2400-1)(R12)
 3. @Rs - Register Indirect (R1, R4-15)
    - +1 cycle (fetch,read offset) +1 cycle(exec,read value) for each use
    - only for src
@@ -1125,13 +1127,13 @@ When assembler sees:
 
 |Mnemonic and Syntax|Desc|
 |-|-|
-|.byte val$_1$[,..., val$_n$]|Init one or more successive bytes in current pos in section mem map|
+|.byte val$_1$[,..., val$_n$]|Init one or more successive bytes in current pos in section mem map. Note val$_1$ can be in dec or hex or bin, be careful|
 |.double *floating point val*|Init 48-bit MSP430 floating point constant in current pos in section mem map|
 |.float *floating point val*|Init 32-bit MSP430 floating point constant in current pos in section mem map|
 |*label* .space *Size in bytes*|Reserve *size* bytes in current set; note - a label points to beginning of reserved space|
 |.string *"string$_1$"*[,...,*"string$_n$"*]|Init one or more text strings in current pos in section mem map, each char convert to ASCII and stored 1st char lowest addr|
 |.word val$_1$[,..., val$_n$]|Init one or more 16-bit integers|
-|.bss *"label"* *size in bytes*|Init new secction called *"label"* with Size *size in bytes*, set *"label"* loc counter to next unreservved addr, and return back to previous section|
+|.bss *size in bytes*|Reserves Size *size in bytes* in the .bss section, and return back to previous section|
 |.usect *"label"* *size in bytes*|Init new section called *"label"* with Size *size in bytes*, set *"label"* loc counter to next unreservved addr, and return back to previous section|
 
 
@@ -1142,10 +1144,10 @@ When assembler sees:
 |*symbol* .set *val*|def variable val|
 |*symbol* .equ *val*|def absolute constannt|
 
-FP .set R11 ; Ok
-_ mov.w @FP,R10 ; Ok
-FP .set R15 ; Ok
-count .equ 100/2 ; ok
+FP .set R11 ; Ok  
+_ mov.w @FP,R10 ; Ok  
+FP .set R15 ; Ok  
+count .equ 100/2 ; ok  
 
 #### Defining lib references and definitions
 
@@ -1184,13 +1186,866 @@ Pass 2: convert inst to machin lang, using symbol table
 
 Asm inst have 1-to-1 correspondance from .asm to .obj
 
+## Chap 5: Executable Asm Instructions
+
+types:  
+- Data Movement  
+- Arithmetic  
+- Logical / Bit manipulation  
+- Rotation  
+- Program Control  
+
+||MSP430||
+|-|-|-|
+|Core instructions|Emulated instructions|Total|
+|27|24|51|
+
+Emulated instructions are executed by core instructions. Make coding easier.  
+
+Only core inst are convereted to machine code.  
+Emulated inst must be converted to core inst to exec  
+e.g.  
+inc.w dst will be converted to sub.w #1 dst
+
+behaviour of microprocessor instructions are detailed in the particular instruction set summary of that processor.
+
+### Executable Asm Instructions
+
+#### Data Movement
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|mov.x (.b / .w) src,dst|src,dst|src -> dst|-|-|-|-|Src not affected|
+
+#### Arithmetic
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|sxt src| src | src -> src | N = 1 if result < 0 else N = 0| Z = 1 if result = 0 else Z = 0| C = 1 if result not 0 else C = 0| V = 0|copy src bit 7 value to src bits 8-15, Usage case: usig |
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|add.x (.b / .w) src,dst|src,dst|src + dst -> dst|N = 1 if result < 0 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if have carry else C = 0|V = 1 if overflow, else V = 0||
+|addc.x (.b / .w) src,dst|src,dst|src + dst + Carry_flag -> dst|N = 1 if result < 0 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if have carry else C = 0|V = 1 if overflow, else V = 0|Usage: adding numbers that are bigger than 16 bit|
+|dadd.x (.b / .w) src,dst|src,dst|src(BCD) + dst(BCD) -> dst|N = 1 if MSB 1 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if result > 0x9999h (.w) or > 0x99h (.b) else C = 0| Undefined |treat each 4bit of hex as decimal|
+|sub.x (.b / .w) src,dst|src,dst|dst + (- (src)) -> dst|N = 1 if result < 0 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if have carry else C = 0|V = 1 if overflow, else V = 0|2's comp applied to src, is not (dst - src) as this implies has hardware subtractor|
+|subc.x (.b / .w) src,dst|src,dst|dst + (- (src)) - Carry_flag -> dst|N = 1 if result < 0 else N = 0|Z = 1 if result = 0 else Z = 0|C = 1 if have carry else C = 0|V = 1 if overflow, else V = 0|2's comp applied to src, Usage: subtracting numbers that are bigger than 16 bit|
+
+Emulated Inst  
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|ADC.x (.b / .w) dst|dst|addc(.b / .w) #0,dst|addc status|addc status|addc status|addc status|Add carry to dst|
+|DADC.x (.b / .w) dst|dst|dadd(.b / .w) #0,dst|dadd status|dadd status|dadd status|dadd status|BDC Add carry to dst|
+|dec.x (.b / .w) dst|dst|sub(.b / .w) #1,dst|sub status|sub status|sub status|sub status|decrement dst|
+|decd.x (.b / .w) dst|dst|sub(.b / .w) #2,dst|sub status|sub status|sub status|sub status|decrement dst twice|
+|inc.x (.b / .w) dst|dst|add(.b / .w) #1,dst|add status|add status|add status|add status|increment dst|
+|incd.x (.b / .w) dst|dst|add(.b / .w) #2,dst|add status|add status|add status|add status|increment dst twice|
+|sbc.x (.b / .w) dst|dst|dst + 0xFFFFh + borrow_flag OR dst + 0xFFh|subc status|subc status|subc status|subc status|subtract src and borrow OR subtract not(carry_flag) from dst ???????|
+
+#### Logical / Bit Manipulation
+
+core inst:
+- and; claer specific bits in dst register
+- bis (or operation); set specific bits in dst register
+- xor; 2's comp specific bits in dst register
+
+status bits affects each logic op differently
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|and.x (.b / .w) src,dst|src,dst|src .AND. dst -> dst|N=1 if MSB = 1, else 0|Z = 1 if result 0, else 0|C = 1 if result not 0, else 0 (.NOT. Z)|V = 0 always|at each pos in src, if val is 0, set corresponding pos in dst to 0, else dst pos remain unchanged|
+|bis.x (.b / .w) src,dst|src,dst|src .OR. dst -> dst| - | - | - | - |at each pos in src, if val is 1, set corresponding pos in dst to 1, else dst pos remain unchanged|
+|xor.x (.b / .w) src,dst|src,dst|src .XOR. dst -> dst|N=1 if MSB = 1, else 0|Z = 1 if result 0, else 0|C = 1 if result not 0, else 0 (.NOT. Z)|V = 1 if src and dst both negative, else V = 0|at each pos in src, if val is 1, set corresponding pos in dst to complement of previous dst val, else dst pos remain unchanged|
+|bic.x (.b / .w) src,dst|src,dst|(.NOT. src) .AND. dst -> dst| - | - | - | - |at each pos in src, if val is 1, set corresponding pos in dst to 0, else dst pos remain unchanged|
+
+Emulated inst  
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|clr.x (.b / .w) dst|dst|0 -> dst; mov(.b / .w)#0,dst|||||clear dst|
+|clrc|-|0 -> Carry_flag; bic.w #1,SR|||||clear carry flag|
+|clrn|-|0 -> Neg_flag; bic.w #4,SR|||||clear negative flag|
+|clrz|-|0 -> Zero_flag; bic.w #2,SR|||||clear zero flag|
+|inv.x (.b / .w) dst|dst|(.NOT. dst) -> dst; xor.x (.b / .w) #0(FF)FFh,dst|||||invert all bits in dst|
+|setc|-|1 -> Carry_flag; bis.w #1,SR|||||set carry flag|
+|setn|-|1 -> Neg_flag; bis.w #4,SR|||||set negative flag|
+|setz|-|1 -> Zero_flag; bis.w #2,SR|||||set zero flag|
+
+#### Rotation Inst
+
+type: arithmetic; "through carry"
+
+arithmetic rotate multiply(RLA) or floor divide(RRA) by $2^N$ where N is num bits shifted
+
+swpb (swap bytes) exchange high and low bytes of dst. Word size only.; e.g. 0xAABBh becomes 0xBBAAh
+
+|Arithmetic|||
+|-|-|-|
+|Name|Desc|Img|
+|RLA / Rotate Left Arithmetic|MSB to carry flag, pad LSB with 0|![RLA](jacob-images/RLA.png)|
+|RRA / Rotate Right Arithmetic|LSB to carry flag, pad MSB with MSB|![RRA](jacob-images/RRA.png)|
+
+|Through Carry|||
+|-|-|-|
+|Name|Desc|Img|
+|RLC / Rotate Left Carry|MSB to carry flag, pad LSB with 0|![RLC](jacob-images/RLC.png)|
+|RRC / Rotate Right Carry|LSB to carry flag, pad MSB with MSB|![RRC](jacob-images/RRC.png)|
+
+Core inst
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|rrc.x (.b / .w) dst|dst|dst -> dst|N=1 if MSB=1, else N = 0|Z = 1 if result zero, else Z = 0|Loaded from LSB|V = 0 always|dst shift right by one pos, carry shift to msb, then lsb shift into carry|
+|rra.x (.b / .w) dst|dst|dst -> dst|N=1 if MSB=1, else N = 0|Z = 1 if result zero, else Z = 0|Loaded from LSB|V = 0 always|dst shift right by one pos,, msb = msb, msb shift into msb-1, then lsb shift into carry, lsb-1 shift into lsb|
+|swpb.w dst|dst|dst -> dst|-|-|-|-|R11 = 0xAABBh, swpb.w R11 = 0xBBAAh|
+
+Emulated inst
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|rlc.x (.b / .w) dst|dst|dst -> dst|N=1 if MSB=1, else N = 0|Z = 1 if result zero, else Z = 0|Loaded from MSB|V = 1 if overflow (aka change of sign) else V = 0|dst shift left by one pos, lsb taken from carry, then msb shift into carry; emulated with ADDC inst|
+|rla.x (.b / .w) dst|dst|dst -> dst|N=1 if MSB=1, else N = 0|Z = 1 if result zero, else Z = 0|Loaded from MSB|V = 1 if overflow (aka change of sign) else V = 0|msb shift to carry, dst shift left by one pos, lsb pad with 0; emulated with ADD inst|
+
+rotate left over flow is when you multiply by 2 but get a negative result.
+
+#### Program Control Inst
+
+facilitate disruption of normal sequential flow.  
+aka jumps  
+jump can be obtained by modifying content of Program Counter(**PC**)  
+used for if-else, loops
+types: conditional; unconditional
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|jeq/jz *label*|||||||jump to label if Z = 1|
+|jne/jnz *label*|||||||jump to label if Z = 0|
+|jc/JHS *label*|||||||jump to label if C = 1|
+|jnc/JLO *label*|||||||jump to label if C = 0|
+|jn *label*|||||||jump to label if n = 1|
+|jge *label*||(N .XOR. V) = 0 / N = V|||||jump to label if greater than or equal|
+|jl *label*||(N .XOR. V) = 1 / N != V|||||jump to label if less than|
+|jmp *label*|||||||jump to label unconditionally|
+
+jge and jl use cmp inst to change flag before jump call.  
+e.g.:  
+cmp.w R12,R11  
+jge test      ;jump to test if R12 is greater
+
+for signed values, use JGE, JL, JN
+
+for unsigned values, use JLO, JHS
+
+#### Program Control: Bit testing
+
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|bit .x (.b / .w) src,dst|src,dst| src .AND. dst, not stored |N = 1 if MSB = 1, else N = 0|Z = 1 if result = 0, else Z = 0|C = 1 if result != 0, else C = 0|V = 0 always|Result is ignored, src dst no changed, only update flags|
+|cmp.x (.b / .w) src,dst|src,dst|dst + (-(src)), not stored|N = 1 if MSB = 1, else N = 0 (src >= dst)|Z = 1 if result = 0, else Z = 0 (src = dst)|C = 1 if have carry, else C = 0|V = 1 if arithmetic overflow, else V = 0|Result is ignored, src dst no changed, only update flags|
+
+emulated inst
+|instruction| s/d | direction/op | N | Z | C | V | other |
+|-----------|-----|--------------|---|---|---|---|-------|
+|tst.x (.b / .w) dst| dst | cmp.x (.b /.w) #0,dst|N =1 if dst < 0 else N = 0|Z = 1 if dst = 0 else Z = 0|C = 1 always|V = 0 always|check if is <= 0, Result is ignored, src dst no changed, only update flags|
+|br dst| - | mov.w dst,R0 |||||jump direct to dst without condition, similar to "jmp dst"|
+
 # Computer Organisation
+
+## Modular Programming
+
+complex software decompose into less complex modules  
+modules designed and tested independantly  
+modules can be reused in other projs  
+reduce overall program size (modules may be required in different places)  
+
+Chars of good module:  
+loose coupling: data within module is entierly independant (or as independant as possible)  
+strong modularity: perform single logically coherent task
+
+modules in asm are subroutines  
+like functions  
+same subroutine can be called from various parts of prog  
+on completion, return control to the place where subroutine called  
+call and ret instructions is how it is implemented
+
+return location?  
+return address is saved to stack before jumping to subroutine
+push inst: decrement -> write data  
+pop inst: write to dst -> increment (does not erase data al last loc)  
+stack aslo used for exception handling, temp storage for local variables / subroutine parameters.  
+stack grows towards lower memory addr, start at high RAM area with even addr  
+return addr is PC of next inst after subroutine called
+
+stack should exist in RAM. Ensure SP/R1 is initialised to valid RAM location or risk unexpected behaviour
+
+call inst:  
+- size: 2 byte for inst, 2 byte for dst addr
+- return addr size: 2 byte  
+- Stack grows with each call towards lower addr
+- Many nested subroutine calls risk stack overflow
+
+ret inst:  
+- size: 2 byte  
+- pops value at R1 addr into dst, then increment without erasing  
+- NOTE any push to stack in subroutine must be managed and popped before ret inst called in order to return correctly.  
+    
+
+passing in params:  
+- setup before call and cleaned up after ret
+- 3 ways: registers, memory block, stack 
+  - register:
+    - pros: since is register, fast effecient
+    - cons: less registers available to use for logic, small num of registers
+  - memory block / passing by reference
+    - treat portion of memory variable, useful for many params
+    - write value to block of mem at predefined mem addr
+    - pass mem addr of start of block to subroutine via register
+  - stack
+    - push param to stack before call then retrieve inside routine
+    - no registers, supports recusrsive programming
+    - can have many params as long as no stack overflow
+    - params in stack MUST be removed immediatly after ret, if not may have unexpected behaviour/stack overflow
+
+local vars/params
+- create on entry, released on exit  
+- stack is ideal for these  
+- temp mem space called stack frame
+- stack frame created by adding frame size N to SP
+- positive displacements from SP used to access variables, SP is the reference
 
 ## Input / Output Techniques (Chpt 7)
 
-## Primary Memory Subsystems (Chpt 8)
+CPU / microprocessor by itself not useful yet, need peripherals (interfaces)
 
-## Secondary Memory Subsystems (Chpt 9)
+Definitions:
+
+    Peripheral:  
+    able to be attached to and used with computer, though ont an integral part of it  
+    unit or deivce providing peripheral funcions that is connected to the CPU either on the same chip or different chips
+
+    Interface:  
+    a device or program enabliung a user to communicate with a computre or for connecting two items of hardware or software  
+
+### Peripherals
+
+Peripherals connect to processor in 2 ways:  
+- Loosely coupled
+  - via external bus (USB, SCSI, $I^2$C, Firewire)
+  - via a network (Ethernet, ATM, wireless)
+  - via a port (serial(RS232), parallel, PS2)
+- Tightly coupled
+  - via fast internal bus (graphics & hard-disck controllers)
+
+Peripherals generally communicate with CPU through I/O interfaces
+
+### Interfaces
+
+Interfacing: process of connecting two device together so they can exchange information  
+
+parts of interface:  
+physical connection
+hardware  
+set of rules/procedures (software, protocols)
+follow some Standards (e.g. IEEE)
+
+Type of signals:  
+Digital: High or Low  
+Analogue: choose from continuous range of voltage values
+
+Analogue-to-Digital Converter (ADC): Analogue measurement of sensor converted into digital form  
+
+Digital-to-Analogue Converter (DAC): Digital output from processor converted to analogue output  
+
+Most coms have different type of I/O subsystems (peripheral modules)  
+Therefore have different type of interfaccing requierment  
+E.g. printer can use parallel port, keyboard need serial
+
+### Digital Communications
+
+#### Parallel Data Transfer
+
+more than 1 bit transfered simultaneously  
+Fast data transfer  
+usualy done when processor and device nearby
+
+disadvantages:  
+expensive over long dist.  
+no garuantee all data arrive simultaneously
+
+#### Serial Data Transfer  
+
+transfer one bit at a time through two/three wires  
+Data converted from parallel to serial form before sending  
+used for: digital video (VGA), keyboard mouse, LAN  
+used on internal communication between processor and peripheral chips.
+
+Advantage:  
+Less Expensive  
+More robust (no crosstalk, no limitation at high freq/long range)
+
+Disadvantage:  
+Slower than parallel (but in current times is generally fast enough at 40Gbps)
+
+Modes:  
+Simplex: One way only, A to B  
+Half Duplex: Two way, one at a time, A to B XOR B to A.  
+Full Duplex / asynchronous transmission: Two way, simultaneous, A to B OR B to A
+Synchronous: common clock between Tx and Rx to synchronise bit transfers  
+Asynchronous: no common clock required, info made of: 1 start bit, 7/8 bit of info, 1 optional parity bit, 1/1.5/2 stop bits  
+
+Can use tables like ASCII to transit text data
+
+Parameters to be specified before starting communication (Tx and Rx same settings):  
+- baud rate of transmission (number of changes to signal per second)
+- number of data bits
+- optional parity bit
+- type of parity
+- number of stop bits
+
+1 = Mark  
+0 = Space  
+
+Whens serial interface idle, remain in 1 state
+
+Start bit: generally 0 since idle is 1
+data: send LSB first
+parity: send even/odd parity
+stop bit: send 1/1.5/2 stop bits (1's), (1/1.5/2 of baud rate)
+
+e.g. send ASCII 'C', bits: [100 0011], even parity, baud rate = 2400
+
+Tx:  
+start: 0  
+data: 1100 001  
+parity: 1  
+stop bit: 11  
+
+total time: 11/2400 sec
+
+how fast signal sent? depend on baud rate.  
+if baud rate 2400, 1/2400 sec to send 1 bit  
+
+Rx:  
+monitor line for start bit  
+start recording after start bit, timing based on agreed baud rate  
+samples next N data bits  
+Sample parity bit  
+check parity (possible parity error here)  
+sample for stop bit (possible framing error here if stop bit = 0)
+
+Disadvantage of this type of transmission: 7 bit ascii need 10/11 bits to send
+
+#### Baud Rate
+
+baud rate = 1/T, where T is how many bit per sec  
+Common rates: 300, 600, 1200, 2400, 4800, 9600, 19200
+
+#### RS-232 Standard
+
+Serial  
+Defines signals connecting between Data Terminal Equipment (DTE) (e.g. computer) and Data Communication Equipment (DCE) (e.g. Modem)  
+Specifies:  
+- Electrical interface
+    - voltage used, max bit rate
+- mechanical interface
+    - Max distance
+
+![RS-232](jacob-images/RS-232.png)
+
+#### Memory Mapped IO  
+
+Parallel Port and Serial port are IO ports w/ Peripheral modules  
+IO ports have peripheral registers (seperate from CPU register). Reason:  
+- configure peripheral (e.g. config format)  
+- use peripheral (store values from peripharal)
+
+Peripheral registers on same addr bus as memory  
+each register has mem addr (for MSP430, peripheral registers addr are from 0x0000 to 0x0200)  
+accessed same way as RAM  
+MSP430 example:  
+P1DIR addr: 0x0204  
+- set pin as input(0) or output(1)  
+P1OUT addr: 0x0202  
+- store output data  
+P1IN addr: 0x200  
+- show port 1 pin states  
+
+Other devices have isolated IO (e.g. Intel 8086)  
+Memory and peripherals have different addr space  
+two separate control line, one for each  
+Different inst also:  IN/OUT for IO, MOV for mem
+
+#### Polled IO
+
+Polled I/O:  
+CPU initiate, control, terminate data transfer by executing instruction  
+
+Inherently inefficient:
+- CPU send poll, must wait for reply
+- waste time
+- ![polled-io](jacob-images/polled-io.png)
+
+Polling: continuously test port to see if data available.  
+CPU polls the port if have data available to read / is capable of accepting data
+useful when data transfer MUST be completed before program can continue  
+e.g.  
+- writing into control register of peripheral chip during initialization  
+- wait for switch to be pressed before program continue
+
+E.g. CPU polls printer port, checks if prenter ready for msg  
+if ready, send, else wait
+
+Advantage:  
+- **minimum hardware** interface circuitry between I/O device and processor  
+- programmer has **complete control** over entire process  
+- easiest method to test and debug
+
+Disadvantage:  
+CPU wait in loop, cannot perform anything else **until** data transfer complete  
+- **inefficient use** of CPU  
+- program execution of CPU held up while waiting for device to ready
+
+#### Interupt-driven IO
+
+Interrupt-driven I/O:  
+Device initiates but CPU controls and terminates data transfer  
+
+interrupt is external hardware event  
+causes CPU to temporarily suspend current instruction sequence and executer special routine written by programmer (called interrupt service routine A.K.A ISR)
+ISR is fast, main program very briefly suspended
+
+useful when timing of data transfer cannot be known beforehand / data transfer occurs infrequently
+e.g. sending data to printer, get data from sensor
+
+![interrupt-io](jacob-images/interrupt-io.png)
+
+Advantage:
+- efficient use of CPU
+  - promptly provides service at request of device  
+- CPU can continue with other tasks between interrupts
+
+Disadvantage:
+- **more hardware** interface circuitry required between I/O device and processor  
+- program **more complex** and **difficult to debug**
+
+Sequence:  
+device ready for Data transfer  
+send interrupt request to CPU  
+CPU execute interrupt service routine for specific device  
+ISR transfers data to/from device  
+
+### Bluetooth
+
+Definition:  
+- Short-range radio connection technology  
+- low power  
+- low cost  
+- not limited to line of sight  
+
+History:  
+- 1994, Ericson's (Sweden) Bluetooth project for radio comms between cellphones over short dist
+- Named after Danish king **H**arald **B**laatand, who liked blueberries and had a blue tooth
+- Symbol from runic H and B
+- 1998, Bluetooth Special interest Group (made of Intel, IBM, Nokia, Toshiba, Ericsson)
+- 1999, Version 1.0A specification published
+- 2002 and 2005, IEEE standardized Bluetooth as 802.15.1
+- Subsequent versions handeled by Bluetooth SIG directly
+
+Version timeline:  
+- 1999: 1.0, 1.0A, 1.0B: too many problems  
+- 2002: 1.1, IEEE 802.15.1, Wireless personal area network (WPAN) protocol  
+- 2005: 1.2, IEEE 802.15.1, improved speed of upto 720 kbps  
+- 2007: 2.0 + Enhanced Data Rate (EDR)
+- 2007: 2.1 + EDR, Secure Simple Pairing to speed up pairing sequence  
+- 2009: 3.0+ , High Speed
+- ????: 4.0, (Bluetooth Smart, Bluetooth Low Energy BLE), low energy, smaller devices, longer battery life  
+- 2013: 4.1 (4.0 + Core Specification Amendments (CSA) 1,2,3,4)
+- 2014: 4.2 (4.1 + flexible internet connectivity)  
+- 2016: 5.0 and later
+- 2023: 5.4
+- 2024: 6.0 announced
+
+Specifications:  
+Operating frequency: 2402-2480 MHz
+Channels: 79x 1-MHz channels
+Data Rate: 1Mbpsusing 1MHz (720kbps/user)
+Radio Freq hopping rate: 1600 hops/sec - 0.625 ms/hop
+Tx power:  
+- Class 1: 20dBm (0.1W) - 100m range
+- Class 2: 4dBm (2.5mW) - 10m range  
+- Class 3: 0dBm (1mW) - 1m range
+
+## Secondary Memory Subsystems (Chpt 8)
+
+### Memory Hierachy
+
+balance between speed, size and cost
+
+in order of increasing capaccity & access delay:  
+- registers
+- cache
+- main
+- secondary
+
+in order of increasing cost:  
+- secondary
+- main
+- cache
+- registers
+
+secondary mem on external to microproccessor, largest storage space for data/program
+
+external mem: peripheral storage devices, accessible via i/o controllers
+
+types:  
+- Magnetic  
+  - Mechanical hard disk
+  - floppy disk
+- Optical  
+  - CD-ROM  
+  - CD-RW  
+  - DVD  
+  - BLUU-RAY
+- Semiconductor  
+  - Memory Cards  
+  - Solid State Drives
+
+### Magnetic Disks
+
+- One or more platters on common spindle
+- Use thin mmagnetic film
+- Rotate at Constant Rate
+- Data arranged in concentric rings called tracks
+- read-write heads close proximity to surface
+
+Read Write Head made of conductive coil
+may be seperated or single head for both ops
+
+Inductive Writing:  
+Current through coil head produces magnetic field  
+Pulse sent through head  
+Magnetic pattern recorded on surface  
+
+Magneto resistive read:  
+is partially shielded magneto resistive (MR) sensor  
+electrical resistance depends on direction of magnetic field  
+the rising or falling edge itself represents 1 bit
+
+### Data organization and formatting  
+
+data stored in concentric rings, called tracks  
+set of all tracks in same relative position on platter, called cylinder  
+
+each trck same width as head  
+have gap between tracks to minimise interferences from adjacent tracks
+
+each track divided into sector  
+sector may be seperated by gap to reduce precision requierment  
+minimum Data block size is one sector  
+
+### Characteristics of Commmon mmodern hard disk  
+
+Movable head  
+- one read/write head per side  
+- mounted on movable arm  
+
+Double sided Platters
+
+Multiple Platter Disks  
+- Most modernn HDDs have mutiple platters per disk  
+- each surface has r/w head, all joined ad aligned so all heads in same position for each platter
+- Data is striped by cylinder
+  - 4Mb block striped into 8 x 512Kb track, can split over mmultiple platter
+
+### Transfer Rate of hard-disk  
+
+Seek Time ($T_s$):  
+- Time for head to move to correct track  
+Rotational Delay ($T_R$):  
+- Time for disk to rotate until read/write head reaches starting positon of target sector  
+- dependant on rotational speed (Common denomination RPM)
+- RPS = RPM / 60
+- Avg $R_T$ = 0.5/RPS
+Access Time  ($T_A = T_S + T_R$):  
+- Time from request to time head in position  
+Transferr Time ($T_T$):  
+- Time required to tranfer the required dataafter the head is positioned
+- dependant on rotational speed of disk
+- dependant on Track Density ($D_T$), number of sectors per track
+- dependant on Sector Density ($D_S$), number of bytes per sector
+- dependant on number of bytes for the transfer N
+- Formula:  $T_T = \frac{N}{(RPS \times D_T \times D_S)} = \frac{N}{D_T \times D_S} \times \frac{1}{RPS}$
+- $D_T \times D_S$ = number of bytes on track
+
+$T_{Total} = T_A + T_T$  
+$= T_S + T_R + T_T$
+
+### Redundancy @ Surety (Use of RAID)  
+
+Single HDD flaws:  
+- access times for moving head to correct pos significantly lowers  transfer rate
+- magnetic disk more easily suffer from crashes
+
+Redudndant Array of Independant Disks (RAID)
+- num of configs: 7 (0-6)
+- some configs distribute data across physical drives (striping) improves access times e.g. Raid 0
+- some configs Mirror drive e.g. Raid 1
+
+RAID 0  
+- No redundancy
+- min 2 disks
+- data stripedacross ALL disks
+- Round robin striping  
+- Advantage: increased speed
+  - multiple data request probaly not on same disk
+  - disk seeks in parallel
+  - set of data lkely to be striped across multiple disks
+
+RAID 1
+- Mirrored disks
+- min 2 disks
+- 2 copies of each stripe on seperate disks
+- Advantage: faster read op
+  - read from either disk
+  - write same as single disk but done on both corresponding strips
+- Advantage: simple recovery
+  - swap faulty disk &-re mirror
+  - no downtime
+- Disadvantage: higher cost
+
+RAID 10
+- Nested RAID of 1 and 0
+- Mirror and stripe
+- min 4 disk
+- half capacty is for data storage
+- fast read/write
+
+## Primary Memory Subsystems (Chpt 9)
+
+### Register vs Cache
+
+Register: flip-flop storage elements within CPU, very fast
+
+Cache:  
+- small
+- optional
+- faster than main mem
+- between main mem and CPU
+- single-level / multi-level
+- ![multi-level-cache](jacob-images/multi-level-cache.png)
+
+Cache controller handles cache ops  
+Steps:  
+1. CPU requests contents of main mem location  
+2. Check if data available in cache first
+3. If present, read from cache (faster than main mem)
+4. if not present, cache controller fetch data from main mem, store in cache
+5. CPU then read from cache
+
+### CPU-Mem interfacing
+
+Busses again  
+3 kinds: Data, Address, Control
+
+Data bus:  
+made of data lines,  
+moves data  
+data line send 1 bit at a time,  
+number of data lines called width of data bus
+
+Address bus:
+made of address lines   
+used to designate source (reading) or destination (writing) of data  
+number of address lines = address bus width  
+width related to MAX possible mem capacity
+
+Control bus:  
+made of control line  
+control access + use of data / address bus  
+Control signal on this bus can support one or both Synchronus / Asynchronus data transfer timing  
+
+Sync:  
+- occurrence dependant on clock
+- Simpler to implement + test
+- Less flexible, all devices on bus tied to fixed clock
+
+Async:  
+- occurrence of event dependant on occurrence of previous event  
+- Very flexible, mixture of fast/slow devices using old/new tech can share bus  
+- ops more complex, different device operate at own speed  
+- slow device may holp up entire bus
+
+Types of control lines:  
+- Mem Read/Write (Mem Ops)  
+- I/O Read/Write (I/O Ops)
+- Interrupt Request/ACK (Interrupts)
+- Clock (for Synchronus data transfer)
+- Reset (initialise)
+
+Bus diagram e.g.  
+![bus-diagaram-eg](jacob-images/bus-diagaram-eg.png)
+
+Sync Read Op  
+![read-op-sync](jacob-images/read-op-sync.png)  
+
+Sync Write Op  
+![write-op-sync](jacob-images/write-op-sync.png)  
+
+Async Read Op  
+![read-op-async](jacob-images/read-op-async.png)  
+
+Async Write Op  
+![write-op-async](jacob-images/write-op-async.png)  
+
+#### Mem Performance Attributes
+
+Access Time (Latency)  
+- Time from middle of control signal falling edge to time when data line ready to provide valid data (full signal)  
+- For mechanical storage, is time for read/write mechanism to reach desired position  
+
+Mem Cycle Time  
+- is Access Time + any additional time required before another mem access can commence  
+- Mainly for RAM
+
+Transfer Rate  
+- Rate at which data can be transferred into / out of mem unit  
+- usually for RAM is (1/Mem Cycle Time)  
+- for non-RAM (e.g. magnetic drive) Tansfer Time = Access Time + (num_bits/Transfer Rate in bits per sec)
+
+### Main Mem
+
+Main Mem usually semi conductor  
+used in Fetch and Execute of Fetch-Decode-Execute  
+Types:  
+- RAM Random Access Mem
+  - SRAM Static RAM
+  - DRAM Dynamic RAM
+- ROM Read Only Mem
+  - PROM Programable ROM
+    - One-time programable at factory
+  - EPROM Eraseable Programable ROM
+    - use UV to erase
+  - EEPROM Electrically Eraseable Programable ROM
+    - BIOS
+  - FLASH
+    - USB, SSD, SD card
+
+RAM:
+- Can be read / write to at any time
+- Content normally volatile (Data retained only when powered)
+- Store temp data, working variables, maintain stack
+
+ROM:
+- Contents Non-volatine
+- Contents not easily changed
+- Contents can be easily read, normally not written to
+- Needed for system programs like BIOS, config
+
+#### Mem Cell
+
+3 terminals:  
+- Select
+  - Activate / select cell
+- Control
+  - Indicate if op is read/write
+- Data
+  - give data (write op) or read data (read op)
+
+write op, order depends on type:  
+- Control signal for write op sent  
+- Data to store send on Data
+- Cell selected for writing
+- ![mem-cell-write](jacob-images/mem-cell-write.png)
+
+read op, order depends on type:  
+- Control signal for read op sent  
+- Cell selected for reading
+- Data to read sent on Data
+- ![mem-cell-read](jacob-images/mem-cell-read.png)
+
+### RAM technology
+
+Tranistors  
+3 pins: Source (S), Gate (G), Drain (D)
+
+Only when Gate closed (G=1), current allowed to flow from Source to Drain
+
+![transistor-ram-tech](jacob-images/transistor-ram-tech.png)  
+
+SRAM:  
+- Volatile
+- short access time
+- 6 transisters per cell, fewer cells per area
+- Arranged in array of word and bit lines
+- is 2 cross connected inverter, become latch
+- Uses CMOS
+- 2 transistors, controlled by Word Line, act as switch between cell and Bit Line
+- To Read, Bit val is read from Bit Line
+- to write, bit val is sent to Bit Line
+- ![SRAM-logic](jacob-images/SRAM-logic.png)
+- ![SRAM-actual](jacob-images/SRAM-actual.png)
+
+SRAM cells arranged into 16 cells per word line, 16 bits per word mah
+
+DRAM:  
+- Volatile
+- 1 transistor 1 capacitor per cell
+- more cells per area than SRAM
+- longer access time
+- Capacitor charge leaks away, must be refreshed
+
+DRAM write:
+- Activate word line (close transistor)
+- Set bit line to signal to store (high = 1, low = 0)
+- Charge / Discharge capacitor to match bit line
+- Deactivate word line (open transistor)
+- Cell is isolated, holds charge
+- Need to refresh periodically
+
+DRAM Read:  
+- Pre-charge bit line to midpoint voltage  
+- Activate word line (close transistor)
+- Stored Charge will slightly raise / lower bit line voltage
+- Amplify bit line voltage change (increase = 1, decrease = 0)
+- Write bit back to DRAM (Destructive Read)
+
+DRAM refresh is just read op but not send the bit that was read out
+
+DRAM Attributes:
+- Simpler than SRAM (Less components)
+- Denser than SRAM
+- Cheaper than SRAM
+- Needs Refresh
+- Higher Capacity
+- Larger Mem units
+- Suitable for main mem
+
+SRAM Attributes:
+- Faster access
+- Suitable for Cache
+
+### ROM & Flash Technology
+
+basic ROM cell:  
+- 1 transistor switch for bitline, 1 fuse to ground
+- connected to ground = 0, not connected = 1
+
+PROM:
+- program at factory, burn fuse with high current pulse
+
+EPROM:
+- use special transistor instead of fuse to ground  
+- inject charge, allow transistor to turn on and connect to ground (logic 0)
+- use UV light to erase charge
+
+EEPROM:  
+- individual cells can erase electrically
+- more expensive than EPROM
+
+FLASH is based off EEPROM  
+- High density
+- Designed to erase in large blocks not individually
+- writing to individual cells = read whole block, erase everthing, rewrite the block with changes
+- greater density + lower cost > inconvenience of block write
+
+## Memory Management
 
 
 

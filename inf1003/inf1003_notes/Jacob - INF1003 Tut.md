@@ -704,15 +704,633 @@ Since the Truth Table of $¬q ∧ (p → q) → ¬p$ is all True, $¬q ∧ (p �
 # Tutorial 5
 
 ## q1
-|Predicate|True/False/Nether|Explanation|
-|:-------:|:---------------:|:---------:|
-|a. ¬𝑃𝑟𝑖𝑚𝑒(10) ∨ 𝐼𝑛(10,5,20)|True|¬𝑃𝑟𝑖𝑚𝑒(10) = True, True ∨ anything = True|
-|b. ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and Prime(2) = True|
-|c. ∃𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and ¬Prime(4) = True|
-|d. ∀𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|False|Domain given but Prime(4) = False|
-|e. ∀𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛)|False|Domain given but ¬Prime(2) = False|
+When all variables in a predicate are given specific values, it becomes a proposition
+
+It is easier to prove an exitental quantifier to be true than false, only need 1 example.
+
+try to eliminnate negation infrom of predicate first
+
+negation outside a quantifier means it can e simplified and is currently not a proposition
+
+|Predicate|True/False/Nether|Explanation|Ans|
+|:-------:|:---------------:|:---------:|:-:|
+|a. ¬𝑃𝑟𝑖𝑚𝑒(10) ∨ 𝐼𝑛(10,5,20)|True|¬𝑃𝑟𝑖𝑚𝑒(10) = True, True ∨ anything = True|¬𝑃𝑟𝑖𝑚𝑒(10) = True, 𝐼𝑛(10,5,20) = True, ¬𝑃𝑟𝑖𝑚𝑒(10) ∨ 𝐼𝑛(10,5,20) = True ∨ True = True|
+|b. ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and Prime(2) = True|there exists an integer such that is it a prime number, give example n=2 which is prime, ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛) = True |
+|c. ∃𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and ¬Prime(4) = True|there exists an integer such that is is not a prime. example, n = 4 which is not prime,∃𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛) = true|
+|d. ∀𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|False|Domain given but Prime(4) = False|find counter example, n=4 false|
+|e. ∀𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛)|False|Domain given but ¬Prime(2) = False|find counter example, n=2 false|
 |f. ¬∀𝑛𝑃𝑟𝑖𝑚𝑒(𝑛)|True|Domain given and $¬∀n\ Prime(n) \equiv ∃n(¬Prime(n))$, ∃𝑛¬𝑃𝑟𝑖𝑚𝑒(𝑛) proven true in part c.|
-|g. ∀𝑛(𝐼𝑛(𝑛, 1,3) → 𝑃𝑟𝑖𝑚𝑒(𝑛))|True|Domain Given, when n!=2, 𝐼𝑛(𝑛, 1,3) = false, 𝐼𝑛(𝑛, 1,3) → 𝑃𝑟𝑖𝑚𝑒(𝑛) = true. When n = 2, 𝐼𝑛(𝑛, 1,3) = true an 𝑃𝑟𝑖𝑚𝑒(𝑛) = true.|
-|h. ∀𝑛(𝐼𝑛(𝑛, 8,10) → 𝑃𝑟𝑖𝑚𝑒(𝑛))|False|Domain given but when n=9, 𝐼𝑛(𝑛, 8,10) =True but 𝑃𝑟𝑖𝑚𝑒(𝑛) = False, thus 𝐼𝑛(𝑛, 8,10) → 𝑃𝑟𝑖𝑚𝑒(𝑛) = False|
-|i. ∀𝑛(𝐼𝑛(𝑛, 𝑎, 𝑏) → ¬𝑃𝑟𝑖𝑚𝑒(𝑛)), Where 𝑎 and 𝑏 are integer smaller than 10|||
-||||
+|g. ∀𝑛(𝐼𝑛(𝑛, 1,3) → 𝑃𝑟𝑖𝑚𝑒(𝑛))|True|Domain Given, when n!=2, 𝐼𝑛(𝑛, 1,3) = false, 𝐼𝑛(𝑛, 1,3) → 𝑃𝑟𝑖𝑚𝑒(𝑛) = true. When n = 2, 𝐼𝑛(𝑛, 1,3) = true an 𝑃𝑟𝑖𝑚𝑒(𝑛) = true.| when n!=2, 𝐼𝑛(𝑛, 1,3) = false, means n = 1 is counter example, ans is false| 
+|h. ∀𝑛(𝐼𝑛(𝑛, 8,10) → 𝑃𝑟𝑖𝑚𝑒(𝑛))|False|Domain given but when n=9, 𝐼𝑛(𝑛, 8,10) =True but 𝑃𝑟𝑖𝑚𝑒(𝑛) = False, thus 𝐼𝑛(𝑛, 8,10) → 𝑃𝑟𝑖𝑚𝑒(𝑛) = False|when n=8, 𝐼𝑛(𝑛, 8,10) = False, counterexample so proposition is false|
+|i. ∀𝑛(𝐼𝑛(𝑛, 𝑎, 𝑏) → ¬𝑃𝑟𝑖𝑚𝑒(𝑛)), Where 𝑎 and 𝑏 are integer smaller than 10|||for every integerr, if it is larger than or equal to a and smaller than or equalt to b, then it is not a prime number. neither true or false as no values give.|
+|j. ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛) → 𝐼𝑛(𝑛, 30,40)|||if there exists an integer that is prime number, then n is larger or equal to 30 and smaller than or equal to 40. The IN() is not a proposition as has a variable. ∃𝑛𝑃𝑟𝑖𝑚𝑒(𝑛) is a proposition as has quantifier and we can suggest an example. since cannot get truth value of 𝐼𝑛(𝑛, 30,40), overall statement is neither true or false|
+
+## q2
+Let 𝐵𝐵(𝑥) be the statement “𝑥 plays basketball every week”, where the domain of 𝑥 is all students of ICT. Express each of the following in English:  
+. ∃𝑥𝐵𝐵(𝑥)  
+- There is a student of ICT who plays basketball every week; correct  
+
+b. ∀𝑥𝐵𝐵(𝑥)  
+- All students of ICT play basketball every week; correct  
+
+c. ¬∀𝑥𝐵𝐵(𝑥)  
+- Not every students of ICT play basketball every week; correct  
+
+d. ∃𝑥¬𝐵𝐵(𝑥)  
+- There is a student of ICT who does not play basketball every week; correct  
+- alt representation: ∃𝑥¬𝐵𝐵(𝑥) = ¬∀𝑥𝐵𝐵(𝑥)  
+
+## q3
+
+all correct
+
+a. i. Cal(x): x knows calculus, domain: all rabbits, statement: ¬∃𝑥 Cal(x) = ∀𝑥 ¬Cal(x)  
+   ii. ¬¬∃𝑥 Cal(x) = ∃𝑥 Cal(x)  
+   iii. There exists a rabbit that knows calculus  
+
+b. i. Talk(x): x can talk, domain: all birds, statement: ∃𝑥 Talk(x)  
+   ii. ¬∃𝑥 Talk(x) = ∀𝑥 ¬Talk(x)  
+   iii. All birds cannot talk  
+
+c. i.F(x): x knows French  R(x): x knows russian, domain: all students in this class, statement: ∀𝑥 ¬(F(x)∧R(x)) / ¬∃𝑥 (F(x)∧R(x))  
+   ii. ¬∀𝑥 ¬(F(x)∧R(x)) = ∃𝑥 (F(x)∧R(x))  
+   iii. There is someone in this class who knnows French and Russian  
+
+d. i. M(x): x is a Marvel FFan, domain: all students in this class, statement: ∀𝑥 M(x)  
+   ii. ¬∀𝑥 M(x) = ∃𝑥 ¬M(x)  
+   iii. There is a student in this class who is not a Marvel Fan  
+
+## q4
+
+a.  
+Credits (x,y): x has taken y credits thus semester  
+A(x,y): student x recieved an 'A' grade in module y  
+∃𝑥(Credits(x,21)∧∀y(x,y)), domain: all students; correct  
+
+b.  
+M(x,y): passenger x flies more than y miles in a year  
+F(x,y): passenger x takes more than y flights in a year  
+Q(x): passenger x qualifies as an 'Elite Flyer'  
+Q(x) → M(x,25000) ∨ F(x,25), domain: all airline passengers; wrong
+∀x(M(x,25000)∨ F(x,25) → Q(x)); corrction
+
+c.  
+M(x,y): Man x previous best time < y hours  
+W(x,y): Woman x previous best time < y hours  
+Q(x): person x qualifies for the marathon  
+Q(x) → M(x,3) ∨ W(x,3.5), domain: all applicants; wrong
+
+Man(x): x is a man
+Woman(x): x is a woman
+Best(x,y): best previous time of x is less than y hours
+Q(x): x qualifies for the marathon
+∀x((Man(x) ∧ Best(x,3)) ∨ (Woman(x) ∧ Best(x,3.5))); correction
+
+
+## q5
+a. 
+some students: ∃𝑥  
+and: ∧  
+|domain: all students|domain: all people|
+|-|-|
+|∃𝑥(L(x) ∧ D(x))|S(x): x is a student in this class|
+||∃𝑥(S(x) ∧ L(x) ∧ D(x))|
+
+b. 
+all students: ∀𝑥  
+all macOS users have a laptop: →  
+|domain: all students|domain: all people|
+|-|-|
+|∀x(M(x) → L(x))|S(x): x is a student in this class|
+||∀𝑥((S(x) ∧ M(x)) → L(x))|
+
+c.  
+all students: ∀𝑥  
+either or both: ∨  
+|domain: all students|domain: all people|
+|-|-|
+|∀x(M(x) ∨ W(x))|S(x): x is a student in this class|
+||∀𝑥(S(x) → (M(x) ∨ W(x)))|
+
+## Q6
+
+quantifiers have no intrinsic precedence, do left to right  
+expect readable English sentance instead of plain translation of quantified predicate  
+
+a.  
+∀x∃y(x < y), domain of x and y: all real numbers  
+for every real number x, there is another real number y, such that y is larger then x.  
+there is no largest number  
+
+b.  
+∀x∀y((($x \geq 0$) ∧ ($y \geq 0$) → ($xy>=0$)))  
+for every combination of real numbers x and y, if x is no-negative and y is non-negative, xy is non-negative  
+product of two non negative numbers is also non negative  
+
+c.  
+∀x∀y∃z($x + y = z$)  
+For every combination of real numbers x and y, there is a real number z,  is the sum of x and y  
+the sum of two real numbers is a real number  
+
+
+## q7
+
+F(x,y): x and y are friends  
+domain: all students in SIT
+
+a.  
+∀x∃y(F(x,y)∧∀z((y != z) → ¬F(x,z)))  
+for every SIT student x, there is one SIT student y, such that x and y are friends. and for every student z, if z is different from y, then x and z are not friends  
+for every SIT student x, there is one SIT student y, such that x and y are friends, and there is no other SIT student who is considered a friend of x  
+Every sit student has exactly one friend
+
+b.  
+∃∀y∀z(F(x,y) ∧ F(x,y) ∧ (y != z) → ¬F(x,z))  
+There is a student x, for every combinatino of student y and z, if x and y are friends, and x and z are friends, and y and z are different students, then y and z are not friends  
+There is a student x, whose every combination of two friends are not friends with each other.  
+There is a student whose SIT friends are not friends with each other
+
+
+# Tutorial 6
+
+## q1
+
+a:  
+p: work all night  
+q: ans all q  
+r: understand  
+
+premise 1 : p → q  
+premise 2 : q → r  
+conclusion: p → r  
+
+rule used: hypothetical syllogism  
+
+b:  
+p: n is real, n>3  
+q: n is real, 2n>6  
+r: n>=2  
+
+premise 1: p → q  
+premise 2: r  
+conclusion: r → q  
+cannot conclude (q could be either true or false)  
+
+rule used: None
+
+c:  
+p: snows  
+q: uni is closed  
+
+premise 1: p → q  
+premise 2: ¬q  
+conclusion: ¬p  
+
+rule used: modus tollens
+
+
+d:
+p: stay in sun too long
+q: go swimming
+
+premise 1: q ∨ p $\equiv$ p ∨ q  (commutative law)  
+premise 2: ¬p  
+conclusion: q
+
+rule used: disjunctive syllogism
+
+e:
+p: n is real, n>2  
+q: n is real, $n^2$>4  
+
+premise 1: p → q  
+premise 2: ¬q  
+conclusion: ¬p  
+
+rule used: modus tollens
+
+## q2
+
+p: rains  
+q: foggy  
+r: sailing race held  
+s: lifesaving demo  
+t: trophy
+
+1) premise a: ¬p ∨ q → r ∧ s  
+2) premise b: r → t  
+3) premise c: ¬t  
+conclusion: p
+
+steps:  
+
+4) from 1) : ¬p ∨ q → r  
+rules used: hypothetical Syllogism and Simplifiction
+
+5) from 2) : ¬r
+rule used: moodus tollens
+
+6) from 4) and 5): ¬(¬p ∨ q) $\equiv$ p ∧ ¬q
+rule used: De Morgan's law
+
+7) from 6): p
+rule used: simplification
+
+## q3
+
+p: is raining  
+q: has umbrella  
+r: does snot get wet  
+
+Premise a: ¬p ∨ q  
+Premise b: q → r  
+Premise c: p ∨ r  
+conclusion: r
+
+steps:  
+1) Premise a: ¬p ∨ q  
+2) Premise b: q → r  
+3) Premise c: p ∨ r 
+4) from 1) and 3): q ∨ r 
+rule used: resolution 
+5) from 2): q → r $\equiv$ ¬q ∨ r (in formula sheet)  
+6) from 4) and 5): r ∨ r $\equiv$ r (Idempotent Law)  
+rule used: Resolution
+
+## q4
+
+Premise a: (p ∨ q) ∧ (¬p → ¬q)
+Premise b: p → r
+
+steps:  
+1) Premise a: (p ∨ q) ∧ (¬p → ¬q)
+2) Premise b: p → r
+3) from 1): p ∨ q
+rule used: simplification
+4) from 1): ¬p → ¬q
+5) from 4): ¬p → ¬q $\equiv$ ¬(¬p) ∨ ¬q $\equiv$ p ∨ ¬q (De morgan)
+6) from 3) and 5): p ∨ p $\equiv$ p (resolution)
+7) from 2) and 6): r (modus ponens)
+8) from 7): r ∨ t (addition)
+
+
+## q5
+
+premise a: (p → q) ∧ (r → s)
+premise b: p
+premise c: ¬s
+
+steps:
+1) premise a: (p → q) ∧ (r → s)  
+2) premise b: p  
+3) premise c: ¬s  
+4) from 1) (p → q)  
+5) from 1) (r → s)  
+6) from 2) and 4)q (modus ponens)  
+7) from 3) and 5) ¬r (modus tollens)  
+8) from 6) and 7) q ∧ ¬r  (conjunction)
+
+## q6
+
+S(x): x is student in class
+P(x): x passed first calss test
+
+premise 1: ∀x(S(x) → P(x))  
+premise 2: S(Alice)  
+Conclusion: P(Alice)  
+
+steps:  
+1) premise 1: ∀x(S(x) → P(x))
+2) premise 2: S(Alice)
+3) from 1): S(Alice) → P(Alice) (Universl Instantiation)
+4) from 2) and 3): P(Alice), (Modus Ponens)
+
+
+J(x): x is junior
+I(x): x is ICT stuent
+C(x): x on campus on weekend
+
+Premise 1: ∀x(J(x) → ¬C(x))  
+Premise 2: ∃x(I(x) → ¬J(x))  
+Conlusion: ∃x(I(x) ∧ C(x))  
+
+Steps:  
+1) Premise 1: ∀x(J(x) → ¬C(x))  
+2) Premise 2: ∃x(I(x) → ¬J(x))  
+3) from 2): I(a) ∧ ¬J(a) (existential instantiation)  
+4) from 3): I(a) (simplification)  
+5) from 3): ¬J(a) (simplification)  
+6) from 1): J(a) → ¬C(a) $\equiv$ C(a) → ¬J(a) (Contrapositive)
+7) from 5) and 6): cannot conclude C(a) (C(a) can be either true or false based on truth table)
+8) from 4) and 7): cannot conclude I(a) ∧ C(a)
+9) from 8): cannot conclude ∃x(I(x) ∧ C(x)) (existential generalisation)
+
+
+P(x): x likes fruit
+Q(x): x is a parrot
+
+Premise 1: ∀x(Q(x) → P(x))
+Premise 2: ¬Q(my pet bird)
+conlusion: ¬P(my pet bird)
+
+steps:  
+1) Premise 1: ∀x(Q(x) → P(x))  
+2) Premise 2: ¬Q(my pet bird)  
+3) from 1): Q(my pet bird) → P(my pet bird) (Universal Instantiation)
+4) from 2) and 3) cannot conclude ¬P(my pet bird) (based on truth table)
+
+
+P(x): x eats granola every day
+Q(x): x is healthy
+
+Premise 1: ∀x(P(x) → Q(x))  
+Premise 2: ¬Q(Linda)
+Conclustion: ¬P(Linda)  
+
+1) Premise 1: ∀x(P(x) → Q(x))  
+2) Premise 2: ¬Q(Linda)
+3) from 1): P(Linda) → Q(Linda) (Universal Instantiation)  
+4) from 3):
+????????????//
+
+## q7
+
+step 2 incorrect. Changes from Existential into Universal. Can use normal rules of inference as each quantified expression can be treated as a proposition (x(P(x)))
+
+step 3 incorrect, should be existential not universal
+
+step 4 incorrect: should be existential ot universal
+
+step 5 incorrect: should be existential instantiation not generalisation from 4
+
+step 6 incorrect should be conjunction but of different specific values
+
+step 7 is invalid
+
+|step|proposition|reason|
+|-|-|-|
+|1|∃xP(x) ∧ ∃xP(x)|Premise|
+|2|~~∀xP(x)~~ ∃xP(x)|Simplification from (1)|
+|3|P(c)|~~Universal~~ Existential Instantiation from (2)|
+|4|~~∀xQ(x)~~ ∃xQ(x)|Simplification from (1)|
+|5|Q(C)|Existential ~~generalisation~~ instantiation from (4)|
+|6|~~P(c) ∧ Q(c)~~ P(c1) ∧ Q(c2)|~~Simplification from (3) and (5)~~ Conjunction|
+|7|∃x(P(x) ∧ Q(x))|~~Existential generalisation from(6)~~ Invalid|
+
+
+
+# Tutorial 7
+
+for ∃x (p(x) → q(x)), if q(x) is always false, find a p(c) for some value c such that p(c) → q(c) is true
+
+for ∀x (p(x) → q(x)), if q(x) is always false, go for disprove because universal is easier, so fins a p(c) for some value c such that p(c) → q(c) is false
+
+for ∀x (p(x) → q(x)), if q(x) is always true, cannot find a p(c) for some value c such that p(c) → q(c) is false, so go for direct proof
+
+if asked to prove or disprove, do which ever is easier first, i.e. existentia do prove, universal do disprove
+
+irrational numbers do not have enough properties to prove things.  
+meanwhile, rational numbers have properties like all rational numbers can be represented by x/y where x and y are rational numbers  
+so for prove irrational number questions, consider proof by contraposition
+
+contrapositive of ∃x (p(x) → q(x)) is ∃x (-q(x) → -p(x)) 
+negation of ∃x (p(x) → q(x)) is ∀x (p(x) $\land$ -q(x))
+
+## Q1
+
+p: a + b are two odd integerrs  
+q: a+b is even  
+prove p → q  
+
+1) a and b are two odd integers | assuming p  
+2) ∃x ∈ Z, ∃y ∈ Z, a = 2x +1, b = 2y+1 | by definition  
+3) a+b = (2x+1) + (2y+1) = 2*(x+y+1) | By 2)  
+4) a + b is an even integer | by definition (proving q)  
+5) Sum of two odd integers is even | p → q  
+
+## Q2
+
+p: n is an odd integerrs  
+q: 5n+6 is odd  
+prove p ↔ q by first proving p → q then proving q → p (p → q) 
+
+1) a and b are two odd integers | assuming p
+2) ∃x ∈ Z, ∃y ∈ Z, a = 2x +1, b = 2y+1 | by definition
+3) a+b = (2x+1) + (2y+1) = 2*(x+y+1) | By 2)
+4) a + b is an even integer | by definition (proving q)
+5) Sum of two odd integers is even | p → q
+
+## Q3
+
+p: $n^3+5$ is odd
+q: n is evven
+prove p → q  
+
+b.  
+by contradiction  
+¬(p → q) $\equiv$ ¬(¬p∨q) $\equiv$ p∧¬q
+
+1) $n^3+5$
+
+
+## Q4
+
+p: m+n and n+p are even integer
+q: mm+p is even
+prove p → q  
+
+1) m+n and n+p are even integers | assuming p
+2) ∃x ∈ Z, ∃y ∈ Z, m+n = 2x +1, n+p = 2y+1 | by definition
+3) m = 2x-n, p = 
+
+## Q5
+
+## Q6
+
+## Q7
+
+## Q8
+
+## Q9
+
+# Tutorial 8
+
+## Q1
+
+a: {x | x is a real number such that $x^2$ = 1} = {-1,1}  
+b: {x | x is the cube of a positive integer such that x $\leq$ 1728} = {1,8,27,64,125,216,343,5122,729, 1000, 1331, 1728}  
+c: {x | x is a prime number such that x < 15} = {2,3,5,7,11,13}  
+d: {x | x is an integer such that $x^2$ = 5} = {} = $\emptyset$  
+
+## Q2
+
+B and C are proper subsets of A  
+B and C are proper subsets of D  
+C are proper subsets of E  
+
+a: {4,6}  
+b: {2,4,6,8}  
+c: {6}  
+
+## Q3
+
+a: |{a}| = 1  
+b: |{{a}}| = 1  
+c: |{a,{a}}| = 2  
+d: |{a,{a},{a,{a}}}| = 3  
+e: |$\emptyset$| = 0  
+f: |{$\emptyset$}| = 1   
+g: |{$\emptyset$,{$\emptyset$}}| 
+
+## Q4
+
+a: P({a,b}) = {  
+    $\emptyset$,  
+    {a},  
+    {b},  
+    {a,b}  
+    }
+
+b: P({a,$\emptyset$}) = {  
+    $\emptyset$,  
+    {a},  
+    {$\emptyset$},  
+    {a,$\emptyset$}  
+    }  
+
+c: P({a,{$\emptyset$}}) = {  
+    $\emptyset$,  
+    {a},  
+    {{$\emptyset$}},  
+    {a,{$\emptyset$}}  
+    }  
+
+d: P({a,b,{a,b}}) = {  
+    $\emptyset$,  
+    {a},  
+    {b},  
+    {{a,b}},  
+    {a,b},  
+    {a,{a,b}},  
+    {b,{a,b}},  
+    {a,b,{a,b}}  
+    }  
+
+e: P(P($\emptyset$))  
+    step 1: P($\emptyset$) = {$\emptyset$}  
+    step 2: P(P($\emptyset$)) , = P({$\emptyset$})  
+    = {$\emptyset$, {$\emptyset$}}
+
+## Q5
+
+a: A $\times$ B = {  
+    (a,y),  
+    (a,z),  
+    (b,y),  
+    (b,z),  
+    (c,y),  
+    (c,z),  
+    (d,y),  
+    (d,z)  
+    }  
+
+b: B $\times$ A = {  
+    (y,a),  
+    (y,b),  
+    (y,c),  
+    (y,d),  
+    (z,a),  
+    (z,b),  
+    (z,c),  
+    (z,d)  
+    }   
+
+$A \times B \neq B \times A$
+
+## Q6
+
+
+
+
+
+## Q7
+
+A ⊆ B, B ⊆ C, show A ⊆ C
+
+Since A ⊆ B, ∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵) (by definition of subset)  
+Since B ⊆ C, ∀𝑥(𝑥 ∈ B → 𝑥 ∈ C) (by definition of subset)  
+
+<u>∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵)</u>  
+k ∈ 𝐴 → k ∈ 𝐵, for some element k (universal instantiation)
+
+<u>∀𝑥(𝑥 ∈ B → 𝑥 ∈ C)</u>  
+k ∈ B → k ∈ C, for some element k (universal instantiation)
+
+k ∈ 𝐴 → k ∈ 𝐵  
+<u>k ∈ B → k ∈ C</u>  
+k ∈ 𝐴 → k ∈ C (Hypothetical syllogism)
+
+∀𝑥(𝑥 ∈ A → 𝑥 ∈ C) (Universal insantiation)
+
+thus, A ⊆ C
+
+## Q8
+
+A = (A∩$B^∁$) ∪ (A∩B) = {1,3,5,6,7,8,9}
+B = (B∩$A^∁$) ∪ (A∩B) = {2,3,6,9,10}
+
+## Q9
+
+Assume for some element c, c ∈ A\B
+
+c ∈ A\B ↔ (c ∈ A) ∧ (c ∉ B) (by definition of difference)  
+c ∈ A\B ↔ (c ∈ A) ∧ (c ∈ $B^∁$) (by definition of complement)  
+c ∈ A\B ↔ (c ∈ A ∩ $B^∁$) (by definition of intersection)  
+∀𝑥(x ∈ A\B ↔ x ∈ (A ∩ $B^∁$))  
+A\B = A ∩ $B^∁$  
+
+## Q10
+
+a: B is subset A,  
+cannot truly prove is PROPER subset of A  
+as what if A = B, then is not proper subset
+
+b: A is subset B  
+
+c: (A\B = A) ↔ (A∩B = $\emptyset$)  
+A and B are disjoint
+
+d: A∩B = B∩A is theCommutative Law  
+Cannot conclude anything, A and B can be any pair of sets
+
+e: A\B = B\A  
+A \ B = {x | x ∈ A ∧ x ∉ B}  
+B \ A = {x | x ∈ B ∧ x ∉ A}  
+A\B = B\A ↔ ∀𝑥(x ∈ A ∧ x ∉ B ↔ x ∈ B ∧ x ∉ A) ↔ ∀𝑥(x ∈ A ↔ x ∈ B) ↔ A = B
+
+|x ∈ A|x ∈ B|x ∉ A|x ∉ B|x ∈ A ∧ x ∉ B (A\B)|x ∈ B ∧ x ∉ A (B\A)|x ∈ A ∧ x ∉ B ↔ x ∈ B ∧ x ∉ A (A\B = B\A)|x ∈ A ↔ x ∈ B|
+|-|-|-|-|-|-|-|-|
+|F|F|T|T|F|F|T|T|
+|F|T|T|F|F|T|F|F|
+|T|F|F|T|T|F|F|F|
+|T|T|F|F|F|F|T|T|
+
+x ∉ A and x ∉ B are not exactly "dropped", its just if x is not in A or B, its in some universal set that we do ot care about  
+This also means we do not really care about the first row where x not in A or B  
+Therefore can only conclude that A = B
+
+## Q11
+
+|M| = 120,  
+|E| = 135,  
+|S| = 80,  
+|M ∩ E| = 50,  
+|M ∩ S| = 30,  
+|E ∩ S| = 25,
+|M ∩ E ∩ S| = 15
+
+|$(M ∪ E ∪ S)^∁$|  
+= |U| - (|M| + |E| + |S| - |M ∩ E| - |M ∩ S| - |E ∩ S| + |M ∩ E ∩ S|)  
+= 343 - (120 + 135 + 80 - 50 -30 - 25 + 15)  
+= 343 - 245  
+= 98

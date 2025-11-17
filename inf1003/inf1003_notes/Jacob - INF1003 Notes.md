@@ -544,7 +544,7 @@ conventional letters used for propositional variables are $p, q, r, s, ...$
 
 → or ⇒: Imply, Material Conditional
 
-⇔: Material Biconditional, NOT XOR gates
+⇔ or ↔: Material Biconditional, NOT XOR gates
 
 Let $p$ and $q$ be propositions.  
 The proposition $q → p$ is the **converse** of $p → q$.  
@@ -1056,6 +1056,17 @@ The predicate now represents the whole student set
 
 once $x$ has a value, then can get a truth value
 
+quantifiers have no intrinsic precedence, do left to right  
+expect readable English sentance instead of plain translation of quantified predicate  
+
+When all variables in a predicate are given specific values, it becomes a proposition
+
+It is easier to prove an exitental quantifier to be true than false, only need 1 example.
+
+try to eliminnate negation infrom of predicate first
+
+negation outside a quantifier means it can e simplified and is currently not a proposition
+
 ## Predicate / Propositional Fucntion
 
 $$S(x): x\ is\ a\ student$$
@@ -1084,7 +1095,7 @@ Quantifiers in Predicate logic
 1. Universal Quantifier, $∀$
    - Truth Value using domain
    - Truth value using counter example
-2. Existential Quantifier
+2. Existential Quantifier, $∃$
    - Truth value using domain
 
 Quantifier with restricted domain
@@ -1192,6 +1203,7 @@ $$¬∃x(x^2=2) \equiv ∀x(x^2 \neq 2)$$
 
 ![table-of-nested-quatifiers](jacob-images/table-of-nested-quatifiers.png)
 
+$∀x∀yP(x,y) \equiv ∀y∀xP(x,y)$
 
 q1. domain is real numbers
 $$∀x∃y(x + y = 0)$$
@@ -1225,3 +1237,918 @@ Can be true as tor a given real number $x$, we can choose a real number $y$ such
 
 -----------------------------------------------------------------
 
+# Topic 6 Inference
+
+assume fisrt premis is true unless otherwise stated
+if ask for prove, must assume
+
+logical equivalences still apply anywhere before, in between or after rules of inferences
+
+rules of inference only work downwards?
+
+if rule is basically imply, can i use logical equivalences to adapt it?  
+e.g. simplification: (𝑝 ∧ 𝑞), ∴p = (𝑝 ∧ 𝑞) → p ?
+
+resolution does not need to have unique variables in premise.  
+e.g. resolution (𝑝 ∨ q) and (¬𝑝 ∨ 𝑟) is (∴ 𝑞 ∨ r) BUT SO IS (𝑝 ∨ q) and (¬𝑝 ∨ q) is (∴ 𝑞 ∨ q)
+
+cannot use existential instantiation as input to universal generalisation
+
+for addition rule, p therefore p or q, does q have to be a give premise? or can i just pull it out of my ass?
+YES YOU CAN PULL IT OUT OF YOUR ASS, 6.1a inference on xsite says so.
+
+ q → r $\equiv$ ¬q ∨ r (in formula sheet)  
+ this formula can be cconsidered a bridge between implication rules of inference (Modus ponens, modus tollens, hypothetical syllogism) and disjunction rules of inference (Disjunctve syllogism, addition, resolution)
+
+arguement:
+series of proposition
+a number of premise followed by single conclusion
+argument is valid if all premise imply conclusion is a tautology
+validty does not require premises or conclsion to be true in real world
+
+rules exist for propositional logic and predicate logic
+
+instatiation ules: from pool of valid values to specific val
+generalisation rules: specific val to pool of valid ones
+
+validity of arguemnt != truth table.
+
+argument is valid if all premise and conclusion is true. Therefore the argument is a tautology.
+
+if premise is true but caqnnot conclude, argument invalid
+
+you can invalidate an argument by proving a premise false
+
+There is no problem uaing the imply version of proposition or the conjunctive (AND) version since both are equivalent. Use whichever is more helpful to you for that qn
+
+if q = ($a \leq \sqrt{n}$), ¬q = ($a > \sqrt{n}$)
+
+Rules of inference are treated as true and so no need to use the truth tables for each to prove conclusion true. Just use the rule.
+
+Rules of inference only work because each rule is a tautology
+
+Modus Ponens
+(p ∧ (p → q)) → q
+
+Modus Tollens  
+(¬q ∧ (p → q)) → ¬p
+
+Resolution  
+((p ∨ q) ∧ (¬p ∨ r)) → (q → r)
+
+Constructive Dillemma
+((p → q) ∧ (r → s) ∧ (p ∨ r)) → (q ∨ s)
+
+
+
+# Topic 7 Proofs
+
+Theorem: statment that can be shown to be true.  
+AKA facts or results.  
+less important theorems somtimes called propositions.  
+Theorem may be universal quantification of conditional statement with one or more premises and a conclusion
+
+If qn says: prove p1,p2...pn are equivalent, p1 → p2, p2 → p3, ...
+
+![proofs_for_propositions](jacob-images/proofs_for_propositions.png)
+
+## direct proof:  
+step 1 assume p is true  
+use rules of inference  
+last step show q is true  
+
+## Proof By Contraposition  
+(p → q) $\equiv$ (¬q → ¬p)  
+so if can prove (¬q → ¬p), (p → q) is proven  
+example used this when qn asked abt odd num
+
+## Vacuous Proof  
+(p → q) is always true when ¬p.  
+so if can show ¬p, (p → q) is proven  
+(often used to establish special case in theorems that state a conditional statement for all positive integers)  
+
+## Trivial Proof  
+(p → q) is always true when q.  
+so if can show q, (p → q) is proven  
+(important when special cases of theorems are proved)  
+
+## Proof By Contradiction  
+p is true when (¬p → (r∧¬r)), for some proposition r  
+
+Proof By Contadiction example:  (proving statement is true)  
+Let p be proposition "$\sqrt{2}$ is irrational"  
+Suppose ¬p is true. (i.e. "$\sqrt{2}$ is rational")  
+Thus, $\sqrt{2} = \frac{a}{b}$, whereby b!= 0 and a and b have no common factors  
+Thus, $2 = \frac{a^2}{b^2}$, meaning $a^2 = 2*b^2$.  
+Since $a^2 = 2*b^2$, $a^2$ is even.  
+Since $a^2$ is even, $a$ is even  
+Since $a$ is even, $a = 2c$ for some integer $c$  
+Sub in $a = 2c$ into $a^2 = 2*b^2$, $4*c^2 = 2*b^2$  
+Thus $b^2 = 2*c^2$, meaning $b^2$ is even and, thus, $b$ is even  
+Since both $a$ and $b$ are even, both have 2 as common factor.  
+But is contradiction, since assum have no common factor.  
+Thus, ¬p is false, meaning p is true i.e. $\sqrt{2}$ is irrational  
+
+Proof By Contadiction example:  (proving by implication)  
+Give proof by contradiction of theorem "If $3n + 2$ is odd, then $n$ is odd"  
+p = $3n + 2$ is odd  
+q = $n$ is odd  
+Statement is $p → q$
+To construct Contradiction, $¬(p → q)$  
+Which is $¬(p → q) \equiv p ∧ ¬q \equiv ¬(¬p ∧ q)$  
+Thus let us assume: $(p ∧ ¬q)$, i.e. p is true, ¬q is true  
+Thus assume $3n + 2$ is odd, $n$ is not odd  
+Since $n$ not odd, $n = 2k$ for some int k  
+Means $3n + 2 = 3(2k) + 2 = 2(3k+1)$, meaning 3n+2 is even. I.e. ¬p  
+Since p and ¬p are both true, we have contradiction.
+
+## Proof of Biconditional statement ↔
+To prove $p ↔ q$, show $p → q$ and $q → p$ are true  
+EXAMPLE  
+Prove: "If $n$ is an integer, then $n$ is odd if and only if $n^2$ is odd"  
+Theorem is in form of "p if and only if q", where p is "$n$ is odd" and q ia "$n^2$ is odd".  
+To prove, need show $p → q$ and $q → p$ are true  
+Start with Direct Proof,  
+Assume $n$ is odd, thus $n = 2k + 1$ where k is some int  
+Thus, $n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 +2k) + 1$  
+Since $2k^2 +2k$ is an integer, let us represent it with $m$, $n^2 = 2m + 1$ for some int m  
+Thus $n^2$ is odd, $p → q$  
+Next use contrapositive
+To prove $q → p$, use proof by contraposition, prove $¬p → ¬q$  
+Assume $¬p$, $n$ is even, $n = 2k$, k is int  
+Then, $n^2 = 4k^2 = 2(2k^2)$, thus $n^2$ is even, thus ¬q.  
+Thus, $¬p → ¬q$, proves $q → p$  
+Proof Complete
+
+## Proof By CounterExample (Universal Quant):  
+To prove $∀x P(x)$ is false, only need find counterexample  
+find one example for x for which P(x) is false.  
+E.g. "Every positive int is the sum of the squares of two integers"  
+Consider int "3", perfect squares of 0,1,2 = $0^2= 0$, $1^2 = 1$, $2^2 = 4$  
+Cannot use $2^2$, exceeds 3.  
+Consequently, we have, $0^2 + 0^2 = 0$, $0^2 + 1^2 = 1$, $1^2 + 1^2 = 2$  
+Since 3 cannot be written as sum of squares of two integers, statement is false
+
+## Proof by cases:
+Sometimes cannot prove statment with single argument that holds for all possible cases.  
+So method to prove theorem by considering different cases separatly.  
+Thus, ($p_1 ∨ p_2 ∨ ... ∨ p_n$) → q, which is equivalent to [($p_1 → q$)∧($p_2 → q$)∧...∧($p_n → q$)]  
+Means can prove each ($p_n → q$) individually.  
+not same as Exhaustive proof
+
+example:  
+prove if a and b are real numbers and $b \neq 0$, then $\frac{|a|}{|b|} = |\frac{a}{b}|$  
+cases:  
+$a \geq 0$ and  $b > 0$  
+$a \leq 0$ and  $b > 0$  
+$a \geq 0$ and  $b < 0$  
+$a \leq 0$ and  $b < 0$  
+cannot exhaustive as need to put ever real number into a and b
+
+## Exhaustive proof:  
+Some theorem can be proven with small number fo samples.  
+if prove by examining all possible cases, called exhaustive proof as exhaust all possiblities.  
+
+## Resolution
+
+
+## Existance proof
+
+$$∃x\ P(x)$$
+2 ways:  
+Constructive: find example that proves predicate  
+- Find explicit value $c$, for which $P(c)$ is true.  
+
+Non-constructive: show logically that such an example must exist  
+- Derive proof thet $c$ exists without explicitly providing c  
+- Can use contradiction, e.g. assume no $c$ exists which makes $P(c)$ true, derive contradiction  
+- Can use proof by case also in a way.
+
+e.g. show there exists irrational numbers $x$ and $y$ such that $x^y$ is rational  
+lets assume $\sqrt{2}^{\sqrt{2}}$ is rational: thus for $x = \sqrt{2}$ and $y = \sqrt{2}$, $x^y$ is rational  
+lets then assume $\sqrt{2}^{\sqrt{2}}$ is not rational: thus for $x = \sqrt{2}^{\sqrt{2}}$ and $y = \sqrt{2}$, $x^y$ is rational
+
+## Uniqueness proof
+
+Theorem assert existence of element with desired property and no other elements have that property  
+
+An x with desired property exists.  
+If there is another element y with the same property, then y = x (y was not actually another elemnt)
+
+# Topic 8 Sets
+
+## Properties of sets
+
+Sets:  
+A set is an unordered collection of unique objects, called elements or members of the
+set.  
+- unordered  
+- unique objects (called elements / members)  
+- set contains its elements  
+
+∈: is element of, in  
+∉ / $\cancel{∈}$: is not element of, is not in  
+{}: denote set, e.g. V = {a,e,i,o,u}  
+⊆: is a subset of
+⊈ / ¬(⊆) / $\cancel{⊆}$: is not a subset of
+⊂: is a proper subset of 
+⊄ / ¬(⊂) / $\cancel{⊂}$: is not a proper subset of
+=: equal sets
+≠ / $\cancel{=}$ / $\neq$: not equal sets
+𝒫(): power set
+$\times$: Cartesian Product (NOT matrix multiplication)
+∪: Union of sets  
+∩: Intersection of sets  
+$A^∁$: complement
+
+characterise all elements in set by stating the property / properties they must have to be members
+
+General form example:  
+*O* = {x|x is an odd positive integer lesss than 100}  
+$\equiv$  
+*O* = {x ∈ ℤ+ | x is add and x < 100}  
+
+another example  
+ℚ+ = {x ∈ ℝ | x = $\frac{p}{q}$ for some positive integers p and q}
+
+Venn diagram useful for visualising sets 
+
+
+Subset:  
+A ⊆ B ↔ ∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵)  
+
+not a subset:  
+A ⊆ B ↔ ∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵)  
+
+Proper subset:
+A ⊂ B ↔ (∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵))∧(∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵))
+
+Equal sets / Identical Sets:  
+A = B ↔ ∀𝑥(𝑥 ∈ 𝐴 ↔ 𝑥 ∈ 𝐵)
+
+### Common sets
+   - ![common-sets](jacob-images/common-sets.png)
+  
+### Intervals
+
+$$[a,b] = {x|a \leq x \leq b}$$
+$$[a,b) = {x|a \leq x < b}$$
+$$(a,b] = {x|a < x \leq b}$$
+$$(a,b) = {x|a < x < b}$$
+
+[a,b]: closed interval from a to b (include a and b)  
+
+(a,b): open interval from a to b (exclude a and b)  
+
+### Subset
+
+Empty set: set with no elements  
+empty set is a subset of all sets as in equation ∀𝑥(𝑥 ∈ ∅ → 𝑥 ∈ S), there is no x, which means (𝑥 ∈ ∅) is always false and (𝑥 ∈ ∅ → 𝑥 ∈ S) is always true  
+it cannot, however, be a PROPER subset of all sets, only most sets.  
+It cannot be a proper subset of itself as there is no element that is in the right hand side but not in left hand side of ∅ ⊂ ∅
+
+Definition of subset:  
+Set A is a subset of set B if and only if every element of A is also and element of B
+
+Notation:  
+⊆: is a subset of
+⊈ / ¬(⊆): is not a subset of
+
+Remarks:  
+Show A is subset of B, show every x ∈ A is also in B:  
+A ⊆ B ↔ ∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵) 
+
+Show A is not a subset of B, find an x ∈ A such that x is not in B
+A ⊆ B ↔ ∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵) 
+
+### Proper Subset
+
+Definition of Proper Subset:  
+Set A is a subset of set B if and only if every element of A is also and element of B, but A ≠ B because there is at least 1 element in B that is not in A
+
+Notation:  
+⊂: is a proper subset of 
+⊄: is not a proper subset of
+
+Remarks:  
+A ⊂ B ↔ (∀𝑥(𝑥 ∈ 𝐴 → 𝑥 ∈ 𝐵)) ∧ (∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵))
+
+A set cannot be a proper subset of itself as (𝑥 ∉ 𝐵) in ∃𝑥(𝑥 ∈ 𝐴 ∧ 𝑥 ∉ 𝐵) is always false
+
+### Set equality
+
+Definition:  
+2 sets are equal if an only if they have the same elements
+
+Notation:  
+=: equal sets
+≠: not equal sets
+
+Remarks:  
+A = B ↔ ∀𝑥(𝑥 ∈ 𝐴 ↔ 𝑥 ∈ 𝐵)
+
+### Cardinality
+
+Definition  
+Cardinality indicates size of set  
+len(S) basically
+
+Let S be a set.  
+If there are exactly n elements in S, where n is a non-negative integer,  
+S is a finite set  
+n is the cardinality of S
+
+Notation:  
+Cardinality of set S is denoted by |S|
+
+e.g.  
+Let S be set of all letters in english alphabet (if case doesn't matter). |S| = 26  
+|∅| = 0
+
+Tricky things:  
+A = {∅}  
+B = ∅  
+C = {{∅}}
+|A| = 1, |B| = 0, |C| = 1
+
+A is a set containing emptyset  
+B is an emptyset  
+C is a set containing a set containing an emptyset
+
+
+### Power sets
+
+Definition  
+Given set S, power set of S is set of all subsets of set S  
+
+Notation  
+Power set of S is denoted by 𝒫(S)
+
+e.g.
+B = {-1,1}  
+𝒫(B) = {∅,{-1},{1},{-1,1}}
+
+Cardinality of power set of set with n elements is $2^n$
+
+### Ordered 𝑛-tuples 
+
+Definition:  
+An ordered n-tuple ($a_1,a_2,...,a_n$) is an ordered collection that has $a_1$ as it 1st element, $a_2$ as 2nd and so on until $a_n$ as the *n*th element  
+Does not need to be unique elements
+
+Two ordered n-tuples are equal if and only if each corressponding pair of their elements are equal.  
+I.e. ($a_1,a_2,...,a_n$) = ($b_1,b_2,...,b_n$) if and only if $a_i=b_i$ for i = 1,2,...,n  
+(a,b) = (c,d) if and only if a=c and b=d
+
+### Cartesian product
+
+Definition:
+Cartesian product of sets A and B is the set of all ordered pairs (a,b), where a ∈ A and b ∈ B  
+THIS IS NOT MATRIX MULTIPLICATION  
+Its just all variations of making ordered *n*-tuple by choosing one from each of *n* sets
+
+Notation:
+A $\times$ B
+
+Remark:  
+A $\times$ B = {(a,b) | a ∈ A ∧ b ∈ B}
+
+A $\times$ B ≠ B $\times$ A because of ordered tuple
+
+## Set operations
+
+Funny things you can do to sets to join or seperate of define areas on venn diagram to focus on.  
+
+### Union
+
+Definition:  
+The union of sets A and B is the set containing those elements that are either in A or B  
+
+Notation:  
+∪: Union of sets  
+A ∪ B  
+
+Remarks:  
+A ∪ B = {x | x ∈ A ∨ x ∈ B}
+
+### Intersection
+
+Definition:  
+The intersection of sets A and B is the set containing those elements that are in both A and B  
+
+Notation:  
+∩: Intersection of sets  
+A ∩ B  
+
+Remarks:  
+A ∩ B = {x | x ∈ A ∧ x ∈ B}
+
+### Disjoint sets
+
+Definition:  
+Two sets are called disjoint if their intersection is the empty set  
+A ∩ B = ∅, A and B are disjoint
+
+### Inclusion-exclusion principle
+
+To count number of elements in A ∪ B, |A| + |B| - |A ∩ B|
+Related to Subtraction Rule in combinatronics
+
+$$A ∪ B = |A| + |B| - |A ∩ B|$$
+
+### Complement
+
+Definition:  
+Let 𝒰 be the universal set.  
+Let A be a set such that A ⊆ 𝒰.  
+Absolute complement of A is the set contaning all elements that are in 𝒰 but not in A
+
+Notation:  
+$A^∁$  
+A`  
+$\overline{A}$  
+
+Remarks:  
+Set A exists within a universal set 𝒰
+$A^∁ = 𝒰 \ A = 𝒰 ∩ A^∁$  
+English:  
+complement of A with respect to 𝒰  
+absolute complement of A  
+complement of A  
+diffrenece of sets 𝒰 and A  
+
+### Difference
+
+Definition:  
+Difference of sets A and B is the set that contains elements that are in A but not in B.  
+A.K.A relative complement of B with respect to A
+
+Notation:  
+A \ B  
+A - B
+
+Remarks:  
+A \ B = {x | x ∈ A ∧ x ∉ B}
+A \ B ≠ B \ A
+
+For sets B and C,  
+B \ C = $B ∩ C^∁$  
+English:  
+difference of sets B and C  
+relative complement of C with respect to B
+
+## Set identities
+
+![set-identities-1](jacob-images/set-identities-1.png)  
+![set-identities-2](jacob-images/set-identities-2.png)
+
+
+# Topic 9 Functions
+
+## Definition
+
+Let A and B be empty-sets,
+Function f from A to B = assignment of EACH element of A to exactly 1 element of B  
+if have element in A that is not assigned, is not function  
+if have element in A that is assinged to 2 element in B, is not function  
+
+f(a) = b;  
+b is the unique element of B assigned by the function f to the element a of A  
+
+If f is a function from A to B:  
+f : A -> B
+
+Remarks:  
+functions sometimes called mappings  
+dont draw for test to prove, you is computa engineer, u no is artist
+
+## Example usage
+
+A = set of students  
+B = set of grades  
+f: A -> B  
+This means:  
+- Every student is mapped to exactly 1 grade
+  - if there is a student who is mapped to more than one grade, then there is no function and f is wrong
+- No students do not have a grade
+- No student has 2 grades
+- It is possible that a grade does not have a student mapped to it
+
+## Domain, Codoamin
+
+f: A -> B  
+A is Domain of f  
+B is Codomain of f
+
+Domain is the whole set A  
+Codoamin is the whole set B
+
+f(a) = b; a is some element in A, b is some element in B  
+b is the **image** of (element) a under (function) f  
+a is called the **preimage** of b  
+
+the "result" of the function f for some element a is called the **image**  
+the elements that result in element b in the function f are called **preimages**
+
+preimage is an element in Domain  
+image is an element in Codomain
+
+f: A -> B; this is defines domain and codomain
+f(x) = something; this defines the properties of function f
+
+A = {a,b,c,d,e}  
+B = {1,2,3,4}  
+f(a) = 2  
+f(b) = 1  
+f(c) = 4  
+f(d) = 1  
+f(e) = 1  
+
+Thus for set S = {b,c,d},  
+f(S) = {1,4}; returns only unique values
+
+f(S) is the set of images of the elements in S
+
+## Image  
+
+### Definition
+
+f: A -> B  
+Let S be a subset of A  
+The image of S under function f is the subset of B that consists of the images of the elements of S  
+
+basically f(S) = {f(S1),f(S2)...} and is a subset of B
+
+f(S) = {t | ∃s ∈ S (t = f(s))}
+f(S) = {f(x) | x ∈ S}
+
+## Range
+
+f: A -> B
+Range of a function: set of all images/results of f for all elements in domain (set A)
+
+btw, two functions are equal if:  
+- same domain
+- same codomain
+- map each element in domain to same element in codomain as the other function
+- f1(a1) = f2(a1) = b1
+- f1(a2) = f2(a2) = b2
+
+e.g.  
+f: Z -> Z, assign the square of an integer to this integer.  
+f(x) = $x^2$  
+domain of f is all integers, codomain of f is all integers  
+Range of f is set of all integers that are perfect squares
+
+## Function Sum
+
+$f_1$: A -> R  
+$f_2$: A -> R  
+
+then  
+($f_1$ + $f_2$): A -> R  
+
+($f_1$ + $f_2$)(x) = $f_1$(x) + $f_2$(x)  
+
+## Function Product  
+
+$f_1$: A -> R  
+$f_2$: A -> R
+
+then:
+($f_1f_2$): A -> R  
+
+($f_1f_2$)(x) = ($f_1(x)f_2(x)$)
+
+
+## One-to-One / Injective
+
+is one-to-one / injective if and only if **f(a) = f(b) implies a = b** for all a and b in the domain of f.  
+no 2 elements in the domain have the same image
+every element in B has at most 1 mapping from A
+
+**∀a∀b{(f(a)=f(b)) → (a = b)}**  
+a,b ∈ domain  
+
+to prove NOT one-to-one, find two elements in domain that result in same image in codomain  
+e.g. f(x) = $x^2$  
+f(1) = f(-1) = 1  
+but 1 $\neq$ -1
+
+to prove is one-to-one, for arbitrary element a from domain and arbitrary element b from domain, assume f(a) = f(b), show a = b and no other answers
+
+can also prove by checking that no two elements in domain produce the same image.
+
+e.g.  
+f(x) = x + 1; f: Z -> Z  
+let f(a) = f(b)  
+f(a) = a + 1,  
+f(b) = b + 1,  
+a + 1 = b + 1  
+subract one from both sides, a = b
+
+## Onto function / surjective  
+
+function is surjective or called onto if and only if for every element b ∈ B, there is an element a ∈ A with f(a) = b
+
+**∀b∃a{b = f(a)}**  
+b ∈ codomain  
+a ∈ domain
+
+Some funcs, **range and codomain are equal**  
+Every element in codomain is the image of some element(s) of the domain
+
+to prove NOT surjective / NOT onto, find element in codomain that is not an image  
+to prove is surjective / is onto, show that for every element b in codomain, there is an element a such that f(a) = b
+
+e.g.  
+f(x) = x+1, f: Z -> Z  
+Let y ∈ Z,  
+show there is an element a such that f(a) = y  
+from f(x) = x + 1, f(a) = y = a + 1  
+a = y - 1,  
+a ∈ Z  
+f(a) = a + 1 = (y-1)+1 = y
+thus f(a) = y, f is an onto fuction
+
+## Bijective function  
+
+function is both one-to-one and onto  
+each element b in codomain is mapped from exactly 1 element from domain  
+each element a in domain is mapped to exactly 1 element in codomain  
+
+e.g.  
+f: A -> B  
+A = {a,b,c,d}  
+B = {1,2,3,4}  
+f(a) = 4  
+f(b) = 2  
+f(c) = 1  
+f(d) = 3  
+f is bijection
+
+f: A -> B  
+A = {a,b,c}  
+B = {1,2,3,4}  
+f(a) = 4  
+f(b) = 2  
+f(c) = 1   
+f is one-to-one but not onto
+
+f: A -> B  
+A = {a,b,c,d}  
+B = {1,2,3}  
+f(a) = 4  
+f(b) = 2  
+f(c) = 1  
+f(d) = 2 
+f is onto but not one-to-one
+
+## Inverse Function  
+
+map each elements from codomain to thier preimages in domain
+
+Remark:  
+bijective function is called invertible because can define inverse of this function.  
+if function not bijective, not invertible since inverse does not exist
+YOU CAN WRITE OUT INVERSE FOR EACH ELEMENT but if cannot have general formula, function is not invertible (my own theory, not proven)  
+
+let f be bijection  
+f: A -> B
+f(a) = b
+
+inverse: $f^{-1}$
+$f^{-1}$(b) = a if f(a) = b
+
+
+A: {1,2,3}  
+B: {a,b,c}
+f(a) = 2  
+f(b) = 3  
+f(c) = 1
+$f^{-1}$(1) = c  
+$f^{-1}$(2) = a  
+$f^{-1}$(3) = b  
+
+
+f(x) = x+1; f: Z -> Z  
+let y = f(x)  
+y = x + 1
+y - 1 = x
+$f^{-1}$(x) = x - 1
+
+## Function composition
+
+let g: A -> B  
+let f: B -> C  
+
+composition of f and g, denoted as f $\circ$ g:  
+(f $\circ$ g)(a) = f(g(a)); for all a ∈ A
+
+a ∈ A -->$_g$ g(a) ∈ B -->$_f$ f(g(a)) ∈ C
+
+some functions are able to do (f $\circ$ g) and (g $\circ$ f) depends on domain and codomains  
+
+
+e.g.
+set A = {a,b,c}  
+set B = {1,2,3}
+g: A -> A  
+g(a) = b  
+g(b) = c  
+g(c) = a  
+f: A -> B
+f(a) = 3  
+f(b) = 2  
+f(c) = 1  
+
+(f $\circ$ g)(a) = f(g(a)) = f(b) = 2
+(f $\circ$ g)(b) = f(g(b)) = f(c) = 1
+(f $\circ$ g)(c) = f(g(c)) = f(a) = 3
+
+(g $\circ$ f)(a) = g(f(a)) = g(3) !!! INVALID  
+range of function f is not a subset of domain of g
+
+## Important Fucntions:  
+
+### Floor
+
+Floor, assign to every real number x the largest integer that is less than or equal to x
+
+notation: $\lfloor x \rfloor$
+
+$\lfloor x \rfloor$ = n if and only if $n \leq x < n + 1$
+
+### Ceiling
+
+Ceiling, assign to every real number x the smallest integer that is greater than or equal to x  
+
+notation: $\lceil x \rceil$
+
+$\lceil x \rceil$ = n if and only if $n-1 < x \leq n$
+
+### Factorial
+
+f: Natural numbers -> Z  
+f(n) = n!  
+product of first n positive integers
+f(n) = $1 \times 2 \times ... \times n-1 \times n$  
+f(0) = 0! = 1
+
+
+
+# Topic 10: Relations
+
+Relation describes relationship between elements
+- elements maybe from same set or different set
+- tells how elements connected / associated
+- e.g.
+  - x is friend of y
+  - x divieds y
+  - x > y
+  - student is enrolled in module
+  - ![relation-example](jacob-images/relation-example.png)
+
+Cartesian product cannot be a function as has multiple preimages
+
+## Realtion types
+
+### Binary Relations
+
+relation (R) between 2 sets is defined as subset of the cartesian/cross product between both sets  
+Called binary relation to highlight is between 2 sets  
+
+$𝐑 ⊆ 𝐀 \times 𝐁$  
+$a𝐑b$ denotes (a,b) ∈ 𝐑  
+$a\cancel{𝐑}b$ denotes (a,b) ∉ 𝐑  
+
+a relation between sets MAY OR MAY NOT contain all elements of cartesian product. 
+
+#### Binary Relation of set A  
+
+binary relation (R) on set A is subset of A $\times$ A  
+or a relation R:A -> A
+
+e.g.  
+A = {1,2}  
+A $\times$ A = {(1,1), (1,2), (2,1), (2,2)}  
+R = {(1,1), (2,1), (2,2)}
+
+Why no (1,2), just because chose not to be
+
+
+### Equivalence Relation
+
+Equivalence relation R on non-empty set S is  
+subset of S $\times$ S
+
+Must also be:
+Reflexive  
+Symmetric  
+Transitive
+
+#### Equivalence example
+
+Relation: the same age  
+set: set of people  
+
+Reflexive:
+- (Alice, Alice) ∈ 𝐑
+Symmetric
+- (Alice, Bob) ∈ 𝐑 → (Bob, Alice) ∈ 𝐑
+Transitive
+- (Alice, Bob) ∈ 𝐑 ∧ (Bob, Charlie) ∈ 𝐑 → (Alive, Charlie) ∈ 𝐑
+
+Equivalence Class is the subset of elements that are equivalently related to each other  
+denoted as [x]  
+[Alice] = [Bob] = [Charlie] = {Alice, Bob, Charlie}  
+the set {Alice, Bob, Charlie} is the actual Equivalence Class
+Equivalence classes of related elements are the same set.  
+Unrelated elements will not be in each others Equivalence class  
+
+Equivalence classes are distinct, non-overlapping subsets  
+All equivalence classes in a set will encompass the entire set.
+
+## Functions and Cartesian Product
+
+Function: mapping between element in set A to element in set B  
+Means function is subset of cartesian product
+
+f: A -> B  
+implies  
+f ⊆ A $\times$ B
+
+function is a relation where exactly one element of B is related to **EACH** element of A
+
+Function is a special relation  
+If is function, it is also always a relation  
+in a way can consider function as subset of relation but generally dont refer to it this way
+
+## Proterties of relations  
+
+### Reflexive
+
+𝐑 is reflexive **if and only if**:  
+   (x,x) ∈ 𝐑;  
+   for every element x ∈ A  
+
+**𝐑 is reflexive ↔ (∀x[x ∈ A → (x,x) ∈ 𝐑])**
+
+is reflexive if every element in graph has arrow looping to self.
+
+A = {1,2,3}
+$𝐑_1 = {(1,1),...,(2,2),...,(3,3)}$ - this is reflexive
+$𝐑_2 = {(1,1),(1,2),(2,1),(2,3),(3,2),(3,3)}$ - not reflexive
+
+### Symmetric
+
+𝐑 is Symmetric **if and only if**:  
+   (x,y) ∈ 𝐑 and (y,x) ∈ 𝐑   
+   for all x,y ∈ A  
+
+**𝐑 is Symmetric ↔ ∀x∀y[(x,y) ∈ 𝐑 → (y,x) ∈ 𝐑]**
+
+is symmetric if every outgoing arrow from elements has returning arrow.
+
+A = {1,2,3}
+$𝐑_1 = {(1,1),(1,2),(2,1),(2,2),(2,3),(3,2),(3,3)}$ - this is symmetric  
+(1,2) has (2,1);  
+(2,3) has (3,2);  
+$𝐑_2 = {(1,1),(1,2),(2,2),(2,3),(3,2),(3,3)}$ - not symmetric  
+(1,2) missing (2,1);  
+
+### Antisymmetric
+
+𝐑 is Antisymmetric **if**:  
+(x,y) ∈ 𝐑 and (y,x) ∈ 𝐑,  
+then x = y   
+for all x,y ∈ A  
+
+**𝐑 is Antisymmetric ↔ ∀x∀y[( (x,y) ∈ 𝐑 ∧ (y,x) ∈ 𝐑 ) → x = y ]**
+
+is antisymmetric if there is no returning arrow for all outgoing arrows
+
+A = {1,2,3}
+$𝐑_1 = {(1,1),(2,2),(3,3)}$ - this is antisymmetric  
+$𝐑_2 = {(1,1),(1,2),(2,1)(3,3)}$ - not antisymmetric  
+(1,2) and (2,1) in relation;  
+
+### Transitive
+
+𝐑 is Transitive if:
+   whenever (x,y) ∈ 𝐑  
+   and (y,z) ∈ 𝐑  
+   then (x,z) ∈ 𝐑  
+   for all x,y,z ∈ A  
+
+**𝐑 is Transitive ↔ ∀x∀y∀z[( (x,y) ∈ 𝐑 ∧ (y,z) ∈ 𝐑 ) → (x,z) ∈ 𝐑 ]**
+
+is transitive if, for all elemnets is relation, all journey of 2 steps have arrow that completes in 1 step
+
+e.g.  
+relation: is taller than  
+set: set of people  
+(Alice, Bob) = Alice is taller than Bob
+(Bob, Carol) = Bob is taller than Carol  
+
+therefore, (Alice, Carol) can be concluded
