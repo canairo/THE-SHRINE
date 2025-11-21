@@ -34,6 +34,7 @@ for bit in range(7, -1, -1):
                 [int(char) for char in bin(prime)[2:].zfill(8)]
             )
     evaluate = POSform([q0, q1, q2, q3, q4, q5, q6, q7], minterms, dontcares)
+    print(evaluate)
     equations.append(evaluate)
 
 

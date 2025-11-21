@@ -1,0 +1,22 @@
+Player 1, enter a number between 1 and 1000:
+That number is out of range.
+Player 1, enter a number between 1 and 1000:
+Player 2, you have 10 guesses remaining.
+Enter your guess:
+Too high.
+Player 2, you have 9 guesses remaining.
+Enter your guess:
+Too low.
+Player 2, you have 8 guesses remaining.
+Enter your guess:
+That number is out of range.
+Too low.
+Player 2, you have 7 guesses remaining.
+Enter your guess:
+Too low.
+Player 2, you have 6 guesses remaining.
+Enter your guess:
+Too low.
+Player 2, you have 5 guesses remaining.
+Enter your guess:
+Player 2 wins.

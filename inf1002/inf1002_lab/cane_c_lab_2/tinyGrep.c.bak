@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+int main(void) {
+  char line[255] = {0};
+  char regexp[255] = {0};
+  bool case_sensitive = 0;
+  printf("Enter a line of text (up to 255 characters):\n");
+  fgets(line, sizeof(line) - 1, stdin);
+  printf("Enter a pattern (up to 255 characters):\n");
+  fgets(regexp, sizeof(regexp) - 1, stdin);
+  printf("Should the match be case-sensitive? (Y/N):\n");
+  char c = getc(stdin);
+  case_sensitive = (c == 'Y');
+
+  int line_idx = 0;
+  int regex_idx = 0;
+
+  regexp[strcspn(regexp, "\n")] = 0;
+
+  char line_cur = line[line_idx];
+  char regex_cur = regexp[regex_idx];
+
+  while (line_cur) {
+
+    line_idx++;
+    regex_idx++;
+
+    switch (regex_cur) {
+
+      case '_':
+        if ((line_cur != '\t') && (line_cur != ' ') && (line_cur != '\n')) 
+            regex_idx = 0;
+        break;
+
+      case '.':
+        if (('A' >= line_cur) || (line_cur >= 'z')) 
+            regex_idx = 0;
+        break;
+
+      default:
+        if (!case_sensitive) {
+          // weird ascii trick to make both chars uppercase
+          regex_cur |= 0x20;
+          line_cur |= 0x20;
+        }
+        
+        if (regex_cur != line_cur) {
+            regex_idx = 0;
+        }
+    }
+
+    line_cur = line[line_idx];
+    regex_cur = regexp[regex_idx];
+
+    if (!regex_cur) {
+      printf("Matches at position %d.", line_idx - regex_idx);
+      return 0;
+    }
+
+  }
+
+  printf("No match.");
+  return 0;
+}
