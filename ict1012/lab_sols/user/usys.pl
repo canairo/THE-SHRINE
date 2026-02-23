@@ -43,3 +43,4 @@ entry("sbrk");
 entry("pause");
 entry("uptime");
 entry("hello"); # Lab 2 Task 1
+entry("monitor"); # Lab 3 Task 3

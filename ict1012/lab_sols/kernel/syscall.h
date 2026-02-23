@@ -20,4 +20,5 @@
 #define SYS_link   19
 #define SYS_mkdir  20
 #define SYS_close  21
-#define SYS_hello  23 // Lab 2 Task 1
+#define SYS_hello  23  // Lab 2 Task 1
+#define SYS_monitor 24 // Lab 3 Task 3

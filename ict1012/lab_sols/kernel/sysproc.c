@@ -114,3 +114,19 @@ sys_hello(void)
     printf("I am ICT1012!\n");
     return 42; // The answer to life, the universe and everything
 }
+
+// Lab 3 Task 3
+uint64
+sys_monitor(void) {
+  // get the mask as the first argument
+  int mask;
+  argint(0, &mask);
+  
+  struct proc *p = myproc();
+  // return error if no current process
+  if (p == 0) return -1;
+  // set the new monitor mask
+  p->monitor_mask = (uint32)mask;
+  // return 0 on success
+  return 0;
+}

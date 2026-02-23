@@ -297,6 +297,9 @@ kfork(void)
 
   acquire(&np->lock);
   np->state = RUNNABLE;
+  // Lab 3 task 3
+  // copy the parent's monitor mask while we still have the lock
+  np->monitor_mask = p->monitor_mask;
   release(&np->lock);
 
   return pid;

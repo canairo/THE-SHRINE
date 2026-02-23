@@ -102,6 +102,7 @@ extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
 extern uint64 sys_hello(void); // Lab 2 Task 1
+extern uint64 sys_monitor(void); // Lab 3 Task 3
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -127,7 +128,35 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
-[SYS_hello]   sys_hello, // Lab 2 Task 1
+[SYS_hello]   sys_hello,   // Lab 2 Task 1
+[SYS_monitor] sys_monitor, // Lab 3 Task 3
+};
+
+// Lab 3 Task 3
+static char *syscall_names[] = {
+[SYS_fork]    "fork",
+[SYS_exit]    "exit",
+[SYS_wait]    "wait",
+[SYS_pipe]    "pipe",
+[SYS_read]    "read",
+[SYS_kill]    "kill",
+[SYS_exec]    "exec",
+[SYS_fstat]   "fstat",
+[SYS_chdir]   "chdir",
+[SYS_dup]     "dup",
+[SYS_getpid]  "getpid",
+[SYS_sbrk]    "sbrk",
+[SYS_pause]   "pause",
+[SYS_uptime]  "uptime",
+[SYS_open]    "open",
+[SYS_write]   "write",
+[SYS_mknod]   "mknod",
+[SYS_unlink]  "unlink",
+[SYS_link]    "link",
+[SYS_mkdir]   "mkdir",
+[SYS_close]   "close",
+[SYS_hello]   "hello",
+[SYS_monitor] "monitor",
 };
 
 void
@@ -145,5 +174,17 @@ syscall(void)
     printf("%d %s: unknown sys call %d\n",
             p->pid, p->name, num);
     p->trapframe->a0 = -1;
+    // Lab 3 Task 3
+    // return early to not run the monitor code
+    return;
+  }
+  
+  // Lab 3 Task 3
+  // only monitor this syscall if the (1 << num) bit is set
+  uint32 mysyscall_mask = 1 << num;
+  if (p->monitor_mask & mysyscall_mask) {
+    // syscall return value was stored in register a0 above
+    uint64 return_value = p->trapframe->a0;
+    printf("pid %d: syscall %s -> %ld\n", p->pid, syscall_names[num], return_value);
   }
 }
