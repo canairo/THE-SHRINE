@@ -112,6 +112,23 @@ files:
 - [kernel/proc.h](kernel/proc.h) (modified struct proc)
 - [kernel/syscall.c](kernel/syscall.c) (modified syscall())
 
+## Lab 4
+
+### Task 1: uthread
+
+files:
+
+- [lab4/uthread.c](lab4/uthread.c)
+- [lab4/uthread_switch.S](lab4/uthread_switch.S)
+
+### Task 2: Multi-Threaded Hash Table
+
+Remember to compile this one in WSL with `cd lab4; make ph-with-mutex-locks` instead of `make qemu`.
+
+files:
+
+- [lab4/ph-with-mutex-locks.c](lab4/ph-with-mutex-locks.c)
+
 ## Contributing
 
 1. Create a new lab\* folder for your lab solutions

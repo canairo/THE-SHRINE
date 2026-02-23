@@ -149,6 +149,14 @@ UPROGS=\
 	lab3/_secret\
 	lab3/_sniffer\
 	lab3/_monitor\
+	lab4/_uthread\
+	
+lab4/uthread_switch.o : lab4/uthread_switch.S
+	$(CC) $(CFLAGS) -c -o lab4/uthread_switch.o lab4/uthread_switch.S
+
+lab4/_uthread: lab4/uthread.o lab4/uthread_switch.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o lab4/_uthread lab4/uthread.o lab4/uthread_switch.o $(ULIB)
+	$(OBJDUMP) -S lab4/_uthread > lab4/uthread.asm
 
 fs.img: mkfs/mkfs README.md $(UPROGS)
 	mkfs/mkfs fs.img README.md $(UPROGS)
